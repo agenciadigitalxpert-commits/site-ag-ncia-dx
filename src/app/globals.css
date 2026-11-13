@@ -1,26 +1,180 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   Tokens de design — Agência Digital Xpert
+   A cor de destaque (--accent) é PROVISÓRIA (verde-lima). Para trocar pela
+   cor institucional, altere apenas --accent e --accent-ink abaixo.
+   ========================================================================== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ink: #0a0a0b;
+  --graphite: #131416;
+  --graphite-2: #1b1c1f;
+  --graphite-3: #26282c;
+  --paper: #f5f5f2;
+  --paper-2: #ebebe6;
+  --white: #ffffff;
+  --muted-dark: #a1a1a6;   /* texto secundário em fundo escuro (contraste ≥ 7:1 sobre --ink) */
+  --muted-light: #55565b;  /* texto secundário em fundo claro (contraste ≥ 7:1 sobre --paper) */
+  --line-dark: rgb(255 255 255 / 0.12);
+  --line-light: rgb(10 10 11 / 0.12);
+  --accent: #c8f53c;
+  --accent-ink: #0a0a0b;   /* texto sobre a cor de destaque */
+  --danger: #b42318;
+  --danger-dark: #ff8a80;
+  --focus: #c8f53c;
+  --radius: 14px;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ink: var(--ink);
+  --color-graphite: var(--graphite);
+  --color-graphite-2: var(--graphite-2);
+  --color-graphite-3: var(--graphite-3);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-muted-dark: var(--muted-dark);
+  --color-muted-light: var(--muted-light);
+  --color-line-dark: var(--line-dark);
+  --color-line-light: var(--line-light);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-danger: var(--danger);
+  --color-danger-dark: var(--danger-dark);
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display-face), var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --radius-card: var(--radius);
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 6rem;
   }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  .surface-light :focus-visible {
+    outline-color: var(--ink);
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Tipografia fluida ------------------------------------------------------ */
+@utility text-display {
+  font-size: clamp(2.3rem, 1.2rem + 4.2vw, 4.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+}
+@utility text-h1 {
+  font-size: clamp(2.1rem, 1.3rem + 3.4vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+}
+@utility text-h2 {
+  font-size: clamp(1.75rem, 1.2rem + 2.2vw, 3rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+}
+@utility text-h3 {
+  font-size: clamp(1.2rem, 1.05rem + 0.6vw, 1.5rem);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+}
+@utility text-lead {
+  font-size: clamp(1.06rem, 0.98rem + 0.4vw, 1.3rem);
+  line-height: 1.55;
+}
+
+/* Superfícies ------------------------------------------------------------ */
+@utility surface-dark {
+  background: var(--ink);
+  color: var(--white);
+}
+@utility surface-graphite {
+  background: var(--graphite);
+  color: var(--white);
+}
+@utility surface-light {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+/* Texto corrido (artigos e páginas legais) --------------------------------- */
+.prose-dx { font-size: 1.0625rem; line-height: 1.75; }
+.prose-dx > * + * { margin-top: 1.15em; }
+.prose-dx h2 { font-size: clamp(1.45rem, 1.2rem + 1vw, 2rem); line-height: 1.2; letter-spacing: -0.02em; font-weight: 600; margin-top: 2.2em; }
+.prose-dx h3 { font-size: 1.25rem; line-height: 1.3; font-weight: 600; margin-top: 1.8em; }
+.prose-dx ul { list-style: none; padding: 0; }
+.prose-dx ul > li { position: relative; padding-left: 1.4em; }
+.prose-dx ul > li + li, .prose-dx ol > li + li { margin-top: 0.5em; }
+.prose-dx ul > li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 0.55em; height: 2px; background: currentColor; opacity: 0.55; }
+.prose-dx ol { list-style: decimal; padding-left: 1.3em; }
+.prose-dx ol > li::marker { font-weight: 600; }
+.prose-dx a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.prose-dx a:hover { text-decoration-thickness: 2px; }
+.prose-dx strong { font-weight: 600; }
+
+/* Link com sublinhado animado */
+.link-u { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size 0.35s var(--ease-out-soft); }
+.link-u:hover, .link-u:focus-visible { background-size: 100% 1px; }
+
+/* Accordion nativo (<details>) ------------------------------------------- */
+details.acc > summary { list-style: none; cursor: pointer; }
+details.acc > summary::-webkit-details-marker { display: none; }
+details.acc .acc-icon { transition: transform 0.3s var(--ease-out-soft); }
+details.acc[open] .acc-icon { transform: rotate(45deg); }
+@supports (interpolate-size: allow-keywords) {
+  :root { interpolate-size: allow-keywords; }
+  details.acc::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition: block-size 0.35s var(--ease-out-soft), content-visibility 0.35s allow-discrete;
+  }
+  details.acc[open]::details-content { block-size: auto; }
+}
+
+/* Entrada suave ----------------------------------------------------------
+   Só oculta quando o JS marcou <html class="js">. Sem JS, tudo é visível. */
+html.js .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.8s var(--ease-out-soft), transform 0.8s var(--ease-out-soft); transition-delay: var(--reveal-delay, 0ms); }
+html.js .reveal.is-visible { opacity: 1; transform: none; }
+
+/* Fluxo animado do hero */
+@keyframes flow-dash { to { stroke-dashoffset: -48; } }
+@keyframes pulse-node { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
+@keyframes rise-in { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+.flow-line { stroke-dasharray: 6 10; animation: flow-dash 2.4s linear infinite; }
+.flow-node { animation: pulse-node 3.6s ease-in-out infinite; }
+.hero-rise { animation: rise-in 0.9s var(--ease-out-soft) both; animation-delay: var(--d, 0ms); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  html.js .reveal { opacity: 1; transform: none; }
+  .flow-line { animation: none; }
 }

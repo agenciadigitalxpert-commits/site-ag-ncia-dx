@@ -1,0 +1,71 @@
+/** Etapas da abordagem de trabalho da DX (apresentação, não metodologia registrada). */
+export const methodSteps = [
+  {
+    slug: "diagnostico",
+    title: "Diagnóstico",
+    short: "Entender a oferta, o público, os canais atuais, o atendimento e as metas antes de propor qualquer ação.",
+    goal: "Identificar onde estão as maiores perdas e oportunidades entre o anúncio e a venda.",
+    what: [
+      "Conversa sobre o negócio, a oferta, a margem e a capacidade de atendimento.",
+      "Análise do histórico de campanhas, quando existir, e de como os leads são recebidos hoje.",
+      "Mapeamento do caminho do cliente: do primeiro contato ao fechamento.",
+      "Levantamento de como os resultados são medidos atualmente.",
+    ],
+    client: "Acesso às contas de anúncio (quando houver), informações sobre o processo de vendas e disponibilidade para as conversas iniciais.",
+    output: "Uma leitura clara dos gargalos e das prioridades, base para o planejamento.",
+  },
+  {
+    slug: "planejamento",
+    title: "Planejamento",
+    short: "Definir prioridades, canais, mensagens, metas por etapa do funil e a forma de medir cada uma.",
+    goal: "Transformar o diagnóstico em um plano executável, com prioridades e responsáveis.",
+    what: [
+      "Escolha dos canais e da distribuição inicial do investimento em mídia.",
+      "Definição de ofertas, ângulos de comunicação e páginas necessárias.",
+      "Critérios de qualificação e fluxo de atendimento dos leads.",
+      "Indicadores por etapa e plano de mensuração.",
+    ],
+    client: "Validação das prioridades, da oferta e do investimento em mídia disponível.",
+    output: "Plano de ação com escopo, prioridades e indicadores acordados.",
+  },
+  {
+    slug: "implementacao",
+    title: "Implementação",
+    short: "Colocar campanhas, criativos, páginas, mensuração e rotinas comerciais para funcionar de forma conectada.",
+    goal: "Pôr a operação de pé com a mensuração funcionando desde o primeiro dia.",
+    what: [
+      "Estruturação das campanhas e produção ou orientação dos criativos.",
+      "Criação ou ajuste das páginas de conversão.",
+      "Configuração dos eventos de conversão e da integração com o atendimento.",
+      "Implantação dos roteiros, etapas e rotinas comerciais combinadas.",
+    ],
+    client: "Aprovar peças, gravar conteúdos quando combinado e preparar quem vai atender os leads.",
+    output: "Campanhas no ar, leads chegando organizados e dados sendo registrados.",
+  },
+  {
+    slug: "acompanhamento",
+    title: "Acompanhamento",
+    short: "Acompanhar o funil inteiro — da mídia ao fechamento — e manter marketing e comercial alinhados.",
+    goal: "Garantir que as oportunidades geradas sejam aproveitadas e que os dados reflitam a realidade.",
+    what: [
+      "Leitura dos indicadores de mídia, atendimento e vendas em conjunto.",
+      "Conversas com quem atende para entender a qualidade dos leads.",
+      "Identificação rápida de gargalos: campanha, página, atendimento ou oferta.",
+    ],
+    client: "Registrar o andamento das oportunidades e compartilhar o retorno do comercial.",
+    output: "Visão clara do que está gerando venda e do que precisa de ajuste.",
+  },
+  {
+    slug: "otimizacao",
+    title: "Otimização",
+    short: "Ajustar campanhas, mensagens, páginas e processos com base no que realmente gera vendas.",
+    goal: "Melhorar continuamente o aproveitamento de cada real investido e de cada lead recebido.",
+    what: [
+      "Redistribuição de investimento entre campanhas e canais.",
+      "Novos testes de criativos, ofertas e páginas.",
+      "Ajustes nos critérios de qualificação, roteiros e automações.",
+    ],
+    client: "Participar das decisões e sinalizar mudanças no negócio (estoque, agenda, capacidade, sazonalidade).",
+    output: "Um ciclo contínuo de testes e decisões baseadas em dados.",
+  },
+] as const;

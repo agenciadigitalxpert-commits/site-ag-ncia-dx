@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Site — Agência Digital Xpert (DX)
 
-## Getting Started
+Site institucional multipáginas, orientado à geração de oportunidades comerciais.
+Next.js 16 (App Router, Cache Components), TypeScript, Tailwind CSS 4. Conteúdo estruturado em TypeScript.
 
-First, run the development server:
+## Rodando
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # preencha o que já estiver disponível
+npm run dev                  # ambiente de edição: mostra rascunhos e notas de pendência
+npm run build && npm start   # build de produção
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Ambientes
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| | Edição (`npm run dev`) | Preview (build sem `NEXT_PUBLIC_SITE_ENV=production`) | Produção |
+|---|---|---|---|
+| Indexação | — | **bloqueada** (meta noindex, `X-Robots-Tag`, robots.txt `Disallow: /`) | liberada (exige `NEXT_PUBLIC_SITE_URL`) |
+| Artigos em revisão | visíveis | visíveis com aviso, noindex | **não publicados** (404) |
+| Cases `published: false` | visíveis com aviso | ocultos (404) | ocultos (404) |
+| Notas de pendência | visíveis | ocultas | ocultas |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Onde editar
 
-## Learn More
+| O quê | Arquivo |
+|---|---|
+| Dados institucionais, contatos, redes, CNPJ | `src/config/site.ts` |
+| Domínio, ambiente, IDs de mensuração, WhatsApp, webhook | variáveis de ambiente (`.env.example`) |
+| Menus e CTAs | `src/config/navigation.ts` |
+| Cores e tipografia (tokens) | `src/app/globals.css` (`:root`) — a cor de destaque é **provisória** |
+| Serviços | `src/content/services.ts` |
+| Segmentos | `src/content/segments.ts` |
+| Artigos e categorias | `src/content/articles.ts` |
+| Cases | `src/content/cases.ts` |
+| Etapas da metodologia | `src/content/method.ts` |
 
-To learn more about Next.js, take a look at the following resources:
+Texto com links internos usa `[texto](/rota)` e negrito `**texto**`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Publicar um artigo
+Revise o texto, troque `status: "review"` por `"published"` e preencha `publishedAt` (e `updatedAt`, quando houver) com datas reais.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Publicar um case
+Somente com autorização registrada do cliente e resultados com período e fonte. Preencha e marque `published: true`.
 
-## Deploy on Vercel
+## Checklist de publicação
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. `NEXT_PUBLIC_SITE_URL` com o domínio real e `NEXT_PUBLIC_SITE_ENV=production`, novo build.
+2. Conferir: `/robots.txt` com `Allow` e `Sitemap`; `<meta name="robots" content="index, follow">` nas páginas; ausência do header `X-Robots-Tag`.
+3. `LEAD_WEBHOOK_URL` configurado e um envio de teste chegando ao CRM.
+4. Validar JSON-LD no [Teste de pesquisa aprimorada](https://search.google.com/test/rich-results) e no [Validador Schema.org](https://validator.schema.org/).
+5. Enviar o sitemap no Google Search Console.
+6. Se usar mensuração: IDs configurados, tags conferidas no modo de visualização do GTM e políticas revisadas.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Mais detalhes: `docs/mensuracao.md` e `docs/pendencias.md`.
