@@ -12,7 +12,9 @@ export type AnalyticsEvent =
   | "whatsapp_click"
   | "form_start"
   | "form_step_complete"
-  | "generate_lead";
+  | "generate_lead"
+  | "form_error"
+  | "page_view";
 
 type Params = Record<string, string | number | boolean | undefined>;
 
@@ -36,7 +38,7 @@ export function track(event: AnalyticsEvent, params: Params = {}) {
   window.dataLayer.push({ event, ...safe });
 
   // GA4 direto (quando usado sem GTM). Com GTM, as tags leem o dataLayer.
-  if (typeof window.gtag === "function" && !window.__dxGtm) {
+  if (typeof window.gtag === "function" && window.__dxGa4Direct) {
     window.gtag("event", event, safe);
   }
   // Meta Pixel: só o lead confirmado vira evento padrão "Lead".
@@ -49,5 +51,7 @@ export function track(event: AnalyticsEvent, params: Params = {}) {
 declare global {
   interface Window {
     __dxGtm?: boolean;
+    /** true somente quando o GA4 foi carregado diretamente (sem GTM). */
+    __dxGa4Direct?: boolean;
   }
 }

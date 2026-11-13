@@ -139,7 +139,9 @@ export function LeadForm({
       }
       setStatus("error");
       setMessage(data.message || "Não foi possível enviar agora. Tente novamente em instantes.");
+      track("form_error", { form_location: location, error_code: data.code || `http_${res.status}` });
     } catch {
+      track("form_error", { form_location: location, error_code: "network" });
       setStatus("error");
       setMessage("Sem conexão com o servidor. Verifique sua internet; seus dados continuam no formulário.");
     }

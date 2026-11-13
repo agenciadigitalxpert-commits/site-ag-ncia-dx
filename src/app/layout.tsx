@@ -6,6 +6,7 @@ import { isIndexable, siteUrl, tracking, hasOptionalTracking, whatsappNumber } f
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SiteEffects } from "@/components/SiteEffects";
+import { RouteTracker } from "@/components/RouteTracker";
 import { ConsentManager } from "@/components/consent/ConsentManager";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { JsonLd } from "@/components/JsonLd";
@@ -26,6 +27,10 @@ export const metadata: Metadata = {
   formatDetection: { telephone: false, email: false, address: false },
 };
 
+const CONSENT_BOOTSTRAP = `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;
+gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});
+try{var c=JSON.parse(localStorage.getItem('dx-consent')||'null');if(c&&c.v===1){gtag('consent','update',{analytics_storage:c.analytics?'granted':'denied',ad_storage:c.ads?'granted':'denied',ad_user_data:c.ads?'granted':'denied',ad_personalization:c.ads?'granted':'denied'});}}catch(e){}`;
+
 export const viewport: Viewport = {
   themeColor: "#0a0a0b",
   width: "device-width",
@@ -38,6 +43,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         {/* Marca que o JS está ativo: só então elementos .reveal começam ocultos. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        {hasOptionalTracking ? (
+          /* dataLayer + Consent Mode v2: tudo negado por padrão; reaplica a escolha salva. O GTM só carrega após consentimento. */
+          <script dangerouslySetInnerHTML={{ __html: CONSENT_BOOTSTRAP }} />
+        ) : null}
       </head>
       <body className="flex min-h-dvh flex-col">
         <a
@@ -53,6 +62,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </main>
         <Footer />
         <SiteEffects />
+        <RouteTracker />
         {hasOptionalTracking ? <ConsentManager ids={tracking} /> : null}
         {whatsappNumber ? <WhatsAppButton number={whatsappNumber} /> : null}
       </body>

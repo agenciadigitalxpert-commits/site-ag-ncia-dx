@@ -60,7 +60,7 @@ export function ConsentManager({ ids }: { ids: Ids }) {
 
       if (ids.gtmId) {
         if (!loaded.current.gtm && (c.analytics || c.ads)) {
-          w.gtag("consent", "default", { analytics_storage: "denied", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
+          // O "consent default" (negado) já foi definido no <head> antes de qualquer evento.
           w.gtag("consent", "update", consentState);
           w.dataLayer.push({ "gtm.start": Date.now(), event: "gtm.js" });
           inject(`https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(ids.gtmId)}`);
@@ -73,10 +73,11 @@ export function ConsentManager({ ids }: { ids: Ids }) {
       }
 
       if (ids.ga4Id && c.analytics && !loaded.current.ga4) {
-        w.gtag("consent", "default", { analytics_storage: "granted", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
+        w.gtag("consent", "update", consentState);
         w.gtag("js", new Date());
         w.gtag("config", ids.ga4Id);
         inject(`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(ids.ga4Id)}`);
+        w.__dxGa4Direct = true;
         loaded.current.ga4 = true;
       }
 
