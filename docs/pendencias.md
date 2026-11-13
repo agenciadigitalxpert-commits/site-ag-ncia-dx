@@ -24,11 +24,12 @@ Nada abaixo foi inventado no site: enquanto um item não for preenchido, ele sim
 - [ ] Depoimentos reais, se houver (não há nenhum no site).
 
 ## Mensuração
-- [ ] IDs reais de GTM e/ou GA4 e Meta Pixel. O aviso de cookies só aparece quando há ferramenta opcional configurada.
+- [x] GTM `GTM-MLGX6B67` instalado (carrega após consentimento, com Consent Mode v2).
+- [ ] Configurar dentro do GTM: tag do Google/GA4, Google Ads e Meta Pixel (passo a passo em `docs/mensuracao.md`).
 - [ ] Configurar conversões (GA4/Google Ads/Meta) no evento `generate_lead` — ver `docs/mensuracao.md`.
 
 ## Validação de conteúdo
-- [ ] **Políticas de privacidade e de cookies** são minutas: revisar com jurídico e então marcar `policiesValidated: true` em `src/config/site.ts` (remove o aviso de minuta).
+- [ ] **Políticas de privacidade e de cookies** são minutas (a de cookies já lista as ferramentas do GTM automaticamente): revisar com jurídico e então marcar `policiesValidated: true` em `src/config/site.ts` (remove o aviso de minuta).
 - [ ] **Artigos** (3) estão com `status: "review"`: revisão editorial, definir datas reais e publicar. Pontos a conferir:
   - descrições gerais de recursos das plataformas (conversões offline, formulários instantâneos, palavras-chave negativas, públicos por lista);
   - orientação de rastrear origem no WhatsApp com parâmetros/mensagens iniciais por campanha.
