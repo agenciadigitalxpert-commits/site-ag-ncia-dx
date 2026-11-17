@@ -23,9 +23,11 @@ Todos os eventos passam por `src/lib/analytics.ts` (`track()`), que:
 | `cta_click` | Clique em qualquer CTA rastreado ("Quero um diagnóstico", "Conheça nossa estratégia") | `cta_label`, `cta_location`, `destination` | Engajamento. **Não** é conversão. |
 | `whatsapp_click` | Clique no botão/links de WhatsApp (só existem com número configurado) | `link_location` | Microconversão de intenção. **Não** é lead nem venda. |
 | `form_start` | Primeiro foco em qualquer campo do formulário (1x por carregamento) | `form_location` | Funil do formulário. |
-| `form_step_complete` | Etapa 1 validada no navegador | `form_location`, `step`, `segment` | Funil do formulário. |
+| `form_step_complete` | Etapa 1 validada no navegador | `form_location`, `step` | Funil do formulário. |
 | `form_error` | Envio recusado ou com falha (validação, integração, rede) | `form_location`, `error_code` (`validation`, `not_configured`, `delivery_failed`, `rate_limited`, `network`...) | Diagnóstico de problemas no formulário. |
-| `generate_lead` | **Somente** após o servidor confirmar que o webhook recebeu o lead (HTTP 2xx) | `form_location`, `segment`, `invests_in_ads`, `lead_id` | **Conversão principal** (GA4 key event / Google Ads / Meta `Lead`). |
+| `generate_lead` | **Somente** após o servidor confirmar que o webhook recebeu o lead (HTTP 2xx) | `form_location`, `invests_in_ads`, `lead_id` | **Conversão principal** (GA4 key event / Google Ads / Meta `Lead`). |
+
+O segmento é digitado livremente e por isso **não** é enviado ao analytics (vai só para o CRM). A página de origem do envio fica em `form_location` (ex.: `segment_delivery_final`, `contact_page`).
 
 `generate_lead` é protegido contra disparo duplicado (uma vez por envio confirmado).
 `lead_id` é um UUID gerado no servidor e pode ser usado para deduplicação.
@@ -34,7 +36,7 @@ Todos os eventos passam por `src/lib/analytics.ts` (`track()`), que:
 
 ## Configuração no GTM (passo a passo)
 
-**Variáveis** (Variável da camada de dados): `page_location`, `page_path`, `page_title`, `page_referrer`, `content_group`, `cta_label`, `cta_location`, `destination`, `form_location`, `segment`, `step`, `error_code`, `invests_in_ads`, `lead_id`, `link_location`.
+**Variáveis** (Variável da camada de dados): `page_location`, `page_path`, `page_title`, `page_referrer`, `content_group`, `cta_label`, `cta_location`, `destination`, `form_location`, `step`, `error_code`, `invests_in_ads`, `lead_id`, `link_location`.
 
 **Acionadores** (Evento personalizado, nome exato): `page_view`, `cta_click`, `whatsapp_click`, `form_start`, `form_step_complete`, `form_error`, `generate_lead`.
 

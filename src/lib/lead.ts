@@ -3,16 +3,6 @@
  * Compartilhado entre cliente (validação imediata) e servidor (validação final).
  */
 
-export const SEGMENT_OPTIONS = [
-  "Intermediação de veículos ou revenda",
-  "Oficina, funilaria ou estética automotiva",
-  "Clínica de estética",
-  "Dermatologia",
-  "Clínica odontológica",
-  "Delivery ou alimentação",
-  "Outro segmento",
-] as const;
-
 export const CHALLENGE_OPTIONS = [
   "Gerar mais oportunidades de venda",
   "Melhorar a qualidade dos contatos que chegam",
@@ -95,8 +85,9 @@ export function validateLead(input: Partial<LeadInput>, scope: "step1" | "all" =
   if (!(input.whatsapp ?? "").trim()) e.whatsapp = "Informe um WhatsApp para contato.";
   else if (!normalizeBrPhone(input.whatsapp!)) e.whatsapp = "Confira o número: use DDD + número, como (47) 99999-9999.";
 
-  if (!input.segmento) e.segmento = "Selecione o segmento da empresa.";
-  else if (!inList(SEGMENT_OPTIONS, input.segmento)) e.segmento = "Selecione uma opção da lista.";
+  const segmento = (input.segmento ?? "").trim();
+  if (segmento.length < 2) e.segmento = "Informe o segmento da empresa.";
+  else if (segmento.length > 80) e.segmento = "Use no máximo 80 caracteres.";
 
   if (!input.desafio) e.desafio = "Selecione o principal desafio hoje.";
   else if (!inList(CHALLENGE_OPTIONS, input.desafio)) e.desafio = "Selecione uma opção da lista.";

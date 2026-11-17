@@ -6,7 +6,6 @@ import {
   ADS_OPTIONS,
   BUDGET_OPTIONS,
   CHALLENGE_OPTIONS,
-  SEGMENT_OPTIONS,
   STEP1_FIELDS,
   formatBrPhone,
   validateLead,
@@ -32,15 +31,13 @@ const empty: LeadInput = {
 export function LeadForm({
   integrationReady,
   location,
-  defaultSegment,
 }: {
   integrationReady: boolean;
   location: string;
-  defaultSegment?: string;
 }) {
   const uid = useId();
   const [step, setStep] = useState<1 | 2>(1);
-  const [values, setValues] = useState<LeadInput>({ ...empty, segmento: defaultSegment ?? "" });
+  const [values, setValues] = useState<LeadInput>(empty);
   const [errors, setErrors] = useState<LeadErrors>({});
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
@@ -86,7 +83,7 @@ export function LeadForm({
       focusFirstError(e);
       return;
     }
-    track("form_step_complete", { form_location: location, step: 1, segment: values.segmento });
+    track("form_step_complete", { form_location: location, step: 1 });
     setStep(2);
     requestAnimationFrame(() => step2Heading.current?.focus());
   };
@@ -123,7 +120,6 @@ export function LeadForm({
           leadSent.current = true;
           track("generate_lead", {
             form_location: location,
-            segment: values.segmento,
             invests_in_ads: values.investeAnuncios || "nao_informado",
             lead_id: data.id,
           });
@@ -272,7 +268,11 @@ export function LeadForm({
                   <input {...fieldProps("empresa")} type="text" autoComplete="organization" required onChange={(e) => set("empresa", e.target.value)} className={cx(field, errors.empresa && errCls)} />
                   {errorFor("empresa")}
                 </div>
-                {chips("segmento", "Em qual segmento ela atua?", SEGMENT_OPTIONS)}
+                <div>
+                  <label htmlFor={id("segmento")} className={label}>Em qual segmento ela atua?</label>
+                  <input {...fieldProps("segmento")} type="text" placeholder="Ex.: oficina mecânica, clínica odontológica, delivery" required onChange={(e) => set("segmento", e.target.value)} className={cx(field, errors.segmento && errCls)} />
+                  {errorFor("segmento")}
+                </div>
                 {chips("desafio", "Qual é o principal desafio hoje?", CHALLENGE_OPTIONS)}
               </div>
             </fieldset>

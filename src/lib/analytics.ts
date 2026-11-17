@@ -43,7 +43,7 @@ export function track(event: AnalyticsEvent, params: Params = {}) {
   }
   // Meta Pixel: só o lead confirmado vira evento padrão "Lead".
   if (typeof window.fbq === "function") {
-    if (event === "generate_lead") window.fbq("track", "Lead", { content_category: safe.segment });
+    if (event === "generate_lead") window.fbq("track", "Lead");
     else if (event === "whatsapp_click") window.fbq("trackCustom", "WhatsAppClick");
   }
 }

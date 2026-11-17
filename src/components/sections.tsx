@@ -126,13 +126,11 @@ export function CtaSection({
   title = "Quer entender onde estão as oportunidades da sua operação?",
   text = "Conte um pouco sobre a sua empresa. Vamos analisar o contexto e conversar sobre o que faz sentido priorizar — mídia, atendimento, processo comercial ou tudo junto.",
   location,
-  defaultSegment,
   id = "diagnostico",
 }: {
   title?: string;
   text?: string;
   location: string;
-  defaultSegment?: string;
   id?: string;
 }) {
   return (
@@ -151,7 +149,7 @@ export function CtaSection({
           </div>
           {/* campos com raio 8 + padding 24/32 → painel 32/40 */}
           <div className="reveal rounded-xl bg-bg-surface p-6 sm:rounded-2xl sm:p-8">
-            <LeadForm integrationReady={leadIntegrationReady} location={location} defaultSegment={defaultSegment} />
+            <LeadForm integrationReady={leadIntegrationReady} location={location} />
           </div>
         </div>
       </Container>

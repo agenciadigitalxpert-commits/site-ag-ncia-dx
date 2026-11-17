@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 import { breadcrumbNode, faqNode, graph, ids, webPageNode } from "@/lib/schema";
 import { getSegment, getService, segments } from "@/lib/content";
-import { SEGMENT_OPTIONS } from "@/lib/lead";
 import { JsonLd } from "@/components/JsonLd";
 import { FaqList } from "@/components/Faq";
 import { Rich } from "@/components/RichText";
@@ -22,15 +21,6 @@ export async function generateMetadata({ params }: PageProps<"/segmentos/[slug]"
   if (!s) return {};
   return pageMetadata({ title: s.metaTitle, description: s.metaDescription, path: `/segmentos/${s.slug}` });
 }
-
-const formSegment: Record<string, string> = {
-  "intermediacao-e-revendas": SEGMENT_OPTIONS[0],
-  "oficinas-e-funilarias": SEGMENT_OPTIONS[1],
-  "clinicas-de-estetica": SEGMENT_OPTIONS[2],
-  dermatologistas: SEGMENT_OPTIONS[3],
-  "clinicas-odontologicas": SEGMENT_OPTIONS[4],
-  delivery: SEGMENT_OPTIONS[5],
-};
 
 const stages = ["Atrair", "Qualificar", "Converter"] as const;
 
@@ -208,7 +198,7 @@ export default async function SegmentPage({ params }: PageProps<"/segmentos/[slu
         </Container>
       </Section>
 
-      <CtaSection location={`segment_${s.slug}_final`} title={s.cta.title} text={s.cta.text} defaultSegment={formSegment[s.slug]} />
+      <CtaSection location={`segment_${s.slug}_final`} title={s.cta.title} text={s.cta.text} />
     </>
   );
 }
