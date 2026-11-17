@@ -88,7 +88,7 @@ export default async function ArticlePage({ params }: PageProps<"/conteudos/[slu
         )}
       />
       <article>
-        <header className="surface-dark relative overflow-hidden">
+        <header className="surface-dark relative isolate overflow-hidden">
           <HeroGrid />
           <Container className="relative pb-14 pt-10 lg:pb-20 lg:pt-14">
             <Breadcrumbs items={crumbs} />

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <section className="surface-dark relative overflow-hidden">
+    <section className="surface-dark relative isolate overflow-hidden">
       <HeroGrid />
       <Container className="relative py-20 lg:py-28">
         <p className="text-[0.8125rem] font-medium uppercase leading-5 tracking-[0.14em] text-text-secondary">Erro 404</p>

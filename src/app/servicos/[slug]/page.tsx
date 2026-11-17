@@ -58,7 +58,7 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
             </div>
             <div className="reveal space-y-5">
               <p className="text-lead font-medium"><Rich text={s.definition.answer} /></p>
-              {s.definition.paragraphs.map((p, i) => (
+              {s.definition.paragraphs.slice(0, 1).map((p, i) => (
                 <p key={i} className="text-text-secondary"><Rich text={p} /></p>
               ))}
             </div>
@@ -95,7 +95,7 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
         <Container>
           <SectionHeader id="problemas" index="03" eyebrow="Problemas que ajuda a resolver" title="O que costuma estar travando" />
           <ul className="mt-14 grid gap-x-16 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-            {s.problems.map((p, i) => (
+            {s.problems.slice(0, 3).map((p, i) => (
               <li key={p.title} className="reveal" style={{ ["--reveal-delay" as string]: `${(i % 3) * 60}ms` }}>
                 <h3 className="text-h3">{p.title}</h3>
                 <p className="mt-2 text-text-secondary"><Rich text={p.text} /></p>
@@ -109,14 +109,9 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
       <Section tone="light" labelledBy="entregas">
         <Container>
           <SectionHeader id="entregas" index="04" eyebrow="O que pode fazer parte" title="Possíveis frentes de entrega" intro={<Rich text={s.deliverables.intro} />} />
-          <dl className="mt-12 grid gap-x-16 gap-y-8 md:grid-cols-2">
-            {s.deliverables.items.map((d) => (
-              <div key={d.title} className="reveal">
-                <dt className="text-lg font-semibold leading-7">{d.title}</dt>
-                <dd className="mt-1 text-text-secondary"><Rich text={d.text} /></dd>
-              </div>
-            ))}
-          </dl>
+          <div className="reveal mt-12 max-w-3xl">
+            <FaqList faqs={s.deliverables.items.map((d) => ({ q: d.title, a: d.text }))} />
+          </div>
           <p className="reveal mt-10 text-sm leading-5 text-text-secondary">{s.deliverables.note}</p>
           <div className="mt-14">
             <CtaInline
@@ -170,7 +165,7 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
         <Container>
           <SectionHeader id="resultados" index="07" eyebrow="Acompanhamento" title="Como acompanhar os resultados" intro={<Rich text={s.measurement.intro} />} />
           <dl className="mt-12 grid gap-x-16 gap-y-8 md:grid-cols-2">
-            {s.measurement.items.map((m) => (
+            {s.measurement.items.slice(0, 4).map((m) => (
               <div key={m.metric} className="reveal">
                 <dt className="text-lg font-semibold leading-7">{m.metric}</dt>
                 <dd className="mt-1 text-text-secondary">{m.why}</dd>

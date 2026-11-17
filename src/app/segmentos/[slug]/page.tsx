@@ -61,7 +61,7 @@ export default async function SegmentPage({ params }: PageProps<"/segmentos/[slu
               <h2 id="contexto" className="text-h2">{s.context.title}</h2>
             </div>
             <div className="reveal space-y-5 text-lead text-text-secondary">
-              {s.context.paragraphs.map((p, i) => (
+              {s.context.paragraphs.slice(0, 2).map((p, i) => (
                 <p key={i} className={i === 0 ? "text-text-primary" : undefined}><Rich text={p} /></p>
               ))}
             </div>
@@ -74,7 +74,7 @@ export default async function SegmentPage({ params }: PageProps<"/segmentos/[slu
         <Container>
           <SectionHeader id="desafios" index="02" eyebrow="Desafios comuns" title="Onde as oportunidades costumam se perder" />
           <ol className="mt-12 grid gap-x-16 gap-y-10 md:grid-cols-2">
-            {s.challenges.map((c, i) => (
+            {s.challenges.slice(0, 4).map((c, i) => (
               <li key={c.title} className="reveal flex gap-4">
                 <span className="pt-1 text-sm tabular-nums leading-5 text-text-secondary">{String(i + 1).padStart(2, "0")}</span>
                 <div>
@@ -129,14 +129,9 @@ export default async function SegmentPage({ params }: PageProps<"/segmentos/[slu
       <Section tone="paper2" labelledBy="objecoes">
         <Container>
           <SectionHeader id="objecoes" index="05" eyebrow="Objeções" title="O que costumamos ouvir — e o que respondemos" />
-          <dl className="mt-12 grid gap-x-16 gap-y-10 md:grid-cols-2">
-            {s.objections.map((o) => (
-              <div key={o.q} className="reveal">
-                <dt className="font-display text-xl font-medium leading-7">“{o.q}”</dt>
-                <dd className="mt-2 text-text-secondary"><Rich text={o.a} /></dd>
-              </div>
-            ))}
-          </dl>
+          <div className="reveal mt-12 max-w-3xl">
+            <FaqList faqs={s.objections.map((o) => ({ q: `“${o.q}”`, a: o.a }))} />
+          </div>
         </Container>
       </Section>
 
@@ -161,7 +156,7 @@ export default async function SegmentPage({ params }: PageProps<"/segmentos/[slu
         <Container>
           <SectionHeader id="indicadores" index="06" eyebrow="Indicadores" title="O que acompanhamos neste segmento" intro="Indicadores que conectam a mídia ao que acontece no atendimento e nas vendas." />
           <dl className="mt-12 grid gap-x-16 gap-y-8 md:grid-cols-2">
-            {s.metrics.map((m) => (
+            {s.metrics.slice(0, 4).map((m) => (
               <div key={m.metric} className="reveal">
                 <dt className="text-lg font-semibold leading-7">{m.metric}</dt>
                 <dd className="mt-1 text-text-secondary">{m.why}</dd>

@@ -145,22 +145,35 @@ export function LeadForm({
   const field =
     "mt-2 block min-h-12 w-full rounded-sm border border-border-secondary bg-bg-fill-secondary px-4 py-3 text-base leading-6 text-text-primary transition-colors duration-150 outline-none placeholder:text-text-placeholder hover:border-text-secondary focus:border-border-focus focus-visible:outline-2";
   const errCls = "!border-text-critical";
-  const errText = "mt-2 text-sm leading-5 text-text-critical";
+  const errText = "mt-2 flex gap-2 text-sm leading-5 text-text-critical";
   const hint = "mt-2 text-sm leading-5 text-text-secondary";
   const label = "text-[0.9375rem] font-medium leading-6";
   const groupTitle = "mb-4 text-xs font-medium uppercase leading-4 tracking-[0.14em] text-text-secondary";
 
   if (status === "success") {
     return (
-      <div ref={statusRef} tabIndex={-1} role="status" className="focus:outline-none">
+      <div ref={statusRef} tabIndex={-1} role="status" className="step-in focus:outline-none">
         <span className="grid size-12 place-items-center rounded-full bg-bg-fill-brand text-text-on-brand">
           <CheckIcon className="!text-current" />
         </span>
-        <h3 className="mt-6 text-h3">Recebemos sua solicitação.</h3>
-        <p className="mt-2 text-text-secondary">
-          Obrigado, {values.nome.split(" ")[0]}. Nossa equipe vai analisar as informações e entrar em contato pelo WhatsApp informado para conversar sobre o diagnóstico.
-        </p>
-        <p className="mt-6 text-sm leading-5 text-text-secondary">
+        <h3 className="mt-6 text-h3">Recebemos sua solicitação, {values.nome.trim().split(" ")[0]}.</h3>
+        <p className="mt-2 text-text-secondary">Veja o que acontece agora:</p>
+        <ol className="mt-6 space-y-4">
+          {[
+            ["Analisamos o contexto", "Lemos as informações antes de falar com você."],
+            ["Chamamos no WhatsApp", `No número ${values.whatsapp}, com uma pessoa da equipe.`],
+            ["Conversamos sobre o diagnóstico", "Onde estão as oportunidades e o que priorizar."],
+          ].map(([t, d], i) => (
+            <li key={t} className="flex gap-4">
+              <span className="grid size-8 shrink-0 place-items-center rounded-full bg-bg-fill-secondary text-sm tabular-nums leading-5">{i + 1}</span>
+              <span>
+                <span className="block font-medium">{t}</span>
+                <span className="block text-sm leading-5 text-text-secondary">{d}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
+        <p className="mt-8 text-sm leading-5 text-text-secondary">
           Enquanto isso, veja <Link className="underline underline-offset-2 hover:text-text-primary" href="/metodologia">como funciona nossa metodologia</Link>.
         </p>
       </div>
@@ -178,7 +191,13 @@ export function LeadForm({
   });
   const errorFor = (k: keyof LeadInput) =>
     errors[k] ? (
-      <p id={`${id(k)}-err`} className={errText}>{errors[k]}</p>
+      <p id={`${id(k)}-err`} className={errText}>
+        <svg aria-hidden viewBox="0 0 20 20" width="20" height="20" className="shrink-0" fill="none">
+          <circle cx="10" cy="10" r="7.25" stroke="currentColor" strokeWidth="1.5" />
+          <path d="M10 6.5v4M10 13.5v.01" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+        </svg>
+        {errors[k]}
+      </p>
     ) : null;
 
   /** Seleção única visível (2–7 opções): radios estilizados como chips. */
@@ -246,7 +265,7 @@ export function LeadForm({
           <div key="s1" className="step-in space-y-10">
             <fieldset>
               <legend className={groupTitle}>Contato</legend>
-              <div className="grid gap-5 sm:grid-cols-2">
+              <div className="space-y-5">
                 <div>
                   <label htmlFor={id("nome")} className={label}>Qual é o seu nome?</label>
                   <input {...fieldProps("nome")} type="text" autoComplete="name" required onChange={(e) => set("nome", e.target.value)} className={cx(field, errors.nome && errCls)} />
@@ -288,20 +307,20 @@ export function LeadForm({
         ) : (
           <div key="s2" className="step-in space-y-8">
             <h3 ref={step2Heading} tabIndex={-1} className="text-lg font-medium leading-7 focus:outline-none">
-              Quer adiantar o contexto? Todas as perguntas abaixo são opcionais.
+              Quer adiantar o contexto?
             </h3>
-            {chips("investeAnuncios", "Vocês já investem em anúncios?", ADS_OPTIONS)}
-            {chips("investimentoMidia", "Quanto investem por mês em mídia?", BUDGET_OPTIONS, `${id("investimentoMidia")}-hint`)}
+            {chips("investeAnuncios", "Vocês já investem em anúncios? (opcional)", ADS_OPTIONS)}
+            {chips("investimentoMidia", "Quanto investem por mês em mídia? (opcional)", BUDGET_OPTIONS, `${id("investimentoMidia")}-hint`)}
             <p id={`${id("investimentoMidia")}-hint`} className="-mt-5 text-sm leading-5 text-text-secondary">
               Valor pago às plataformas (Google, Meta). Não inclui os honorários da agência.
             </p>
             <div>
-              <label htmlFor={id("siteOuInstagram")} className={label}>Qual é o site ou Instagram da empresa?</label>
+              <label htmlFor={id("siteOuInstagram")} className={label}>Qual é o site ou Instagram da empresa? <span className="font-normal text-text-secondary">(opcional)</span></label>
               <input {...fieldProps("siteOuInstagram")} type="text" placeholder="seusite.com.br ou @suaempresa" onChange={(e) => set("siteOuInstagram", e.target.value)} className={cx(field, errors.siteOuInstagram && errCls)} />
               {errorFor("siteOuInstagram")}
             </div>
             <div>
-              <label htmlFor={id("detalhes")} className={label}>Quer contar algo mais?</label>
+              <label htmlFor={id("detalhes")} className={label}>Quer contar algo mais? <span className="font-normal text-text-secondary">(opcional)</span></label>
               <textarea {...fieldProps("detalhes")} rows={3} onChange={(e) => set("detalhes", e.target.value)} className={cx(field, "resize-y", errors.detalhes && errCls)} />
               {errorFor("detalhes")}
             </div>

@@ -25,7 +25,7 @@ export function PageHero({
   children?: ReactNode;
 }) {
   return (
-    <section className="surface-dark relative overflow-hidden">
+    <section className="surface-dark relative isolate overflow-hidden">
       <HeroGrid />
       <Container className="relative pb-16 pt-8 sm:pb-20 lg:pb-28 lg:pt-12">
         <Breadcrumbs items={crumbs} />
@@ -53,18 +53,13 @@ export function PageHero({
   );
 }
 
-/** Grade sutil de fundo (puramente decorativa). */
+/** Fundo artístico suave das páginas internas: o mesmo gradiente do hero, discreto. */
 export function HeroGrid() {
   return (
-    <div
-      aria-hidden
-      className="pointer-events-none absolute inset-0 opacity-50 [mask-image:radial-gradient(ellipse_at_70%_20%,black,transparent_70%)]"
-      style={{
-        backgroundImage:
-          "linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px)",
-        backgroundSize: "64px 64px",
-      }}
-    />
+    <div aria-hidden className="hero-art">
+      <div className="hero-glow hero-glow--soft" />
+      <div className="hero-grain" />
+    </div>
   );
 }
 

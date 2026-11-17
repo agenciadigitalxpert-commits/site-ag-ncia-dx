@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Inter_Tight } from "next/font/google";
+import { Inter, Inter_Tight, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { site } from "@/config/site";
 import { isIndexable, siteUrl, tracking, hasOptionalTracking, whatsappNumber } from "@/config/env";
@@ -14,6 +14,8 @@ import { graph, organizationNode, websiteNode } from "@/lib/schema";
 import { BRAND_SUFFIX } from "@/lib/seo";
 
 const body = Inter({ subsets: ["latin"], variable: "--font-body", display: "swap" });
+/** Serifa itálica usada só na palavra de destaque do hero. */
+const serif = Instrument_Serif({ subsets: ["latin"], variable: "--font-serif-face", weight: "400", style: "italic", display: "swap" });
 const display = Inter_Tight({ subsets: ["latin"], variable: "--font-display-face", display: "swap", weight: ["400", "500", "600", "700", "800"] });
 
 export const metadata: Metadata = {
@@ -35,11 +37,12 @@ export const viewport: Viewport = {
   themeColor: "#0a0a0b",
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="pt-BR" className={`${body.variable} ${display.variable}`} suppressHydrationWarning>
+    <html lang="pt-BR" className={`${body.variable} ${display.variable} ${serif.variable}`} suppressHydrationWarning>
       <head>
         {/* Marca que o JS está ativo: só então elementos .reveal começam ocultos. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />

@@ -123,6 +123,7 @@ export function ConsentManager({ ids }: { ids: Ids }) {
         <div
           role="region"
           aria-label="Aviso de cookies"
+          style={{ marginBottom: "env(safe-area-inset-bottom)" }}
           className="surface-graphite fixed inset-x-3 bottom-3 z-[60] mx-auto max-w-3xl rounded-lg p-4 shadow-2xl shadow-black/50 sm:inset-x-6 sm:bottom-6 sm:p-6"
         >
           <p className="text-sm leading-5 sm:text-[0.9375rem] sm:leading-6">

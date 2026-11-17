@@ -75,7 +75,7 @@ function FooterCol({ title, links }: { title: string; links: { href: string; lab
       <ul>
         {links.map((l) => (
           <li key={l.href}>
-            <Link href={l.href} className="inline-flex min-h-10 items-center text-[0.9375rem] leading-6 text-text-primary transition-colors duration-150 hover:text-text-secondary">
+            <Link href={l.href} className="inline-flex min-h-11 items-center text-[0.9375rem] leading-6 text-text-primary transition-colors duration-150 hover:text-text-secondary">
               {l.label}
             </Link>
           </li>

@@ -1,16 +1,15 @@
 import Link from "next/link";
-import { CTA_PRIMARY, CTA_SECONDARY } from "@/config/navigation";
+import { CTA_PRIMARY, CTA_SECONDARY, serviceNav } from "@/config/navigation";
 import { site } from "@/config/site";
 import { pageMetadata } from "@/lib/seo";
 import { faqNode, graph, webPageNode } from "@/lib/schema";
-import { segments, services } from "@/lib/content";
+import { segments } from "@/lib/content";
 import { publishedCases } from "@/content/cases";
 import type { FAQ } from "@/content/types";
 import { JsonLd } from "@/components/JsonLd";
 import { FaqList } from "@/components/Faq";
 import { TrackedLink } from "@/components/TrackedLink";
-import { BigX, HeroFlow } from "@/components/HeroFlow";
-import { CtaSection, HeroGrid, LinkRows, SectionHeader } from "@/components/sections";
+import { CtaSection, LinkRows, SectionHeader } from "@/components/sections";
 import { ArrowIcon, Container, DevNote, Eyebrow, IconItem, Section, btn } from "@/components/ui";
 import { methodSteps } from "@/content/method";
 
@@ -25,34 +24,28 @@ export const metadata = pageMetadata({
 });
 
 const pains = [
-  { t: "Anúncio rodando, contato sem perfil", d: "O investimento gera mensagens, mas boa parte não tem necessidade, orçamento ou momento de compra." },
-  { t: "Atendimento lento", d: "O lead chega quente e recebe resposta horas depois — quando já falou com o concorrente." },
-  { t: "Dependência de indicação", d: "Quando as indicações diminuem, o faturamento acompanha. Não existe um canal previsível de novos clientes." },
-  { t: "Orçamentos que não avançam", d: "Pedidos de orçamento entram, mas param no “vou pensar” por falta de follow-up e de critério de prioridade." },
-  { t: "Campanhas sem ligação com vendas", d: "Os relatórios mostram cliques e custo por lead, mas ninguém sabe dizer quais campanhas geraram faturamento." },
-  { t: "Marketing e comercial desconectados", d: "O marketing comemora volume, o comercial reclama da qualidade. Cada lado olha para um número diferente." },
+  { t: "Contatos sem perfil", d: "O anúncio gera mensagens, mas pouca gente com real intenção de compra." },
+  { t: "Atendimento lento", d: "O lead chega quente e recebe resposta quando já falou com o concorrente." },
+  { t: "Só indicação", d: "Sem um canal previsível, o faturamento oscila junto com as indicações." },
+  { t: "Orçamentos parados", d: "Pedidos entram e param no “vou pensar” por falta de follow-up." },
+  { t: "Campanha sem venda", d: "Relatórios de cliques, mas ninguém sabe qual campanha gerou faturamento." },
+  { t: "Marketing longe do comercial", d: "Um lado comemora volume, o outro reclama da qualidade." },
 ];
 
 const fronts = [
-  {
-    n: "01",
-    t: "Atrair",
-    d: "Estratégia de aquisição, mídia no Google Ads e Meta Ads, criativos e páginas de conversão pensados para o cliente certo — não para qualquer clique.",
-    items: ["Estratégia e canais", "Google Ads e Meta Ads", "Criativos e roteiros", "Landing pages"],
-  },
-  {
-    n: "02",
-    t: "Qualificar",
-    d: "Critérios claros do que é uma boa oportunidade, atendimento rápido e organizado, CRM e automações que evitam que o lead esfrie.",
-    items: ["Critérios de qualificação", "Pré-vendas e roteiros", "CRM e pipeline", "Automação e IA supervisionada"],
-  },
-  {
-    n: "03",
-    t: "Converter",
-    d: "Acompanhamento do funil até a venda, rotina de follow-up e otimização das campanhas com base no que realmente fecha negócio.",
-    items: ["Acompanhamento comercial", "Follow-up estruturado", "Indicadores até a venda", "Otimização contínua"],
-  },
+  { n: "01", t: "Atrair", d: "Mídia, criativos e páginas pensados para o cliente certo.", items: ["Google Ads e Meta Ads", "Criativos e roteiros", "Landing pages"] },
+  { n: "02", t: "Qualificar", d: "Critérios claros e atendimento rápido, sem lead esfriando.", items: ["Pré-vendas e roteiros", "CRM e automação", "IA com supervisão"] },
+  { n: "03", t: "Converter", d: "Acompanhamento até a venda e otimização pelo que fecha negócio.", items: ["Follow-up estruturado", "Indicadores até a venda", "Otimização contínua"] },
 ];
+
+const segmentTagline: Record<string, string> = {
+  "intermediacao-e-revendas": "Proprietários que querem vender e compradores prontos para visitar.",
+  "oficinas-e-funilarias": "Orçamentos que viram serviço no box, sem lotar a agenda com o que não compensa.",
+  "clinicas-de-estetica": "Procura por procedimentos transformada em avaliações agendadas.",
+  dermatologistas: "Presença digital e procura por consultas com comunicação responsável.",
+  "clinicas-odontologicas": "Avaliações agendadas, comparecimento e orçamentos acompanhados.",
+  delivery: "Pedidos diretos no raio de entrega, nos horários que importam.",
+};
 
 const faqs: FAQ[] = [
   {
@@ -91,41 +84,48 @@ export default function HomePage() {
         )}
       />
 
-      {/* HERO ---------------------------------------------------------- */}
-      <section className="surface-dark relative overflow-hidden">
-        <HeroGrid />
-        <BigX className="pointer-events-none absolute -right-[18%] top-[-10%] hidden h-[130%] text-white/[0.05] lg:block" />
-        <Container className="relative grid gap-14 pb-20 pt-14 sm:pt-20 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:items-center lg:gap-14 lg:pb-32 lg:pt-24">
-          <div>
-            <p className="hero-rise mb-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.8125rem] font-medium uppercase leading-5 tracking-[0.14em] text-text-secondary">
-              <span className="text-text-primary">Agência de marketing digital</span>
-              <span aria-hidden className="hidden h-px w-5 bg-border-secondary sm:block" />
-              <span>{site.location.city} — {site.location.state}</span>
-            </p>
-            <h1 className="hero-rise text-display" style={{ ["--d" as string]: "80ms" }}>
-              Mais oportunidades de venda.{" "}
-              <span className="text-text-secondary">Um comercial preparado para aproveitar cada uma.</span>
-            </h1>
-            <p className="hero-rise text-lead mt-6 max-w-xl text-text-secondary" style={{ ["--d" as string]: "180ms" }}>
-              Tráfego pago, criativos e estrutura comercial para empresas que querem gerar demanda e transformar atendimento em vendas.
-            </p>
-            <div className="hero-rise mt-8 flex flex-col gap-3 sm:flex-row" style={{ ["--d" as string]: "260ms" }}>
-              <TrackedLink href={CTA_PRIMARY.href} trackLabel={CTA_PRIMARY.label} trackLocation="home_hero" className={btn("primary")}>
-                {CTA_PRIMARY.label}
-                <ArrowIcon className="transition-transform group-hover:translate-x-0.5" />
-              </TrackedLink>
-              <TrackedLink href={CTA_SECONDARY.href} trackLabel={CTA_SECONDARY.label} trackLocation="home_hero" className={btn("secondary")}>
-                {CTA_SECONDARY.label}
-              </TrackedLink>
-            </div>
-            <p className="hero-rise mt-10 max-w-lg text-sm leading-6 text-text-secondary" style={{ ["--d" as string]: "340ms" }}>
-              Google Ads · Meta Ads · Criativos · Landing pages · Estruturação comercial · CRM e automação
-            </p>
+      {/* HERO ----------------------------------------------------------
+          Minimalista: gradiente de luz em uma única cor (a da marca),
+          texto curto e centralizado, um CTA primary + um secundário. */}
+      <section className="surface-dark relative isolate flex min-h-[calc(100svh-4.5rem)] items-center overflow-hidden">
+        <div aria-hidden className="hero-art">
+          <div className="hero-beams" />
+          <div className="hero-glow" />
+          <div className="hero-grain" />
+        </div>
+        <Container className="relative flex flex-col items-center pb-48 pt-14 text-center sm:py-28">
+          <h1 className="flex flex-col items-center">
+            <span className="hero-rise mb-8 inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-bg-fill-secondary px-4 py-2 text-sm font-medium leading-5 text-text-secondary backdrop-blur-sm">
+              <span aria-hidden className="flow-node size-2 shrink-0 rounded-full bg-bg-fill-brand" />
+              <span>
+                Agência de marketing digital<span className="hidden sm:inline"> · {site.location.city}</span>
+              </span>
+            </span>
+            <span className="hero-rise font-display text-hero block max-w-5xl" style={{ ["--d" as string]: "80ms" }}>
+              Do clique à <em className="font-serif font-normal tracking-[-0.02em]">venda.</em>
+            </span>
+          </h1>
+          <p className="hero-rise text-lead mx-auto mt-8 max-w-xl text-text-secondary" style={{ ["--d" as string]: "180ms" }}>
+            Mais oportunidades de venda e um comercial preparado para aproveitar cada uma.
+          </p>
+          <div className="hero-rise mt-10 flex w-full flex-col-reverse justify-center gap-3 sm:w-auto sm:flex-row" style={{ ["--d" as string]: "260ms" }}>
+            <TrackedLink href={CTA_SECONDARY.href} trackLabel={CTA_SECONDARY.label} trackLocation="home_hero" className={btn("secondary", "backdrop-blur-sm")}>
+              {CTA_SECONDARY.label}
+            </TrackedLink>
+            <TrackedLink href={CTA_PRIMARY.href} trackLabel={CTA_PRIMARY.label} trackLocation="home_hero" className={btn("primary")}>
+              {CTA_PRIMARY.label}
+              <ArrowIcon className="transition-transform duration-200 group-hover:translate-x-0.5" />
+            </TrackedLink>
           </div>
-          <div className="hero-rise" style={{ ["--d" as string]: "200ms" }}>
-            <HeroFlow />
-          </div>
+          <p className="hero-rise mt-4 text-sm leading-5 text-text-secondary" style={{ ["--d" as string]: "320ms" }}>
+            Formulário de 1 minuto · atendimento feito por pessoas
+          </p>
         </Container>
+        <a href="#dores-title" aria-label="Rolar para o conteúdo" className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 sm:block">
+          <span aria-hidden className="block h-10 w-6 rounded-full border border-border-secondary">
+            <span className="scroll-cue mx-auto mt-2 block h-2 w-px bg-text-primary" />
+          </span>
+        </a>
       </section>
 
       {/* DORES --------------------------------------------------------- */}
@@ -135,8 +135,7 @@ export default function HomePage() {
             id="dores-title"
             index="01"
             eyebrow="O que trava o crescimento"
-            title="Anúncio sem processo comercial vira custo. Processo sem demanda fica parado."
-            intro="Na maioria das empresas, o problema não é só a campanha ou só o atendimento. É a distância entre os dois."
+            title="Anúncio sem processo comercial vira custo."
           />
           <ol className="mt-14 grid gap-x-16 gap-y-10 sm:grid-cols-2 lg:mt-20 lg:grid-cols-3">
             {pains.map((p, i) => (
@@ -157,8 +156,7 @@ export default function HomePage() {
             id="frentes-title"
             index="02"
             eyebrow="Como a DX atua"
-            title="Três frentes trabalhando como uma operação só."
-            intro="Atrair, qualificar e converter fazem parte do mesmo funil. Por isso cuidamos das três de forma integrada — e medimos o resultado na ponta: oportunidades que viram vendas."
+            title="Três frentes, uma operação só."
           />
           <div className="mt-14 grid gap-12 lg:mt-20 lg:grid-cols-3 lg:gap-16">
             {fronts.map((f, i) => (
@@ -174,8 +172,8 @@ export default function HomePage() {
               </article>
             ))}
           </div>
-          <p className="reveal mt-14 max-w-3xl text-[0.9375rem] leading-6 text-text-secondary">
-            Resultado comercial depende de vários fatores ao mesmo tempo: a oferta, o mercado, o investimento em mídia e a execução do time que atende. Nosso papel é estruturar o que está sob nosso alcance, medir cada etapa e mostrar com clareza onde está o gargalo.
+          <p className="reveal mt-14 max-w-2xl text-sm leading-5 text-text-secondary">
+            Resultados dependem também da oferta, do mercado, do investimento em mídia e da execução comercial. Nosso papel é estruturar, medir cada etapa e mostrar onde está o gargalo.
           </p>
         </Container>
       </Section>
@@ -188,14 +186,14 @@ export default function HomePage() {
               id="servicos-title"
               index="03"
               eyebrow="Serviços"
-              title="Do anúncio ao fechamento, cada etapa com um responsável."
+              title="Do anúncio ao fechamento."
             />
             <Link href="/servicos" className={btn("secondary", "reveal self-start lg:self-auto")}>
               Ver todos os serviços
             </Link>
           </div>
           <div className="mt-14 lg:mt-20">
-            <LinkRows items={services.map((s) => ({ href: `/servicos/${s.slug}`, title: s.navLabel, text: s.summary }))} />
+            <LinkRows items={serviceNav.map((s) => ({ href: s.href, title: s.label, text: s.description ?? "" }))} />
           </div>
         </Container>
       </Section>
@@ -207,15 +205,14 @@ export default function HomePage() {
             id="segmentos-title"
             index="04"
             eyebrow="Segmentos"
-            title="Cada mercado vende de um jeito. A estratégia começa por entender o seu."
-            intro="Atendemos empresas de diferentes setores, com experiência prática em negócios onde a venda depende de atendimento rápido e bem conduzido."
+            title="Cada mercado vende de um jeito."
           />
           <ul className="mt-14 grid gap-x-16 gap-y-12 sm:grid-cols-2 lg:mt-20 lg:grid-cols-3">
             {segments.map((s, i) => (
               <li key={s.slug} className="reveal" style={{ ["--reveal-delay" as string]: `${(i % 3) * 60}ms` }}>
                 <Link href={`/segmentos/${s.slug}`} className="group block">
                   <h3 className="text-h3 underline-offset-4 group-hover:underline">{s.navLabel}</h3>
-                  <p className="mt-2 text-text-secondary">{s.summary}</p>
+                  <p className="mt-2 text-text-secondary">{segmentTagline[s.slug]}</p>
                   <span className="mt-4 inline-flex items-center gap-2 text-[0.9375rem] font-medium leading-6">
                     Ver abordagem <ArrowIcon className="transition-transform duration-200 group-hover:translate-x-1" />
                   </span>
@@ -233,8 +230,7 @@ export default function HomePage() {
             id="metodo-title"
             index="05"
             eyebrow="Metodologia"
-            title="Uma forma de trabalhar clara, do diagnóstico à otimização."
-            intro="Não é fórmula pronta. É a sequência que usamos para entender a operação antes de investir e para melhorar com base no que acontece de verdade."
+            title="Do diagnóstico à otimização."
           />
           <ol className="mt-14 grid gap-10 sm:grid-cols-2 lg:mt-20 lg:grid-cols-5 lg:gap-8">
             {methodSteps.map((s, i) => (
@@ -281,10 +277,7 @@ export default function HomePage() {
             />
             <div className="reveal space-y-5 text-lead text-text-secondary">
               <p>
-                A Agência Digital Xpert nasceu em Balneário Camboriú com uma visão prática: campanha boa é a que gera venda, e venda depende de um atendimento preparado para aproveitar cada oportunidade.
-              </p>
-              <p>
-                Por isso, além da mídia e dos criativos, olhamos para o que acontece depois do clique — como o lead é recebido, qualificado e acompanhado até o fechamento. Atendemos empresas de várias regiões do Brasil, com proximidade e acompanhamento de perto.
+                De Balneário Camboriú para empresas de todo o Brasil, com uma visão prática: campanha boa é a que gera venda — e venda depende de quem atende.
               </p>
               <Link href="/sobre" className="group inline-flex items-center gap-2 font-medium text-text-primary underline-offset-4 hover:underline">
                 Conheça a DX <ArrowIcon />

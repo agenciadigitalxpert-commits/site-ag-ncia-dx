@@ -29,7 +29,7 @@ export default function ContactPage() {
   return (
     <>
       <JsonLd data={graph(webPageNode({ path: "/contato", name: TITLE, description: DESC, type: "ContactPage", about: ids.org }), breadcrumbNode("/contato", crumbs))} />
-      <section className="surface-dark relative overflow-hidden">
+      <section className="surface-dark relative isolate overflow-hidden">
         <HeroGrid />
         <Container className="relative pb-20 pt-10 lg:pb-28 lg:pt-14">
           <Breadcrumbs items={crumbs} />

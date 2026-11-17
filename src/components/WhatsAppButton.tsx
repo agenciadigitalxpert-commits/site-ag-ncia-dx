@@ -11,6 +11,7 @@ export function WhatsAppButton({ number }: { number: string }) {
       target="_blank"
       rel="noopener noreferrer"
       onClick={() => track("whatsapp_click", { link_location: "floating_button" })}
+      style={{ marginBottom: "env(safe-area-inset-bottom)" }}
       className="fixed bottom-24 right-4 z-30 grid size-14 place-items-center rounded-full bg-[#25d366] text-text-primary shadow-lg shadow-black/30 transition-transform hover:scale-105 sm:bottom-6 sm:right-6"
       aria-label="Conversar no WhatsApp (abre em nova aba)"
     >

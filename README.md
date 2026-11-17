@@ -62,4 +62,7 @@ Mais detalhes: `docs/mensuracao.md` e `docs/pendencias.md`.
 - Line-height no grid de 4px; ícones de 20px em caixa de 24px com 8px de gap (`IconItem`).
 - Raios: externo = interno + padding (`--radius-sm` 8 → `--radius-xl` 32 / `--radius-2xl` 40 nos painéis do formulário).
 - Formulário: opções curtas como chips de seleção única, rótulos em forma de pergunta, campos agrupados por decisão.
+- Hero da home: gradiente de luz em uma única cor (matiz da marca, 4 stops em HSL — `--glow-*` em `globals.css`), texto curto e centralizado. Demais páginas: mesmo gradiente, suave, com texto à esquerda.
+- Densidade: frases curtas; listas longas mostram os itens principais e o detalhe fica em acordeão.
+- Formulário em uma coluna, opcionais marcados com "(opcional)", erro com ícone + texto.
 - Componentes usam apenas tokens semânticos (ex.: `text-text-secondary`, `bg-bg-fill-brand`, `border-border-tertiary`).
