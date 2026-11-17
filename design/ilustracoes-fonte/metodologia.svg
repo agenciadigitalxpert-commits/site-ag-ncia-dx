@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" stroke-linejoin="round" stroke-linecap="round">
+  <defs>
+    <linearGradient id="face" x2="0.78" y2="1">
+      <stop stop-color="#303032"/><stop offset=".52" stop-color="#151516"/><stop offset="1" stop-color="#0A0A0B"/>
+    </linearGradient>
+    <linearGradient id="edge" x2=".52" y2="1">
+      <stop stop-color="#202022"/><stop offset="1" stop-color="#0A0A0B"/>
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop stop-color="#fff" stop-opacity=".075"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="shadow">
+      <stop stop-color="#000" stop-opacity=".87"/><stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="200" cy="192" r="179" fill="url(#glow)"/>
+  <ellipse cx="204" cy="319" rx="143" ry="25" fill="url(#shadow)"/>
+  <path d="M78 269C116 249 115 167 198 133C258 108 294 110 324 89" fill="none" stroke="#ffffff" stroke-opacity="0.64" stroke-width="1.7"/><rect x="82" y="245" width="27" height="30" rx="5" fill="url(#face)" stroke="#ffffff" stroke-opacity="0.43" stroke-width="1.3"/><path d="M87 254V263" fill="none" stroke="#ffffff" stroke-opacity="0.24" stroke-width="1.4"/><rect x="133" y="223" width="27" height="52" rx="5" fill="url(#face)" stroke="#ffffff" stroke-opacity="0.43" stroke-width="1.3"/><path d="M138 232V263" fill="none" stroke="#ffffff" stroke-opacity="0.24" stroke-width="1.4"/><rect x="184" y="196" width="27" height="79" rx="5" fill="url(#face)" stroke="#ffffff" stroke-opacity="0.43" stroke-width="1.3"/><path d="M189 205V263" fill="none" stroke="#ffffff" stroke-opacity="0.24" stroke-width="1.4"/><rect x="235" y="164" width="27" height="111" rx="5" fill="url(#face)" stroke="#ffffff" stroke-opacity="0.43" stroke-width="1.3"/><path d="M240 173V263" fill="none" stroke="#ffffff" stroke-opacity="0.24" stroke-width="1.4"/><rect x="286" y="133" width="27" height="142" rx="5" fill="url(#face)" stroke="#ffffff" stroke-opacity="0.43" stroke-width="1.3"/><path d="M291 142V263" fill="none" stroke="#ffffff" stroke-opacity="0.24" stroke-width="1.4"/><circle cx="231" cy="122" r="9" fill="#C8F53C" stroke="#ffffff" stroke-opacity="0" stroke-width="1.3"/>
+</svg>

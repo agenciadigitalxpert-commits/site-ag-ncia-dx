@@ -367,9 +367,9 @@ export function HeroArt({ variant, className }: { variant: HeroArtKey; className
       <div aria-hidden className={cx("hero-illustration pointer-events-none relative aspect-square w-full", className)}>
         <div className="absolute inset-[14%] rounded-full opacity-60 blur-3xl" style={{ background: "radial-gradient(circle, hsl(76 90% 50% / 0.35), transparent 70%)" }} />
         {image.endsWith(".svg") ? (
-          // SVG vetorial: sem otimização de imagem (já é leve), com flutuação sutil
+          // SVG vetorial com animação própria (CSS interno; respeita "reduzir movimento")
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={image} alt="" width={400} height={400} className="art-float relative h-full w-full object-contain" />
+          <img src={image} alt="" width={400} height={400} className="relative h-full w-full object-contain" />
         ) : (
           <Image src={image} alt="" width={1200} height={1200} sizes="(min-width: 1024px) 30rem, 11rem" className="art-float relative h-full w-full object-contain" priority />
         )}

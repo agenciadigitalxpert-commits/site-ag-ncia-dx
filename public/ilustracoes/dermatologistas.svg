@@ -13,7 +13,20 @@
       <stop stop-color="#000" stop-opacity=".87"/><stop offset="1" stop-color="#000" stop-opacity="0"/>
     </radialGradient>
   </defs>
+  <style>
+@keyframes f{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes sh{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.9);opacity:.75}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+@keyframes blink{50%{opacity:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes dash{to{stroke-dashoffset:-28}}
+@keyframes draw{0%{stroke-dashoffset:1}30%,80%{stroke-dashoffset:0}100%{stroke-dashoffset:-1}}
+.f{animation:f 6s ease-in-out infinite}
+.f2{animation:f 6s ease-in-out -3s infinite}
+.sh{transform-box:fill-box;transform-origin:center;animation:sh 6s ease-in-out infinite}
+.pulse{transform-box:fill-box;transform-origin:center;animation:pulse 2.6s ease-in-out infinite}
+.scan{animation:scan 6s ease-in-out infinite}@keyframes scan{0%,100%{transform:translate(-26px,6px)}50%{transform:translate(26px,-4px)}}@media (prefers-reduced-motion:reduce){*{animation:none!important}.rm-hide{display:none}}</style>
   <circle cx="200" cy="192" r="179" fill="url(#glow)"/>
-  <ellipse cx="204" cy="319" rx="143" ry="25" fill="url(#shadow)"/>
-  <path d="M66 213C114 186 160 237 204 213S285 189 326 206V283C285 266 248 266 204 285S114 258 66 285Z" fill="url(#face)" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1.4"/><path d="M66 213C114 186 160 237 204 213S285 189 326 206" fill="none" stroke="#ffffff" stroke-opacity="0.42" stroke-width="1.4"/><path d="M66 237C114 210 160 261 204 237S285 213 326 230" fill="none" stroke="#ffffff" stroke-opacity="0.42" stroke-width="1.4"/><path d="M66 261C114 234 160 285 204 261S285 237 326 254" fill="none" stroke="#ffffff" stroke-opacity="0.42" stroke-width="1.4"/><path d="M66 285C114 258 160 309 204 285S285 261 326 278" fill="none" stroke="#ffffff" stroke-opacity="0.42" stroke-width="1.4"/><g transform="rotate(-46 247 183)"><rect x="237" y="173" width="20" height="102" rx="10" fill="url(#face)" stroke="#ffffff" stroke-opacity="0.43" stroke-width="1.3"/></g><circle cx="208" cy="145" r="62" fill="#151517" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1.3"/><circle cx="208" cy="145" r="50" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.3"/><circle cx="208" cy="145" r="59" fill="none" stroke="#C8F53C" stroke-width="2.5"/><path d="M171 144A37 37 0 0 1 204 108" fill="none" stroke="#ffffff" stroke-opacity="0.53" stroke-width="1.4"/>
+  <ellipse class="sh" cx="204" cy="319" rx="143" ry="25" fill="url(#shadow)"/>
+  <path d="M66 213C114 186 160 237 204 213S285 189 326 206V283C285 266 248 266 204 285S114 258 66 285Z" fill="url(#face)" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1.4"/><path d="M66 213C114 186 160 237 204 213S285 189 326 206" fill="none" stroke="#ffffff" stroke-opacity="0.42" stroke-width="1.4"/><path d="M66 237C114 210 160 261 204 237S285 213 326 230" fill="none" stroke="#ffffff" stroke-opacity="0.42" stroke-width="1.4"/><path d="M66 261C114 234 160 285 204 261S285 237 326 254" fill="none" stroke="#ffffff" stroke-opacity="0.42" stroke-width="1.4"/><path d="M66 285C114 258 160 309 204 285S285 261 326 278" fill="none" stroke="#ffffff" stroke-opacity="0.42" stroke-width="1.4"/><g class="scan"><g transform="rotate(-46 247 183)"><rect x="237" y="173" width="20" height="102" rx="10" fill="url(#face)" stroke="#ffffff" stroke-opacity="0.43" stroke-width="1.3"/></g><circle cx="208" cy="145" r="62" fill="#151517" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1.3"/><circle cx="208" cy="145" r="50" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.3"/><circle cx="208" cy="145" r="59" fill="none" stroke="#C8F53C" stroke-width="2.5"/><path d="M171 144A37 37 0 0 1 204 108" fill="none" stroke="#ffffff" stroke-opacity="0.53" stroke-width="1.4"/></g>
 </svg>

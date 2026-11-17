@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" stroke-linejoin="round" stroke-linecap="round">
+  <defs>
+    <linearGradient id="face" x2="0.78" y2="1">
+      <stop stop-color="#303032"/><stop offset=".52" stop-color="#151516"/><stop offset="1" stop-color="#0A0A0B"/>
+    </linearGradient>
+    <linearGradient id="edge" x2=".52" y2="1">
+      <stop stop-color="#202022"/><stop offset="1" stop-color="#0A0A0B"/>
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop stop-color="#fff" stop-opacity=".075"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="shadow">
+      <stop stop-color="#000" stop-opacity=".87"/><stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="200" cy="192" r="179" fill="url(#glow)"/>
+  <ellipse cx="204" cy="319" rx="143" ry="25" fill="url(#shadow)"/>
+  <g transform="translate(0 7)"><path d="M73 238V214Q74 199 94 193L125 185L153 152Q165 139 190 139H232Q251 139 265 151L290 175L314 185Q331 190 331 211V232Q331 246 317 246H89Q73 246 73 238Z" fill="url(#edge)" stroke="#ffffff" stroke-opacity="0.24" stroke-width="1.4"/></g><path d="M73 238V214Q74 199 94 193L125 185L153 152Q165 139 190 139H232Q251 139 265 151L290 175L314 185Q331 190 331 211V232Q331 246 317 246H89Q73 246 73 238Z" fill="url(#face)" stroke="#ffffff" stroke-opacity="0.66" stroke-width="1.4"/><path d="M137 183l25-28q8-7 21-7h47q14 0 25 11l21 20zM199 149l-1 32m-62 13 143-5m-107 16h15m112-8h24" fill="none" stroke="#ffffff" stroke-opacity="0.48" stroke-width="1.4"/><circle cx="126" cy="241" r="24" fill="#0A0A0B" stroke="#ffffff" stroke-opacity="0.64" stroke-width="1.3"/><circle cx="126" cy="241" r="10" fill="url(#face)" stroke="#ffffff" stroke-opacity="0.36" stroke-width="1.3"/><circle cx="278" cy="241" r="24" fill="#0A0A0B" stroke="#ffffff" stroke-opacity="0.64" stroke-width="1.3"/><circle cx="278" cy="241" r="10" fill="url(#face)" stroke="#ffffff" stroke-opacity="0.36" stroke-width="1.3"/><g transform="rotate(-19 275 107)"><rect x="246" y="94" width="55" height="25" rx="12" fill="url(#face)" stroke="#ffffff" stroke-opacity="0.43" stroke-width="1.3"/><path d="M298 101H333v10h-10v5h-9v-5h-16" fill="url(#face)" stroke="#ffffff" stroke-opacity="0.53" stroke-width="1.4"/><circle cx="260" cy="107" r="5" fill="#C8F53C" stroke="#ffffff" stroke-opacity="0" stroke-width="1.3"/></g>
+</svg>

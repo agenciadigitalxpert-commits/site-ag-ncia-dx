@@ -13,7 +13,20 @@
       <stop stop-color="#000" stop-opacity=".87"/><stop offset="1" stop-color="#000" stop-opacity="0"/>
     </radialGradient>
   </defs>
+  <style>
+@keyframes f{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes sh{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.9);opacity:.75}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+@keyframes blink{50%{opacity:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes dash{to{stroke-dashoffset:-28}}
+@keyframes draw{0%{stroke-dashoffset:1}30%,80%{stroke-dashoffset:0}100%{stroke-dashoffset:-1}}
+.f{animation:f 6s ease-in-out infinite}
+.f2{animation:f 6s ease-in-out -3s infinite}
+.sh{transform-box:fill-box;transform-origin:center;animation:sh 6s ease-in-out infinite}
+.pulse{transform-box:fill-box;transform-origin:center;animation:pulse 2.6s ease-in-out infinite}
+.trace{stroke-dasharray:.22 .78;animation:trace 6s linear infinite}@keyframes trace{to{stroke-dashoffset:-1}}@media (prefers-reduced-motion:reduce){.trace{stroke-dasharray:none}}@media (prefers-reduced-motion:reduce){*{animation:none!important}.rm-hide{display:none}}</style>
   <circle cx="200" cy="192" r="179" fill="url(#glow)"/>
-  <ellipse cx="204" cy="319" rx="143" ry="25" fill="url(#shadow)"/>
-  <g transform="translate(9 7)"><path d="M91 78H145L200 159L255 78H309L228 198L311 322H257L200 238L143 322H89L172 198Z" fill="url(#edge)" stroke="#ffffff" stroke-opacity="0.23" stroke-width="1.4"/></g><path d="M91 78H145L200 159L255 78H309L228 198L311 322H257L200 238L143 322H89L172 198Z" fill="url(#face)" stroke="#C8F53C" stroke-opacity="1" stroke-width="2"/><path d="M108 89H140L200 177L260 89H289" fill="none" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.4"/>
+  <ellipse class="sh" cx="204" cy="319" rx="143" ry="25" fill="url(#shadow)"/>
+  <g class="f"><g transform="translate(9 7)"><path d="M91 78H145L200 159L255 78H309L228 198L311 322H257L200 238L143 322H89L172 198Z" fill="url(#edge)" stroke="#ffffff" stroke-opacity="0.23" stroke-width="1.4"/></g><path d="M91 78H145L200 159L255 78H309L228 198L311 322H257L200 238L143 322H89L172 198Z" fill="url(#face)" stroke="#ffffff" stroke-opacity="0.4" stroke-width="1.4"/><path class="trace" pathLength="1" d="M91 78H145L200 159L255 78H309L228 198L311 322H257L200 238L143 322H89L172 198Z" fill="none" stroke="#C8F53C" stroke-width="2.2"/><path d="M108 89H140L200 177L260 89H289" fill="none" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.4"/></g>
 </svg>

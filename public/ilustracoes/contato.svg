@@ -13,7 +13,20 @@
       <stop stop-color="#000" stop-opacity=".87"/><stop offset="1" stop-color="#000" stop-opacity="0"/>
     </radialGradient>
   </defs>
+  <style>
+@keyframes f{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes sh{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.9);opacity:.75}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+@keyframes blink{50%{opacity:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes dash{to{stroke-dashoffset:-28}}
+@keyframes draw{0%{stroke-dashoffset:1}30%,80%{stroke-dashoffset:0}100%{stroke-dashoffset:-1}}
+.f{animation:f 6s ease-in-out infinite}
+.f2{animation:f 6s ease-in-out -3s infinite}
+.sh{transform-box:fill-box;transform-origin:center;animation:sh 6s ease-in-out infinite}
+.pulse{transform-box:fill-box;transform-origin:center;animation:pulse 2.6s ease-in-out infinite}
+.dot{transform-box:fill-box;transform-origin:center;animation:typ 1.3s ease-in-out infinite}.d1{animation-delay:.16s}.d2{animation-delay:.32s}@keyframes typ{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-7px)}}@media (prefers-reduced-motion:reduce){*{animation:none!important}.rm-hide{display:none}}</style>
   <circle cx="200" cy="192" r="179" fill="url(#glow)"/>
-  <ellipse cx="204" cy="319" rx="143" ry="25" fill="url(#shadow)"/>
-  <g transform="translate(397 124) scale(-.79 .79)"><path d="M107 93H253Q272 93 272 111V167Q272 185 253 185H170L130 213V185H107Q88 185 88 167V111Q88 93 107 93Z" fill="url(#face)" stroke="#ffffff" stroke-opacity="0.68" stroke-width="1.4"/></g><path d="M107 93H253Q272 93 272 111V167Q272 185 253 185H170L130 213V185H107Q88 185 88 167V111Q88 93 107 93Z" fill="url(#face)" stroke="#ffffff" stroke-opacity="0.68" stroke-width="1.4"/><circle cx="156" cy="139" r="6" fill="#888" stroke="#ffffff" stroke-opacity="0" stroke-width="1.3"/><circle cx="180" cy="139" r="6" fill="#C8F53C" stroke="#ffffff" stroke-opacity="0" stroke-width="1.3"/><circle cx="204" cy="139" r="6" fill="#888" stroke="#ffffff" stroke-opacity="0" stroke-width="1.3"/>
+  <ellipse class="sh" cx="204" cy="319" rx="143" ry="25" fill="url(#shadow)"/>
+  <g class="f2"><g transform="translate(397 124) scale(-.79 .79)"><g class="f"><path d="M107 93H253Q272 93 272 111V167Q272 185 253 185H170L130 213V185H107Q88 185 88 167V111Q88 93 107 93Z" fill="url(#face)" stroke="#ffffff" stroke-opacity="0.68" stroke-width="1.4"/></g></g><path d="M107 93H253Q272 93 272 111V167Q272 185 253 185H170L130 213V185H107Q88 185 88 167V111Q88 93 107 93Z" fill="url(#face)" stroke="#ffffff" stroke-opacity="0.68" stroke-width="1.4"/><circle class="dot d0" cx="156" cy="139" r="6" fill="#888" stroke="#ffffff" stroke-opacity="0" stroke-width="1.3"/><circle class="dot d1" cx="180" cy="139" r="6" fill="#C8F53C" stroke="#ffffff" stroke-opacity="0" stroke-width="1.3"/><circle class="dot d2" cx="204" cy="139" r="6" fill="#888" stroke="#ffffff" stroke-opacity="0" stroke-width="1.3"/></g>
 </svg>

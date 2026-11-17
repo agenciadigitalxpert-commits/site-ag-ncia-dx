@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" stroke-linejoin="round" stroke-linecap="round">
+  <defs>
+    <linearGradient id="face" x2="0.78" y2="1">
+      <stop stop-color="#303032"/><stop offset=".52" stop-color="#151516"/><stop offset="1" stop-color="#0A0A0B"/>
+    </linearGradient>
+    <linearGradient id="edge" x2=".52" y2="1">
+      <stop stop-color="#202022"/><stop offset="1" stop-color="#0A0A0B"/>
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop stop-color="#fff" stop-opacity=".075"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="shadow">
+      <stop stop-color="#000" stop-opacity=".87"/><stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="200" cy="192" r="179" fill="url(#glow)"/>
+  <ellipse cx="204" cy="319" rx="143" ry="25" fill="url(#shadow)"/>
+  <g transform="translate(9 7)"><path d="M91 78H145L200 159L255 78H309L228 198L311 322H257L200 238L143 322H89L172 198Z" fill="url(#edge)" stroke="#ffffff" stroke-opacity="0.23" stroke-width="1.4"/></g><path d="M91 78H145L200 159L255 78H309L228 198L311 322H257L200 238L143 322H89L172 198Z" fill="url(#face)" stroke="#C8F53C" stroke-opacity="1" stroke-width="2"/><path d="M108 89H140L200 177L260 89H289" fill="none" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.4"/>
+</svg>
