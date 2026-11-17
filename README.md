@@ -61,7 +61,7 @@ Mais detalhes: `docs/mensuracao.md` e `docs/pendencias.md`.
 - Agrupar por proximidade; superfície (`bg-bg-surface*`, `.surface-dark`) apenas como ênfase.
 - Line-height no grid de 4px; ícones de 20px em caixa de 24px com 8px de gap (`IconItem`).
 - Raios: externo = interno + padding (`--radius-sm` 8 → `--radius-xl` 32 / `--radius-2xl` 40 nos painéis do formulário).
-- Formulário: opções curtas como chips de seleção única, rótulos em forma de pergunta, campos agrupados por decisão.
+- Formulário: dropdowns estilizados (decisão do cliente), campos com raio de 14px, rótulos em forma de pergunta, campos agrupados por decisão.
 - Hero da home: gradiente de luz em uma única cor (matiz da marca, 4 stops em HSL — `--glow-*` em `globals.css`), texto curto e centralizado. Demais páginas: mesmo gradiente, suave, com texto à esquerda.
 - Densidade: frases curtas; listas longas mostram os itens principais e o detalhe fica em acordeão.
 - Formulário em uma coluna, opcionais marcados com "(opcional)", erro com ícone + texto.
@@ -71,7 +71,7 @@ Mais detalhes: `docs/mensuracao.md` e `docs/pendencias.md`.
 
 - **Transição entre páginas:** View Transitions API via `<ViewTransition>` em `src/app/template.tsx` — leve: fade de 120ms na saída e 240ms + 8px na entrada, sem blur; cabeçalho ancorado.
 - **Menu:** destaque único que desliza entre os itens (mouse e teclado) e ponto verde na seção atual.
-- **Ilustrações dos heroes:** `src/components/HeroArt.tsx` — uma por página (serviços, segmentos e institucionais), traço fino + um elemento na cor da marca. Para adicionar uma, crie a chave no objeto `arts` e passe `art="chave"` no `PageHero`.
+- **Ilustrações dos heroes:** `src/components/HeroArt.tsx` — uma por página (serviços, segmentos e institucionais), traço fino + um elemento na cor da marca. Para adicionar uma, crie a chave no objeto `arts` e passe `art="chave"` no `PageHero`. Para trocar uma ilustração por imagem, coloque o arquivo em `public/ilustracoes/` e registre em `src/config/illustrations.ts`. Briefing para gerar as imagens: `docs/ilustracoes-briefing.md`; exportar os SVGs atuais: `npx tsx scripts/export-illustrations.tsx <pasta>`.
 - **Mola no estilo iOS:** `--ease-spring` em `globals.css`, usada em menus, botões e hovers.
 - **Feedback de toque:** utilitário `pressable` (escala 0,97 com mola) em botões, chips e linhas clicáveis; sem o realce cinza padrão do iOS.
 - **Material translúcido:** cabeçalho com `.material-bar` (blur + saturação), que encolhe ao rolar (título grande → compacto). Com "Reduzir transparência", fica sólido.

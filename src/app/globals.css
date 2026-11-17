@@ -34,7 +34,8 @@
   --glow-anchor: hsl(var(--glow-hue) 70% 6%);
 
   /* Raios (externo = interno + padding) */
-  --radius-sm: 8px;   /* campos, chips */
+  --radius-sm: 8px;   /* elementos pequenos */
+  --radius-field: 14px; /* campos e dropdowns do formulário */
   --radius-md: 16px;  /* cards sem elementos aninhados */
   --radius-lg: 24px;  /* painéis com itens de 8px e padding de 16px */
   --radius-xl: 32px;  /* painéis com campos de 8px e padding de 24px */
@@ -393,7 +394,6 @@ html.js .reveal.is-visible { opacity: 1; transform: none; }
 .marquee { display: flex; width: max-content; animation: marquee 48s linear infinite; }
 .marquee-wrap:hover .marquee { animation-play-state: paused; }
 @keyframes marquee { to { transform: translateX(-50%); } }
-.text-outline { color: transparent; -webkit-text-stroke: 1px rgb(255 255 255 / 0.35); }
 
 /* Linha de lista com preenchimento que varre no hover */
 .row-sweep { position: relative; isolation: isolate; }

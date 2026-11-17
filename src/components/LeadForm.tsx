@@ -143,7 +143,7 @@ export function LeadForm({
   };
 
   const field =
-    "mt-2 block min-h-12 w-full rounded-sm border border-border-secondary bg-bg-fill-secondary px-4 py-3 text-base leading-6 text-text-primary transition-colors duration-150 outline-none placeholder:text-text-placeholder hover:border-text-secondary focus:border-border-focus focus-visible:outline-2";
+    "mt-2 block min-h-[3.25rem] w-full rounded-[var(--radius-field)] border border-border-secondary bg-bg-fill-secondary px-4 py-3 text-base leading-6 text-text-primary transition-colors duration-150 outline-none placeholder:text-text-placeholder hover:border-text-secondary focus:border-border-focus focus-visible:outline-2";
   const errCls = "!border-text-critical";
   const errText = "mt-2 flex gap-2 text-sm leading-5 text-text-critical";
   const hint = "mt-2 text-sm leading-5 text-text-secondary";
@@ -200,45 +200,37 @@ export function LeadForm({
       </p>
     ) : null;
 
-  /** Seleção única visível (2–7 opções): radios estilizados como chips. */
-  const chips = (k: keyof LeadInput, legend: string, options: readonly string[], describedBy?: string) => (
-    <fieldset aria-describedby={[errors[k] ? `${id(k)}-err` : "", describedBy ?? ""].join(" ").trim() || undefined}>
-      <legend className={label}>{legend}</legend>
-      <div className="mt-3 flex flex-wrap gap-2">
-        {options.map((o, i) => (
-          <label key={o} className="relative cursor-pointer">
-            <input
-              type="radio"
-              name={k}
-              value={o}
-              id={i === 0 ? id(k) : undefined}
-              checked={values[k] === o}
-              onChange={() => set(k, o)}
-              onFocus={onFocusAny}
-              className="peer absolute inset-0 opacity-0"
-            />
-            <span
-              className={cx(
-                "pressable inline-flex min-h-11 items-center rounded-sm border px-4 py-2 text-[0.9375rem] leading-6",
-                "border-border-secondary text-text-primary hover:border-text-primary hover:bg-bg-fill-secondary",
-                "peer-checked:border-transparent peer-checked:bg-bg-fill-inverse peer-checked:text-text-on-inverse",
-                "peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--color-border-focus)]",
-                errors[k] && "!border-text-critical",
-              )}
-            >
-              {o}
-            </span>
-          </label>
-        ))}
+  /** Dropdown estilizado (seta própria, mesmo raio dos campos). */
+  const dropdown = (k: keyof LeadInput, labelText: string, options: readonly string[], opts: { optional?: boolean; describedBy?: string } = {}) => (
+    <div>
+      <label htmlFor={id(k)} className={label}>
+        {labelText} {opts.optional ? <span className="font-normal text-text-secondary">(opcional)</span> : null}
+      </label>
+      <div className="relative mt-2">
+        <select
+          {...fieldProps(k)}
+          aria-describedby={[errors[k] ? `${id(k)}-err` : "", opts.describedBy ?? ""].join(" ").trim() || undefined}
+          required={!opts.optional}
+          onChange={(e) => set(k, e.target.value)}
+          className={cx(field, "!mt-0 cursor-pointer appearance-none pr-12", !values[k] && "!text-text-placeholder", errors[k] && errCls)}
+        >
+          <option value="">{opts.optional ? "Prefiro não informar" : "Selecione"}</option>
+          {options.map((o) => (
+            <option key={o} value={o} className="text-text-primary">{o}</option>
+          ))}
+        </select>
+        <svg aria-hidden viewBox="0 0 20 20" width="20" height="20" fill="none" className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-icon-secondary">
+          <path d="m5 7.5 5 5 5-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
       </div>
       {errorFor(k)}
-    </fieldset>
+    </div>
   );
 
   return (
     <div>
       {!integrationReady ? (
-        <div role="note" className="mb-6 rounded-sm border border-dashed border-border-note bg-bg-note p-4 text-sm leading-5 text-text-note">
+        <div role="note" className="mb-6 rounded-[var(--radius-field)] border border-dashed border-border-note bg-bg-note p-4 text-sm leading-5 text-text-note">
           <strong>Formulário em configuração.</strong> A integração com o sistema de atendimento ainda não foi conectada, então os envios não estão sendo recebidos.
         </div>
       ) : null}
@@ -292,7 +284,7 @@ export function LeadForm({
                   <input {...fieldProps("segmento")} type="text" placeholder="Ex.: oficina mecânica, clínica odontológica, delivery" required onChange={(e) => set("segmento", e.target.value)} className={cx(field, errors.segmento && errCls)} />
                   {errorFor("segmento")}
                 </div>
-                {chips("desafio", "Qual é o principal desafio hoje?", CHALLENGE_OPTIONS)}
+                {dropdown("desafio", "Qual é o principal desafio hoje?", CHALLENGE_OPTIONS)}
               </div>
             </fieldset>
 
@@ -309,9 +301,9 @@ export function LeadForm({
             <h3 ref={step2Heading} tabIndex={-1} className="text-lg font-medium leading-7 focus:outline-none">
               Quer adiantar o contexto?
             </h3>
-            {chips("investeAnuncios", "Vocês já investem em anúncios? (opcional)", ADS_OPTIONS)}
-            {chips("investimentoMidia", "Quanto investem por mês em mídia? (opcional)", BUDGET_OPTIONS, `${id("investimentoMidia")}-hint`)}
-            <p id={`${id("investimentoMidia")}-hint`} className="-mt-5 text-sm leading-5 text-text-secondary">
+            {dropdown("investeAnuncios", "Vocês já investem em anúncios?", ADS_OPTIONS, { optional: true })}
+            {dropdown("investimentoMidia", "Quanto investem por mês em mídia?", BUDGET_OPTIONS, { optional: true, describedBy: `${id("investimentoMidia")}-hint` })}
+            <p id={`${id("investimentoMidia")}-hint`} className="-mt-6 text-sm leading-5 text-text-secondary">
               Valor pago às plataformas (Google, Meta). Não inclui os honorários da agência.
             </p>
             <div>
@@ -345,7 +337,7 @@ export function LeadForm({
 
         <div ref={statusRef} tabIndex={-1} aria-live="polite" className="focus:outline-none">
           {status === "error" ? (
-            <p role="alert" className="mt-6 rounded-sm border border-text-critical/50 p-4 text-[0.9375rem] leading-6 text-text-critical">
+            <p role="alert" className="mt-6 rounded-[var(--radius-field)] border border-text-critical/50 p-4 text-[0.9375rem] leading-6 text-text-critical">
               {message}
             </p>
           ) : null}

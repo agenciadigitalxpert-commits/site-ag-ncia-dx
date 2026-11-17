@@ -152,8 +152,8 @@ export function CtaSection({
               <IconItem>Investimento em mídia e honorários da agência são valores diferentes — falamos dos dois com clareza.</IconItem>
             </ul>
           </div>
-          {/* campos com raio 8 + padding 24/32 → painel 32/40 */}
-          <div className="reveal rounded-xl bg-bg-surface p-6 sm:rounded-2xl sm:p-8">
+          {/* campos com raio 14 + padding 24/32 → painel 38/46 */}
+          <div className="reveal rounded-[38px] bg-bg-surface p-6 sm:rounded-[46px] sm:p-8">
             <LeadForm integrationReady={leadIntegrationReady} location={location} />
           </div>
         </div>

@@ -140,7 +140,7 @@ export default function HomePage() {
             <div key={k} className="flex shrink-0 items-center">
               {["Google Ads", "Meta Ads", "Criativos", "Landing pages", "Estruturação comercial", "CRM", "Automação", "IA no atendimento"].map((t, i) => (
                 <span key={t} className="flex items-center font-display text-[clamp(2rem,1.2rem+3vw,4rem)] font-semibold leading-none tracking-[-0.03em]">
-                  <span className={i % 2 ? "text-outline" : "text-text-primary"}>{t}</span>
+                  <span className={i % 2 ? "text-text-secondary" : "text-text-primary"}>{t}</span>
                   <span className="mx-8 text-[0.5em] text-text-secondary sm:mx-12">✦</span>
                 </span>
               ))}

@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import Image from "next/image";
+import { heroImages } from "@/config/illustrations";
 import { cx } from "./ui";
 
 /**
@@ -355,7 +357,18 @@ const arts: Record<string, ReactNode> = {
 
 export type HeroArtKey = keyof typeof arts | string;
 
+/** Exportado para gerar os arquivos SVG estáticos (scripts/export-illustrations). */
+export const heroArtKeys = Object.keys(arts);
+
 export function HeroArt({ variant, className }: { variant: HeroArtKey; className?: string }) {
+  const image = heroImages[variant];
+  if (image) {
+    return (
+      <div aria-hidden className={cx("hero-illustration pointer-events-none relative aspect-square w-full", className)}>
+        <Image src={image} alt="" width={1200} height={1200} sizes="(min-width: 1024px) 30rem, 11rem" className="h-full w-full object-contain" priority />
+      </div>
+    );
+  }
   const art = arts[variant];
   if (!art) return null;
   return (

@@ -63,7 +63,7 @@ export default function ContactPage() {
               </div>
               <DevNote>e-mail, telefone e WhatsApp aparecem automaticamente quando configurados (src/config/site.ts e NEXT_PUBLIC_WHATSAPP_NUMBER).</DevNote>
             </div>
-            <div id="diagnostico" className="scroll-mt-28 self-start rounded-xl bg-bg-surface p-6 sm:rounded-2xl sm:p-8">
+            <div id="diagnostico" className="scroll-mt-28 self-start rounded-[38px] bg-bg-surface p-6 sm:rounded-[46px] sm:p-8">
               <h2 className="text-h3 mb-6">Quero um diagnóstico</h2>
               <LeadForm integrationReady={leadIntegrationReady} location="contact_page" />
             </div>
