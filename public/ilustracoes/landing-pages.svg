@@ -1,18 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" stroke-linejoin="round" stroke-linecap="round">
   <defs>
     <linearGradient id="face" x2="0.78" y2="1">
-      <stop stop-color="#303032"/><stop offset=".52" stop-color="#151516"/><stop offset="1" stop-color="#0A0A0B"/>
+      <stop stop-color="#303032" /><stop offset=".52" stop-color="#151516" /><stop offset="1" stop-color="#0A0A0B" />
     </linearGradient>
     <linearGradient id="edge" x2=".52" y2="1">
-      <stop stop-color="#202022"/><stop offset="1" stop-color="#0A0A0B"/>
+      <stop stop-color="#202022" /><stop offset="1" stop-color="#0A0A0B" />
     </linearGradient>
     <radialGradient id="glow">
-      <stop stop-color="#fff" stop-opacity=".075"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+      <stop stop-color="#fff" stop-opacity=".075" /><stop offset="1" stop-color="#fff" stop-opacity="0" />
     </radialGradient>
     <radialGradient id="shadow">
-      <stop stop-color="#000" stop-opacity=".87"/><stop offset="1" stop-color="#000" stop-opacity="0"/>
+      <stop stop-color="#000" stop-opacity=".87" /><stop offset="1" stop-color="#000" stop-opacity="0" />
     </radialGradient>
-  </defs>
+  <mask id="oc1" maskUnits="userSpaceOnUse" x="-100" y="-100" width="600" height="600"><rect x="-100" y="-100" width="600" height="600" fill="#fff" /><rect x="67" y="83" width="236" height="193" rx="16" fill="#000" stroke="#000" stroke-width="1.3" /></mask><mask id="oc2" maskUnits="userSpaceOnUse" x="-100" y="-100" width="600" height="600"><rect x="-100" y="-100" width="600" height="600" fill="#fff" /><rect x="97" y="130" width="236" height="109" rx="12" fill="#000" stroke="#000" stroke-width="1.3" /></mask></defs>
   <style>
 @keyframes f{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 @keyframes sh{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.9);opacity:.75}}
@@ -26,7 +26,7 @@
 .sh{transform-box:fill-box;transform-origin:center;animation:sh 6s ease-in-out infinite}
 .pulse{transform-box:fill-box;transform-origin:center;animation:pulse 2.6s ease-in-out infinite}
 .cta{transform-box:fill-box;transform-origin:center;animation:cta 4.5s ease-in-out infinite}@keyframes cta{0%,52%,64%,100%{transform:scale(1)}58%{transform:scale(.92)}}.cur{animation:cur 4.5s cubic-bezier(.4,0,.2,1) infinite}@keyframes cur{0%,100%{transform:translate(70px,60px);opacity:0}15%{opacity:1}50%,66%{transform:translate(0,0)}58%{transform:translate(0,0) scale(.9)}85%{opacity:1}}.card{animation:f 6s ease-in-out infinite}.c1{animation-delay:-2s}.c2{animation-delay:-4s}@media (prefers-reduced-motion:reduce){*{animation:none!important}.rm-hide{display:none}}</style>
-  <circle cx="200" cy="192" r="179" fill="url(#glow)"/>
-  <rect x="79" y="96" width="236" height="193" rx="16" fill="none" stroke="#ffffff" stroke-opacity="0.27" stroke-width="1.3"/><rect x="67" y="83" width="236" height="193" rx="16" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.43" stroke-width="1.3"/><path d="M67 117H303" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.4"/><circle cx="84" cy="100" r="2.3" fill="#aaa" stroke="#ffffff" stroke-opacity="0" stroke-width="1.3"/><circle cx="95" cy="100" r="2.3" fill="#aaa" stroke="#ffffff" stroke-opacity="0" stroke-width="1.3"/><circle cx="106" cy="100" r="2.3" fill="#aaa" stroke="#ffffff" stroke-opacity="0" stroke-width="1.3"/><rect x="97" y="130" width="236" height="109" rx="12" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.43" stroke-width="1.3"/><path d="M119 155h93M119 172h68" fill="none" stroke="#ffffff" stroke-opacity="0.56" stroke-width="3"/><rect class="cta" x="119" y="189" width="74" height="23" rx="11" fill="#C8F53C" stroke="#ffffff" stroke-opacity="0" stroke-width="1.3"/><rect class="card c0" x="99" y="257" width="66" height="36" rx="7" fill="none" stroke="#ffffff" stroke-opacity="0.46" stroke-width="1.3"/><rect class="card c1" x="178" y="257" width="66" height="36" rx="7" fill="none" stroke="#ffffff" stroke-opacity="0.46" stroke-width="1.3"/><rect class="card c2" x="257" y="257" width="66" height="36" rx="7" fill="none" stroke="#ffffff" stroke-opacity="0.46" stroke-width="1.3"/>
-<path class="cur" d="M168 214l0 30 8-8 7 15 7-3-7-15 11-1Z" fill="#ffffff" fill-opacity="0.92" stroke="#0A0A0B" stroke-width="1.2"/>
+  <circle cx="200" cy="192" r="179" fill="url(#glow)" />
+  <g mask="url(#oc2)"><g mask="url(#oc1)"><rect x="79" y="96" width="236" height="193" rx="16" fill="none" stroke="#ffffff" stroke-opacity="0.27" stroke-width="1.3" /></g><rect x="67" y="83" width="236" height="193" rx="16" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.43" stroke-width="1.3" /><path d="M67 117H303" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.4" /><circle cx="84" cy="100" r="2.3" fill="#aaa" stroke="#ffffff" stroke-opacity="0" stroke-width="1.3" /><circle cx="95" cy="100" r="2.3" fill="#aaa" stroke="#ffffff" stroke-opacity="0" stroke-width="1.3" /><circle cx="106" cy="100" r="2.3" fill="#aaa" stroke="#ffffff" stroke-opacity="0" stroke-width="1.3" /></g><rect x="97" y="130" width="236" height="109" rx="12" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.43" stroke-width="1.3" /><path d="M119 155h93M119 172h68" fill="none" stroke="#ffffff" stroke-opacity="0.56" stroke-width="3" /><rect class="cta" x="119" y="189" width="74" height="23" rx="11" fill="#C8F53C" stroke="#ffffff" stroke-opacity="0" stroke-width="1.3" /><rect class="card c0" x="99" y="257" width="66" height="36" rx="7" fill="none" stroke="#ffffff" stroke-opacity="0.46" stroke-width="1.3" /><rect class="card c1" x="178" y="257" width="66" height="36" rx="7" fill="none" stroke="#ffffff" stroke-opacity="0.46" stroke-width="1.3" /><rect class="card c2" x="257" y="257" width="66" height="36" rx="7" fill="none" stroke="#ffffff" stroke-opacity="0.46" stroke-width="1.3" />
+<path class="cur" d="M168 214l0 30 8-8 7 15 7-3-7-15 11-1Z" fill="#ffffff" fill-opacity="0.92" stroke="#0A0A0B" stroke-width="1.2" />
 </svg>

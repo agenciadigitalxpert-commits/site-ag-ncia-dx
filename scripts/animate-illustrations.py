@@ -67,6 +67,75 @@ def finish(s, css):
     s = s.replace("</defs>", "</defs>\n  <style>" + BASE_CSS + css + RM + "</style>", 1)
     return s
 
+# ---------------------------------------------------------------------------
+# Oclusão: no estilo outline as formas são transparentes, então cada forma
+# "da frente" recorta (máscara) o que foi desenhado antes dela. Cada elemento é
+# re-emitido com a cadeia de grupos que o envolvia (transform/animação), e a
+# cópia usada na máscara herda a mesma cadeia — o recorte acompanha o movimento.
+# ---------------------------------------------------------------------------
+import copy
+import xml.etree.ElementTree as ET
+NS = "http://www.w3.org/2000/svg"
+ET.register_namespace("", NS)
+q = lambda t: f"{{{NS}}}{t}"
+SHAPES = {q(t) for t in ["path", "rect", "circle", "ellipse", "polygon", "line"]}
+
+def is_occluder(el):
+    return el.get("fill") == "#ffffff" and el.get("fill-opacity") in ("0.03", "0.02")
+
+def flatten(node, chain, outl):
+    for ch in list(node):
+        if ch.tag == q("g"):
+            flatten(ch, chain + [dict(ch.attrib)], outl)
+        elif ch.tag in SHAPES:
+            outl.append((ch, chain))
+
+def wrap_chain(leaf, chain):
+    top = leaf
+    for attrs in reversed(chain):
+        g = ET.Element(q("g"), attrs)
+        g.append(top)
+        top = g
+    return top
+
+def occlude(svg):
+    root = ET.fromstring(svg)
+    defs = root.find(q("defs"))
+    style = root.find(q("style"))
+    content = [c for c in root if c.tag not in (q("defs"), q("style"))]
+    glow = [c for c in content if c.get("fill") == "url(#glow)"]
+    holder = ET.Element(q("g"))
+    for c in content:
+        if c in glow: continue
+        holder.append(c)
+    leaves = []
+    flatten(holder, [], leaves)
+    out_nodes, n = [], 0
+    for leaf, chain in leaves:
+        if is_occluder(leaf) and out_nodes:
+            n += 1
+            m = ET.SubElement(defs, q("mask"), {"id": f"oc{n}", "maskUnits": "userSpaceOnUse", "x": "-100", "y": "-100", "width": "600", "height": "600"})
+            ET.SubElement(m, q("rect"), {"x": "-100", "y": "-100", "width": "600", "height": "600", "fill": "#fff"})
+            hole = copy.deepcopy(leaf)
+            for k in ("fill-opacity", "stroke-opacity", "stroke-dasharray"):
+                hole.attrib.pop(k, None)
+            hole.set("fill", "#000"); hole.set("stroke", "#000")
+            for sub in list(hole):  # sem animateMotion etc. na cópia
+                hole.remove(sub)
+            m.append(wrap_chain(hole, copy.deepcopy(chain)))
+            g = ET.Element(q("g"), {"mask": f"url(#oc{n})"})
+            for node in out_nodes: g.append(node)
+            out_nodes = [g]
+        out_nodes.append(wrap_chain(copy.deepcopy(leaf), copy.deepcopy(chain)))
+    for c in list(root):
+        if c.tag not in (q("defs"), q("style")):
+            root.remove(c)
+    for c in glow + out_nodes:
+        root.append(c)
+    # style depois de defs
+    root.remove(style); root.insert(1, style)
+    return ET.tostring(root, encoding="unicode")
+
 E = {}  # edições por arquivo: função(s) -> (s, css)
 
 def e_404(s):
@@ -80,8 +149,8 @@ def e_cases(s):
     for i, x in enumerate(xs):
         first = f'<g transform="translate(7 -7)"><rect x="{x}"'
         hl = {"91": "M98 272", "145": "M152 272", "199": "M206 272", "253": "M260 272"}[x]
-        s = wrap(s, first, hl, f'<g class="bar" style="animation-delay:{i*0.18:.2f}s">')
-    return s, ".bar{transform-box:fill-box;transform-origin:50% 100%;animation:grow 4.8s cubic-bezier(.2,0,0,1) infinite}@keyframes grow{0%{transform:scaleY(.15);opacity:.3}22%,82%{transform:scaleY(1);opacity:1}100%{transform:scaleY(1);opacity:1}}"
+        s = wrap(s, first, hl, f'<g class="bar" style="animation-delay:{i*0.18:.2f}s;transform-origin:{int(x)+20}px 286px">')
+    return s, ".bar{animation:grow 4.8s cubic-bezier(.2,0,0,1) infinite}@keyframes grow{0%{transform:scaleY(.15);opacity:.3}22%,82%{transform:scaleY(1);opacity:1}100%{transform:scaleY(1);opacity:1}}"
 E["cases"] = e_cases
 
 def e_estetica(s):
@@ -143,11 +212,19 @@ def e_delivery(s):
 E["delivery"] = e_delivery
 
 def e_derma(s):
+    s = s.replace('<circle cx="208" cy="145" r="62" fill="#151517"', '<circle cx="208" cy="145" r="62" fill="none"')
     s = wrap(s, '<g transform="rotate(-46 247 183)">', 'M171 144A37 37', '<g class="scan">')
     return s, ".scan{animation:scan 6s ease-in-out infinite}@keyframes scan{0%,100%{transform:translate(-26px,6px)}50%{transform:translate(26px,-4px)}}"
 E["dermatologistas"] = e_derma
 
 def e_funil(s):
+    # esferas desenhadas ANTES do funil: ao cair, passam por trás das camadas
+    balls = []
+    for cx, cy in [("161", "91"), ("199", "75"), ("237", "94")]:
+        a = s.index(f'<circle cx="{cx}" cy="{cy}"'); b = end_of_element(s, a)
+        balls.append(s[a:b]); s = s[:a] + s[b:]
+    first = s.index('<path d="M79 111H321')
+    s = s[:first] + "".join(balls) + s[first:]
     for i, (cx, cy) in enumerate([("161", "91"), ("199", "75"), ("237", "94")]):
         s = cls(s, f'<circle cx="{cx}" cy="{cy}"', f"fall k{i}")
     s = cls(s, '<circle cx="200" cy="305"', "pulse")
@@ -263,8 +340,8 @@ def e_segmentos(s):
         a = s.index(first); b1 = end_of_element(s, a); b2 = end_of_element(s, b1)
         s = s[:a] + f'<g class="hx" style="animation-delay:{i*0.25:.2f}s">' + s[a:b2] + "</g>" + s[b2:]
     a = s.index('<g transform="translate(0 7)"><path d="M248.00 200.00'); b1 = end_of_element(s, a); b2 = end_of_element(s, b1)
-    s = s[:a] + '<g class="pulse">' + s[a:b2] + "</g>" + s[b2:]
-    return s, ".hx{animation:hx 3s ease-in-out infinite}@keyframes hx{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}"
+    s = s[:a] + '<g class="pc">' + s[a:b2] + "</g>" + s[b2:]
+    return s, ".pc{transform-origin:200px 200px;animation:pulse 2.6s ease-in-out infinite}.hx{animation:hx 3s ease-in-out infinite}@keyframes hx{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}"
 E["segmentos"] = e_segmentos
 
 def e_servicos(s):
@@ -302,5 +379,6 @@ for f in sorted(os.listdir(src)):
     else:
         css = ""
     s = finish(s, css)
+    s = occlude(s)
     open(os.path.join(out, f), "w").write(s)
     print("ok", key, len(s))

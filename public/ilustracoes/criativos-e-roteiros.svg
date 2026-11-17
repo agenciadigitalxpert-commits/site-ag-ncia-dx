@@ -1,18 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" stroke-linejoin="round" stroke-linecap="round">
   <defs>
     <linearGradient id="face" x2="0.78" y2="1">
-      <stop stop-color="#303032"/><stop offset=".52" stop-color="#151516"/><stop offset="1" stop-color="#0A0A0B"/>
+      <stop stop-color="#303032" /><stop offset=".52" stop-color="#151516" /><stop offset="1" stop-color="#0A0A0B" />
     </linearGradient>
     <linearGradient id="edge" x2=".52" y2="1">
-      <stop stop-color="#202022"/><stop offset="1" stop-color="#0A0A0B"/>
+      <stop stop-color="#202022" /><stop offset="1" stop-color="#0A0A0B" />
     </linearGradient>
     <radialGradient id="glow">
-      <stop stop-color="#fff" stop-opacity=".075"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+      <stop stop-color="#fff" stop-opacity=".075" /><stop offset="1" stop-color="#fff" stop-opacity="0" />
     </radialGradient>
     <radialGradient id="shadow">
-      <stop stop-color="#000" stop-opacity=".87"/><stop offset="1" stop-color="#000" stop-opacity="0"/>
+      <stop stop-color="#000" stop-opacity=".87" /><stop offset="1" stop-color="#000" stop-opacity="0" />
     </radialGradient>
-  </defs>
+  <mask id="oc1" maskUnits="userSpaceOnUse" x="-100" y="-100" width="600" height="600"><rect x="-100" y="-100" width="600" height="600" fill="#fff" /><g class="f"><rect x="69" y="150" width="132" height="21" rx="4" fill="#000" stroke="#000" stroke-width="1.3" /></g></mask><mask id="oc2" maskUnits="userSpaceOnUse" x="-100" y="-100" width="600" height="600"><rect x="-100" y="-100" width="600" height="600" fill="#fff" /><g class="f"><g class="clap"><g transform="rotate(-15 75 146)"><rect x="70" y="126" width="131" height="20" rx="4" fill="#000" stroke="#000" stroke-width="1.3" /></g></g></g></mask><mask id="oc3" maskUnits="userSpaceOnUse" x="-100" y="-100" width="600" height="600"><rect x="-100" y="-100" width="600" height="600" fill="#fff" /><g class="f2"><g transform="translate(61 0) rotate(7 200 200)"><rect x="139" y="72" width="122" height="244" rx="23" fill="#000" stroke="#000" stroke-width="1.3" /></g></g></mask><mask id="oc4" maskUnits="userSpaceOnUse" x="-100" y="-100" width="600" height="600"><rect x="-100" y="-100" width="600" height="600" fill="#fff" /><g class="f2"><g transform="translate(61 0) rotate(7 200 200)"><rect x="147" y="81" width="106" height="225" rx="17" fill="#000" stroke="#000" stroke-width="1.3" /></g></g></mask></defs>
   <style>
 @keyframes f{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 @keyframes sh{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.9);opacity:.75}}
@@ -26,6 +26,5 @@
 .sh{transform-box:fill-box;transform-origin:center;animation:sh 6s ease-in-out infinite}
 .pulse{transform-box:fill-box;transform-origin:center;animation:pulse 2.6s ease-in-out infinite}
 .clap{transform-origin:72px 150px;animation:clap 3.2s ease-in-out infinite}@keyframes clap{0%,30%,100%{transform:rotate(0)}38%{transform:rotate(15deg)}46%{transform:rotate(0)}}@media (prefers-reduced-motion:reduce){*{animation:none!important}.rm-hide{display:none}}</style>
-  <circle cx="200" cy="192" r="179" fill="url(#glow)"/>
-  <g class="f"><rect x="69" y="154" width="132" height="92" rx="10" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.43" stroke-width="1.3"/><rect x="69" y="150" width="132" height="21" rx="4" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.43" stroke-width="1.3"/><g class="clap"><g transform="rotate(-15 75 146)"><rect x="70" y="126" width="131" height="20" rx="4" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.43" stroke-width="1.3"/><path d="M82 128l9 16m19-16 9 16m19-16 9 16m19-16 9 16m19-16 6 11" fill="none" stroke="#ffffff" stroke-opacity="0.53" stroke-width="4"/></g></g><path d="M86 192h58M86 207h41" fill="none" stroke="#ffffff" stroke-opacity="0.44" stroke-width="2"/></g><g class="f2"><g transform="translate(61 0) rotate(7 200 200)"><rect x="139" y="72" width="122" height="244" rx="23" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.43" stroke-width="1.3"/><rect x="147" y="81" width="106" height="225" rx="17" fill="#ffffff" fill-opacity="0.02" stroke="#ffffff" stroke-opacity="0.21" stroke-width="1.3"/><path d="M187 91h26M188 296h24" fill="none" stroke="#ffffff" stroke-opacity="0.5" stroke-width="2"/><path class="pulse" d="M182.2 164.6Q182.2 158.7 188.1 162.1L231.5 189.3Q237.4 193.5 231.5 197.8L188.1 225Q182.2 228.4 182.2 222.4Z" fill="#C8F53C"/></g></g>
-</svg>
+  <circle cx="200" cy="192" r="179" fill="url(#glow)" />
+  <g mask="url(#oc4)"><g mask="url(#oc3)"><g mask="url(#oc2)"><g mask="url(#oc1)"><g class="f"><rect x="69" y="154" width="132" height="92" rx="10" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.43" stroke-width="1.3" /></g></g><g class="f"><rect x="69" y="150" width="132" height="21" rx="4" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.43" stroke-width="1.3" /></g></g><g class="f"><g class="clap"><g transform="rotate(-15 75 146)"><rect x="70" y="126" width="131" height="20" rx="4" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.43" stroke-width="1.3" /></g></g></g><g class="f"><g class="clap"><g transform="rotate(-15 75 146)"><path d="M82 128l9 16m19-16 9 16m19-16 9 16m19-16 9 16m19-16 6 11" fill="none" stroke="#ffffff" stroke-opacity="0.53" stroke-width="4" /></g></g></g><g class="f"><path d="M86 192h58M86 207h41" fill="none" stroke="#ffffff" stroke-opacity="0.44" stroke-width="2" /></g></g><g class="f2"><g transform="translate(61 0) rotate(7 200 200)"><rect x="139" y="72" width="122" height="244" rx="23" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.43" stroke-width="1.3" /></g></g></g><g class="f2"><g transform="translate(61 0) rotate(7 200 200)"><rect x="147" y="81" width="106" height="225" rx="17" fill="#ffffff" fill-opacity="0.02" stroke="#ffffff" stroke-opacity="0.21" stroke-width="1.3" /></g></g><g class="f2"><g transform="translate(61 0) rotate(7 200 200)"><path d="M187 91h26M188 296h24" fill="none" stroke="#ffffff" stroke-opacity="0.5" stroke-width="2" /></g></g><g class="f2"><g transform="translate(61 0) rotate(7 200 200)"><path class="pulse" d="M182.2 164.6Q182.2 158.7 188.1 162.1L231.5 189.3Q237.4 193.5 231.5 197.8L188.1 225Q182.2 228.4 182.2 222.4Z" fill="#C8F53C" /></g></g></svg>
