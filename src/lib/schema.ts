@@ -6,6 +6,7 @@ import { stripRich } from "@/lib/rich";
 /** @id estáveis que conectam as entidades do site. */
 export const ids = {
   org: `${siteUrl}/#organization`,
+  person: (id: string) => `${absoluteUrl("/sobre")}#${id}`,
   website: `${siteUrl}/#website`,
   page: (path: string) => `${absoluteUrl(path)}#webpage`,
   breadcrumb: (path: string) => `${absoluteUrl(path)}#breadcrumb`,
@@ -48,7 +49,21 @@ export function organizationNode() {
     ...(site.contact.email ? { email: site.contact.email } : {}),
     ...(site.contact.phone ? { telephone: site.contact.phone } : {}),
     ...(sameAs.length ? { sameAs } : {}),
+    founder: site.founders.map((f) => ({ "@id": ids.person(f.id) })),
   };
+}
+
+/** Fundadores (Person), conectados à Organization por @id. */
+export function founderNodes() {
+  return site.founders.map((f) => ({
+    "@type": "Person",
+    "@id": ids.person(f.id),
+    name: f.name,
+    jobTitle: f.role,
+    image: absoluteUrl(f.photo),
+    worksFor: { "@id": ids.org },
+    sameAs: [f.instagram],
+  }));
 }
 
 export function websiteNode() {

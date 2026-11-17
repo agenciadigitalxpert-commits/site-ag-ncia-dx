@@ -9,14 +9,15 @@ Nada abaixo foi inventado no site: enquanto um item não for preenchido, ele sim
 ## Identidade
 - [ ] **Logo oficial em vetor (SVG)** — o cabeçalho usa um wordmark recriado em HTML a partir da imagem enviada (150×150 px). `public/brand/logo-dx.png` (a imagem enviada) é usada no schema.
 - [ ] **Cor institucional** — o verde-lima é provisório (`--accent` em `src/app/globals.css`).
-- [ ] **Fotos reais** da equipe/escritório (página Sobre).
-- [ ] Nomes e funções de pessoas responsáveis, se quiserem autoria real nos conteúdos.
+- [x] Fotos e nomes dos fundadores (Elizandro Uebel e Diego Viana) na página Sobre.
+- [ ] Fotos reais do escritório/equipe (opcional).
+- [ ] Definir se os artigos terão autoria de um dos fundadores (hoje a autoria é da agência).
 
 ## Contato e dados institucionais (`src/config/site.ts`)
 - [ ] Telefone e **WhatsApp** (`NEXT_PUBLIC_WHATSAPP_NUMBER`) — o botão só aparece com número real.
 - [ ] E-mail comercial.
 - [ ] Endereço completo (somente se for público).
-- [ ] Perfis sociais.
+- [x] Instagram da agência (@agenciadigitalxpert). Outros perfis, se houver.
 - [ ] Razão social, CNPJ e canal de privacidade/encarregado (para as políticas).
 
 ## Prova

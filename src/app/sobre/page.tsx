@@ -1,10 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/config/site";
 import { pageMetadata } from "@/lib/seo";
 import { breadcrumbNode, graph, ids, webPageNode } from "@/lib/schema";
 import { JsonLd } from "@/components/JsonLd";
 import { CtaSection, PageHero, SectionHeader } from "@/components/sections";
-import { Container, DevNote, Eyebrow, Section } from "@/components/ui";
+import { ArrowIcon, Container, Eyebrow, Section } from "@/components/ui";
 
 const TITLE = "Sobre a Agência Digital Xpert (DX)";
 const DESC =
@@ -59,10 +60,49 @@ export default function AboutPage() {
         </Container>
       </Section>
 
+      <Section tone="paper2" labelledBy="fundadores">
+        <Container>
+          <SectionHeader id="fundadores" index="02" eyebrow="Fundadores" title="Quem está à frente da DX." />
+          <ul className="mt-14 grid gap-12 sm:grid-cols-2 lg:max-w-4xl lg:gap-16">
+            {site.founders.map((f, i) => (
+              <li key={f.id} className="reveal" style={{ ["--reveal-delay" as string]: `${i * 80}ms` }}>
+                <figure>
+                  <div className="overflow-hidden rounded-lg bg-bg-fill-inverse">
+                    <Image
+                      src={f.photo}
+                      alt={`${f.name}, ${f.role.toLowerCase()} da Agência Digital Xpert`}
+                      width={900}
+                      height={1200}
+                      sizes="(min-width: 1024px) 26rem, (min-width: 640px) 45vw, 100vw"
+                      className="aspect-[3/4] h-auto w-full object-cover transition-transform duration-500 ease-out-soft hover:scale-[1.02]"
+                    />
+                  </div>
+                  <figcaption className="mt-6">
+                    <p className="text-h3">{f.name}</p>
+                    <p className="text-text-secondary">{f.role}</p>
+                    <p className="mt-3">{f.bio}</p>
+                    <a
+                      href={f.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 inline-flex min-h-11 items-center gap-2 font-medium underline-offset-4 hover:underline"
+                    >
+                      Instagram de {f.name.split(" ")[0]}
+                      <span className="sr-only">(abre em nova aba)</span>
+                      <ArrowIcon className="-rotate-45" />
+                    </a>
+                  </figcaption>
+                </figure>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </Section>
+
       <Section tone="dark" labelledBy="nao-somos">
         <Container>
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
-            <SectionHeader id="nao-somos" index="02" eyebrow="O que nos diferencia" title="Não somos uma agência de posts nem de impulsionamento." />
+            <SectionHeader id="nao-somos" index="03" eyebrow="O que nos diferencia" title="Não somos uma agência de posts nem de impulsionamento." />
             <div className="reveal space-y-6 text-lead text-text-secondary">
               <p>
                 Postar com frequência e impulsionar publicações pode ter seu lugar, mas não é o centro do nosso trabalho. Nosso foco é a geração de oportunidades comerciais e o caminho que elas percorrem até a venda.
@@ -77,7 +117,7 @@ export default function AboutPage() {
 
       <Section tone="light" labelledBy="principios">
         <Container>
-          <SectionHeader id="principios" index="03" eyebrow="Como pensamos" title="Princípios que orientam o trabalho" />
+          <SectionHeader id="principios" index="04" eyebrow="Como pensamos" title="Princípios que orientam o trabalho" />
           <ul className="mt-14 grid gap-x-16 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
             {principles.map((p) => (
               <li key={p.t} className="reveal">
@@ -92,7 +132,7 @@ export default function AboutPage() {
       <Section tone="paper2" labelledBy="onde">
         <Container>
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-20">
-            <SectionHeader id="onde" index="04" eyebrow="Onde estamos" title="Base em Balneário Camboriú. Clientes em todo o Brasil." />
+            <SectionHeader id="onde" index="05" eyebrow="Onde estamos" title="Base em Balneário Camboriú. Clientes em todo o Brasil." />
             <div className="reveal space-y-5 text-lead text-text-secondary">
               <p>
                 Nossa base fica em {site.location.city}, {site.location.stateName}. O atendimento é feito de forma remota, o que permite acompanhar empresas de diferentes cidades e estados com a mesma proximidade.
@@ -102,7 +142,6 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
-          <DevNote>adicionar fotos reais da equipe e, se desejado, nomes e funções das pessoas responsáveis (autoria real ajuda na confiança e na compreensão por buscadores).</DevNote>
         </Container>
       </Section>
 

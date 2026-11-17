@@ -29,11 +29,30 @@ export const site = {
   },
   /** PENDÊNCIA: URLs reais dos perfis. Só os preenchidos aparecem. */
   social: {
-    instagram: null as string | null,
+    instagram: "https://www.instagram.com/agenciadigitalxpert/" as string | null,
     linkedin: null as string | null,
     youtube: null as string | null,
     facebook: null as string | null,
   },
+  /** Fundadores (fotos em /public/equipe, 3:4). */
+  founders: [
+    {
+      id: "elizandro-uebel",
+      name: "Elizandro Uebel",
+      role: "Sócio-fundador",
+      bio: "Empreendedor à frente de empresas em diferentes mercados.",
+      photo: "/equipe/elizandro-uebel.webp",
+      instagram: "https://www.instagram.com/elizandrouebel/",
+    },
+    {
+      id: "diego-viana",
+      name: "Diego Viana",
+      role: "Sócio-fundador",
+      bio: "Empresário e fundador da Agência Digital Xpert.",
+      photo: "/equipe/diego-viana.webp",
+      instagram: "https://www.instagram.com/diegouviana/",
+    },
+  ],
   /** PENDÊNCIA: razão social e CNPJ para as políticas. */
   legal: {
     legalName: null as string | null,

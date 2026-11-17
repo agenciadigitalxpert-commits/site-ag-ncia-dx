@@ -17,7 +17,7 @@ const toneClass: Record<Tone, string> = {
   dark: "surface-dark",
   graphite: "surface-graphite",
   light: "surface-light",
-  paper2: "surface-light bg-bg-surface-recessed",
+  paper2: "surface-light surface-paper2",
 };
 
 export function Section({

@@ -10,7 +10,7 @@ import { RouteTracker } from "@/components/RouteTracker";
 import { ConsentManager } from "@/components/consent/ConsentManager";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { JsonLd } from "@/components/JsonLd";
-import { graph, organizationNode, websiteNode } from "@/lib/schema";
+import { founderNodes, graph, organizationNode, websiteNode } from "@/lib/schema";
 import { BRAND_SUFFIX } from "@/lib/seo";
 
 const body = Inter({ subsets: ["latin"], variable: "--font-body", display: "swap" });
@@ -58,7 +58,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Pular para o conteúdo
         </a>
-        <JsonLd data={graph(organizationNode(), websiteNode())} />
+        <JsonLd data={graph(organizationNode(), websiteNode(), ...founderNodes())} />
         <Header />
         <main id="conteudo" tabIndex={-1} className="flex-1 focus:outline-none">
           {children}
