@@ -65,6 +65,7 @@
   --color-border-tertiary: rgb(10 10 11 / 0.12);
   --color-border-focus: var(--grey-950);
   --color-icon-secondary: var(--grey-500);
+  --color-bg-listbox: var(--grey-0);
   --color-bg-note: #fffbeb;
   --color-text-note: var(--amber-700);
   --color-border-note: #d97706;
@@ -92,6 +93,7 @@
   --color-border-tertiary: rgb(255 255 255 / 0.12);
   --color-border-focus: var(--lime-400);
   --color-icon-secondary: var(--grey-400);
+  --color-bg-listbox: var(--grey-850);
   --color-bg-note: rgb(253 230 138 / 0.08);
   --color-text-note: var(--amber-200);
   --color-border-note: rgb(253 230 138 / 0.5);
@@ -464,3 +466,6 @@ html.js .reveal.is-visible { opacity: 1; transform: none; }
   .hero-illustration, [class*="art-"] { animation: none !important; }
   .art-check { stroke-dashoffset: 0; }
 }
+
+/* Seletor nativo (toque): força cores legíveis nas opções em qualquer navegador */
+.dx-native-select option { background-color: var(--color-bg-listbox); color: var(--color-text-primary); }

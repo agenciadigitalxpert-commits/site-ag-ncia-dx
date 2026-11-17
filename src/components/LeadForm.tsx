@@ -15,6 +15,7 @@ import {
 import { track } from "@/lib/analytics";
 import { readAttribution } from "@/lib/utm";
 import { ArrowIcon, CheckIcon, btn, cx } from "./ui";
+import { Select } from "./Select";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -200,29 +201,26 @@ export function LeadForm({
       </p>
     ) : null;
 
-  /** Dropdown estilizado (seta própria, mesmo raio dos campos). */
+  /** Dropdown no padrão do site (ver Select.tsx). */
   const dropdown = (k: keyof LeadInput, labelText: string, options: readonly string[], opts: { optional?: boolean; describedBy?: string } = {}) => (
     <div>
-      <label htmlFor={id(k)} className={label}>
+      <label id={`${id(k)}-label`} htmlFor={id(k)} className={label}>
         {labelText} {opts.optional ? <span className="font-normal text-text-secondary">(opcional)</span> : null}
       </label>
-      <div className="relative mt-2">
-        <select
-          {...fieldProps(k)}
-          aria-describedby={[errors[k] ? `${id(k)}-err` : "", opts.describedBy ?? ""].join(" ").trim() || undefined}
-          required={!opts.optional}
-          onChange={(e) => set(k, e.target.value)}
-          className={cx(field, "!mt-0 cursor-pointer appearance-none pr-12", !values[k] && "!text-text-placeholder", errors[k] && errCls)}
-        >
-          <option value="">{opts.optional ? "Prefiro não informar" : "Selecione"}</option>
-          {options.map((o) => (
-            <option key={o} value={o} className="text-text-primary">{o}</option>
-          ))}
-        </select>
-        <svg aria-hidden viewBox="0 0 20 20" width="20" height="20" fill="none" className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-icon-secondary">
-          <path d="m5 7.5 5 5 5-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </div>
+      <Select
+        id={id(k)}
+        name={k}
+        labelId={`${id(k)}-label`}
+        value={values[k] ?? ""}
+        options={options}
+        placeholder={opts.optional ? "Prefiro não informar" : "Selecione"}
+        required={!opts.optional}
+        invalid={Boolean(errors[k])}
+        describedBy={[errors[k] ? `${id(k)}-err` : "", opts.describedBy ?? ""].join(" ").trim() || undefined}
+        onFocus={onFocusAny}
+        onChange={(v) => set(k, v)}
+        className="mt-2"
+      />
       {errorFor(k)}
     </div>
   );
