@@ -52,8 +52,18 @@ def cls(s, first, c):
     tag_end = re.match(r"<\w+", s[a:]).end()
     return s[:a + tag_end] + f' class="{c}"' + s[a + tag_end:]
 
+def outline(s):
+    """Estilo outline: preenchimentos escuros viram transparentes, volume vira 2º contorno."""
+    s = re.sub(r'<ellipse[^>]*fill="url\(#shadow\)"[^>]*/>\s*', "", s)          # sombra preta
+    s = re.sub(r'<path [^>]*stroke="#000"[^>]*/>', "", s)                           # contorno-sombra preto
+    s = s.replace('fill="url(#face)"', 'fill="#ffffff" fill-opacity="0.03"')
+    s = s.replace('fill="url(#edge)"', 'fill="none"')
+    for dark in ["#0A0A0B", "#141416", "#151516", "#151517"]:
+        s = s.replace(f'fill="{dark}"', 'fill="#ffffff" fill-opacity="0.02"')
+    return s
+
 def finish(s, css):
-    s = s.replace('<ellipse cx="204" cy="319"', '<ellipse class="sh" cx="204" cy="319"', 1)
+    s = outline(s)
     s = s.replace("</defs>", "</defs>\n  <style>" + BASE_CSS + css + RM + "</style>", 1)
     return s
 
