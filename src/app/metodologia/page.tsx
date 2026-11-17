@@ -29,7 +29,7 @@ export default function MethodPage() {
   return (
     <>
       <JsonLd data={graph(webPageNode({ path: "/metodologia", name: TITLE, description: DESC }), breadcrumbNode("/metodologia", crumbs), faqNode("/metodologia", faqs))} />
-      <PageHero
+      <PageHero art="metodologia"
         crumbs={crumbs}
         eyebrow="Metodologia"
         title="Primeiro entender a operação. Depois investir. Sempre medir."

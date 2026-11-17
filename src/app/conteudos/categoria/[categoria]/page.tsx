@@ -36,7 +36,7 @@ export default async function CategoryPage({ params }: PageProps<"/conteudos/cat
   return (
     <>
       <JsonLd data={graph(webPageNode({ path, name: c.name, description: c.description, type: "CollectionPage" }), breadcrumbNode(path, crumbs))} />
-      <PageHero crumbs={crumbs} eyebrow="Categoria" title={c.name} lead={c.description} ctaLocation="category_hero" secondary={null} />
+      <PageHero art="conteudos" crumbs={crumbs} eyebrow="Categoria" title={c.name} lead={c.description} ctaLocation="category_hero" secondary={null} />
       <Section tone="light" className="pt-14 sm:pt-16 lg:pt-20">
         <Container>
           <CategoryNav current={c.slug} />

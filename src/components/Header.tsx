@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { CTA_PRIMARY, mainNav, segmentNav, serviceNav, type NavLink } from "@/config/navigation";
 import { site } from "@/config/site";
 import { Logo } from "./Logo";
@@ -18,6 +19,22 @@ export function Header() {
   const mobileBtn = useRef<HTMLButtonElement>(null);
   const mobilePanel = useRef<HTMLDivElement>(null);
   const uid = useId();
+  const pathname = usePathname() ?? "/";
+  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+
+  // Destaque deslizante do menu (segue mouse/foco com mola)
+  const listRef = useRef<HTMLUListElement>(null);
+  const [pill, setPill] = useState({ x: 0, w: 0, visible: false });
+  const movePill = (el: HTMLElement | null) => {
+    if (!el || !listRef.current) return;
+    const l = listRef.current.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+    setPill({ x: r.left - l.left, w: r.width, visible: true });
+  };
+  const hidePill = () => {
+    if (open) movePill(document.getElementById(`${uid}-${open}-btn`));
+    else setPill((p) => ({ ...p, visible: false }));
+  };
 
   const closeAll = useCallback(() => {
     setOpen(null);
@@ -100,9 +117,12 @@ export function Header() {
           aria-expanded={isOpen}
           aria-controls={panelId}
           onClick={() => setOpen(isOpen ? null : key)}
-          className="flex h-11 items-center gap-2 rounded-full px-4 text-[0.9375rem] text-text-primary transition-colors duration-200 hover:bg-bg-fill-secondary aria-expanded:bg-bg-fill-secondary"
+          onMouseEnter={(e) => movePill(e.currentTarget)}
+          onFocus={(e) => movePill(e.currentTarget)}
+          className="relative z-10 flex h-11 items-center gap-2 rounded-full px-4 text-[0.9375rem] text-text-primary"
         >
           {label}
+          {isActive(hubHref) ? <span aria-hidden className="absolute bottom-1 left-1/2 size-1 -translate-x-1/2 rounded-full bg-bg-fill-brand" /> : null}
           <svg aria-hidden viewBox="0 0 12 12" width="12" height="12" className={cx("transition-transform duration-300", isOpen && "rotate-180")}>
             <path d="m3 4.5 3 3 3-3" stroke="currentColor" strokeWidth="1.4" fill="none" strokeLinecap="round" />
           </svg>
@@ -159,13 +179,22 @@ export function Header() {
         </Link>
 
         <nav ref={navRef} aria-label="Principal" className="hidden lg:block">
-          <ul className="flex items-center gap-1">
+          <ul ref={listRef} onMouseLeave={hidePill} onBlur={(e) => !e.currentTarget.contains(e.relatedTarget as Node) && hidePill()} className="relative flex items-center gap-1">
+            <li aria-hidden className="pointer-events-none absolute left-0 top-1/2 h-11 rounded-full bg-bg-fill-secondary-hover transition-[transform,width,opacity] duration-500 ease-[var(--ease-spring)]" style={{ transform: `translateX(${pill.x}px) translateY(-50%)`, width: pill.w, opacity: pill.visible ? 1 : 0 }} />
             {dropdown("servicos", "Serviços", serviceNav, "/servicos", "Ver todos os serviços")}
             {dropdown("segmentos", "Segmentos", segmentNav, "/segmentos", "Ver todos os segmentos")}
             {mainNav.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} onClick={closeAll} className="flex h-11 items-center rounded-full px-3.5 text-[0.95rem] text-text-primary transition-colors hover:text-text-primary">
+                <Link
+                  href={l.href}
+                  onClick={closeAll}
+                  onMouseEnter={(e) => movePill(e.currentTarget)}
+                  onFocus={(e) => movePill(e.currentTarget)}
+                  aria-current={isActive(l.href) ? "page" : undefined}
+                  className="relative z-10 flex h-11 items-center rounded-full px-4 text-[0.9375rem] text-text-primary"
+                >
                   {l.label}
+                  {isActive(l.href) ? <span aria-hidden className="absolute bottom-1 left-1/2 size-1 -translate-x-1/2 rounded-full bg-bg-fill-brand" /> : null}
                 </Link>
               </li>
             ))}

@@ -26,7 +26,7 @@ export default async function BlogPaged({ params }: PageProps<"/conteudos/pagina
   const items = visibleArticles.slice((n - 1) * ARTICLES_PER_PAGE, n * ARTICLES_PER_PAGE);
   return (
     <>
-      <PageHero
+      <PageHero art="conteudos"
         crumbs={[{ name: "Início", href: "/" }, { name: "Conteúdos", href: "/conteudos" }, { name: `Página ${n}`, href: `/conteudos/pagina/${n}` }]}
         title={`Conteúdos — página ${n}`}
         ctaLocation="blog_paged_hero"

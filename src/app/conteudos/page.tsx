@@ -21,7 +21,7 @@ export default function BlogPage() {
   return (
     <>
       <JsonLd data={graph(webPageNode({ path: "/conteudos", name: TITLE, description: DESC, type: "CollectionPage" }), breadcrumbNode("/conteudos", crumbs))} />
-      <PageHero
+      <PageHero art="conteudos"
         crumbs={crumbs}
         eyebrow="Conteúdos"
         title="Ideias práticas para gerar e aproveitar mais oportunidades."

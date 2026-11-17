@@ -4,6 +4,7 @@ import { CTA_PRIMARY } from "@/config/navigation";
 import { services, visibleArticles } from "@/lib/content";
 import { HeroGrid } from "@/components/sections";
 import { ArrowIcon, Container, btn } from "@/components/ui";
+import { HeroArt } from "@/components/HeroArt";
 
 export const metadata: Metadata = {
   title: "Página não encontrada",
@@ -15,6 +16,8 @@ export default function NotFound() {
     <section className="surface-dark relative isolate overflow-hidden">
       <HeroGrid />
       <Container className="relative py-20 lg:py-28">
+        <HeroArt variant="404" className="!absolute -right-16 top-10 z-0 max-w-[18rem] opacity-40 lg:right-6 lg:max-w-[26rem] lg:opacity-100" />
+        <div className="relative z-10">
         <p className="text-[0.8125rem] font-medium uppercase leading-5 tracking-[0.14em] text-text-secondary">Erro 404</p>
         <h1 className="text-h1 mt-5 max-w-3xl">Esta página não existe ou mudou de endereço.</h1>
         <p className="text-lead mt-6 max-w-2xl text-text-secondary">Confira o endereço digitado ou siga por um dos caminhos abaixo.</p>
@@ -22,7 +25,8 @@ export default function NotFound() {
           <Link href={CTA_PRIMARY.href} className={btn("primary")}>{CTA_PRIMARY.label} <ArrowIcon /></Link>
           <Link href="/" className={btn("secondary")}>Voltar ao início</Link>
         </div>
-        <div className="mt-20 grid gap-12 md:grid-cols-3">
+        </div>
+        <div className="relative z-10 mt-20 grid gap-12 md:grid-cols-3">
           <div>
             <h2 className="text-sm font-medium leading-5 text-text-secondary">Serviços</h2>
             <ul className="mt-4 space-y-2">

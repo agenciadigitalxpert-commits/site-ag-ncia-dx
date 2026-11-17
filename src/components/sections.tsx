@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { CTA_PRIMARY, CTA_SECONDARY } from "@/config/navigation";
 import { leadIntegrationReady } from "@/config/env";
 import { Breadcrumbs, type Crumb } from "./Breadcrumbs";
+import { HeroArt, type HeroArtKey } from "./HeroArt";
 import { LeadForm } from "./LeadForm";
 import { TrackedLink } from "./TrackedLink";
 import { ArrowIcon, Container, Eyebrow, IconItem, Section, btn, cx } from "./ui";
@@ -14,6 +15,7 @@ export function PageHero({
   lead,
   ctaLocation,
   secondary = CTA_SECONDARY,
+  art,
   children,
 }: {
   crumbs: Crumb[];
@@ -22,14 +24,22 @@ export function PageHero({
   lead?: string;
   ctaLocation: string;
   secondary?: { label: string; href: string } | null;
+  /** Ilustração própria da página (ver HeroArt). */
+  art?: HeroArtKey;
   children?: ReactNode;
 }) {
   return (
     <section className="surface-dark relative isolate overflow-hidden">
       <HeroGrid />
-      <Container className="relative pb-16 pt-8 sm:pb-20 lg:pb-28 lg:pt-12">
+      <Container className="relative pb-16 pt-8 sm:pb-20 lg:pb-24 lg:pt-12">
         <Breadcrumbs items={crumbs} />
-        <div className="mt-12 max-w-4xl lg:mt-16">
+        {art ? (
+          <HeroArt
+            variant={art}
+            className="z-0 -mb-4 mt-4 max-w-[9rem] sm:max-w-[11rem] lg:absolute lg:mb-0 lg:right-6 lg:top-1/2 lg:mt-0 lg:max-w-[min(30rem,38vw)] lg:-translate-y-[45%]"
+          />
+        ) : null}
+        <div className={cx("relative z-10 lg:mt-16", art ? "mt-0 max-w-2xl xl:max-w-3xl" : "mt-12 max-w-4xl")}>
           {eyebrow ? <Eyebrow className="hero-rise">{eyebrow}</Eyebrow> : null}
           <h1 className="hero-rise text-h1" style={{ ["--d" as string]: "60ms" }}>{title}</h1>
           {lead ? (

@@ -46,7 +46,7 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
           faqNode(path, s.faqs),
         )}
       />
-      <PageHero crumbs={crumbs} eyebrow={s.eyebrow} title={s.h1} lead={s.lead} ctaLocation={`service_${s.slug}_hero`} />
+      <PageHero art={s.slug} crumbs={crumbs} eyebrow={s.eyebrow} title={s.h1} lead={s.lead} ctaLocation={`service_${s.slug}_hero`} />
 
       {/* O que é */}
       <Section tone="light" labelledBy="o-que-e">

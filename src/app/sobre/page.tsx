@@ -30,7 +30,7 @@ export default function AboutPage() {
   return (
     <>
       <JsonLd data={graph(webPageNode({ path: "/sobre", name: TITLE, description: DESC, type: "AboutPage", about: ids.org, mainEntity: ids.org }), breadcrumbNode("/sobre", crumbs))} />
-      <PageHero
+      <PageHero art="sobre"
         crumbs={crumbs}
         eyebrow="Sobre a DX"
         title="Uma agência que entende que o trabalho não termina no clique."

@@ -30,7 +30,7 @@ export default function ServicesPage() {
           ...services.map((s) => serviceNode({ slug: s.slug, name: s.name, description: s.summary })),
         )}
       />
-      <PageHero
+      <PageHero art="servicos"
         crumbs={crumbs}
         eyebrow="Serviços"
         title="Tudo o que acontece entre o anúncio e a venda, tratado como uma operação só."

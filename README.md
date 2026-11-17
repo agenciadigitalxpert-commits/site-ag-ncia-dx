@@ -69,7 +69,9 @@ Mais detalhes: `docs/mensuracao.md` e `docs/pendencias.md`.
 
 ## Movimento e regras de iOS (Apple HIG)
 
-- **Transição entre páginas:** View Transitions API via `<ViewTransition>` em `src/app/template.tsx` — saída rápida (160ms), entrada com mola (420ms), cabeçalho ancorado.
+- **Transição entre páginas:** View Transitions API via `<ViewTransition>` em `src/app/template.tsx` — leve: fade de 120ms na saída e 240ms + 8px na entrada, sem blur; cabeçalho ancorado.
+- **Menu:** destaque único que desliza entre os itens (mouse e teclado) e ponto verde na seção atual.
+- **Ilustrações dos heroes:** `src/components/HeroArt.tsx` — uma por página (serviços, segmentos e institucionais), traço fino + um elemento na cor da marca. Para adicionar uma, crie a chave no objeto `arts` e passe `art="chave"` no `PageHero`.
 - **Mola no estilo iOS:** `--ease-spring` em `globals.css`, usada em menus, botões e hovers.
 - **Feedback de toque:** utilitário `pressable` (escala 0,97 com mola) em botões, chips e linhas clicáveis; sem o realce cinza padrão do iOS.
 - **Material translúcido:** cabeçalho com `.material-bar` (blur + saturação), que encolhe ao rolar (título grande → compacto). Com "Reduzir transparência", fica sólido.

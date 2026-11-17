@@ -20,7 +20,7 @@ export default function CasesPage() {
   return (
     <>
       <JsonLd data={graph(webPageNode({ path: "/cases", name: TITLE, description: DESC, type: "CollectionPage" }), breadcrumbNode("/cases", crumbs))} />
-      <PageHero
+      <PageHero art="cases"
         crumbs={crumbs}
         eyebrow="Cases"
         title="Resultados contados com autorização e dados verificáveis."

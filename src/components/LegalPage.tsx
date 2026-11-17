@@ -7,7 +7,7 @@ import { Container, Section } from "./ui";
 export function LegalPage({ title, path, lead, children }: { title: string; path: string; lead: string; children: ReactNode }) {
   return (
     <>
-      <PageHero
+      <PageHero art="legal"
         crumbs={[{ name: "Início", href: "/" }, { name: title, href: path }]}
         title={title}
         lead={lead}

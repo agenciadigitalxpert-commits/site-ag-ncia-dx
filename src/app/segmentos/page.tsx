@@ -20,7 +20,7 @@ export default function SegmentsPage() {
   return (
     <>
       <JsonLd data={graph(webPageNode({ path: "/segmentos", name: TITLE, description: DESC, type: "CollectionPage" }), breadcrumbNode("/segmentos", crumbs))} />
-      <PageHero
+      <PageHero art="segmentos"
         crumbs={crumbs}
         eyebrow="Segmentos"
         title="Estratégias que partem de como o seu cliente decide comprar."

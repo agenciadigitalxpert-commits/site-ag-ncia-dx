@@ -37,7 +37,7 @@ export default async function CasePage({ params }: PageProps<"/cases/[slug]">) {
       {!c.published ? (
         <p role="note" className="border-b border-dashed border-border-note bg-bg-note px-5 py-3 text-sm leading-5 text-text-note">Rascunho — visível apenas no ambiente de edição.</p>
       ) : null}
-      <PageHero crumbs={crumbs} eyebrow={seg ? seg.navLabel : "Case"} title={c.title} lead={c.summary} ctaLocation={`case_${c.slug}_hero`} />
+      <PageHero art="cases" crumbs={crumbs} eyebrow={seg ? seg.navLabel : "Case"} title={c.title} lead={c.summary} ctaLocation={`case_${c.slug}_hero`} />
       <Section tone="light">
         <Container narrow>
           <div className="prose-dx">

@@ -6,6 +6,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { LeadForm } from "@/components/LeadForm";
 import { HeroGrid } from "@/components/sections";
+import { HeroArt } from "@/components/HeroArt";
 import { Container, DevNote } from "@/components/ui";
 import { WhatsAppInline } from "@/components/WhatsAppInline";
 
@@ -33,7 +34,8 @@ export default function ContactPage() {
         <HeroGrid />
         <Container className="relative pb-20 pt-10 lg:pb-28 lg:pt-14">
           <Breadcrumbs items={crumbs} />
-          <div className="mt-12 grid gap-14 lg:mt-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
+          <HeroArt variant="contato" className="!absolute -left-24 top-24 z-0 max-w-[22rem] opacity-[0.18] lg:max-w-[30rem]" />
+          <div className="relative z-10 mt-12 grid gap-14 lg:mt-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
             <div>
               <p className="hero-rise mb-4 text-[0.8125rem] font-medium uppercase leading-5 tracking-[0.14em] text-text-secondary">Contato</p>
               <h1 className="hero-rise text-h1" style={{ ["--d" as string]: "60ms" }}>Vamos entender a sua operação.</h1>
