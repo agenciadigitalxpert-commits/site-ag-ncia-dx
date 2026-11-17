@@ -17,7 +17,7 @@ const parse = (p: string) => (/^\d+$/.test(p) ? Number(p) : NaN);
 export async function generateMetadata({ params }: PageProps<"/conteudos/pagina/[pagina]">): Promise<Metadata> {
   const n = parse((await params).pagina);
   if (!(n >= 2 && n <= articlePageCount)) return {};
-  return pageMetadata({ title: `Conteúdos — página ${n}`, description: "Mais artigos da Agência Digital Xpert sobre tráfego pago, atendimento e vendas.", path: `/conteudos/pagina/${n}` });
+  return pageMetadata({ title: `Conteúdos, página ${n}`, description: "Mais artigos da Agência Digital Xpert sobre tráfego pago, atendimento e vendas.", path: `/conteudos/pagina/${n}` });
 }
 
 export default async function BlogPaged({ params }: PageProps<"/conteudos/pagina/[pagina]">) {
@@ -28,7 +28,7 @@ export default async function BlogPaged({ params }: PageProps<"/conteudos/pagina
     <>
       <PageHero art="conteudos"
         crumbs={[{ name: "Início", href: "/" }, { name: "Conteúdos", href: "/conteudos" }, { name: `Página ${n}`, href: `/conteudos/pagina/${n}` }]}
-        title={`Conteúdos — página ${n}`}
+        title={`Conteúdos, página ${n}`}
         ctaLocation="blog_paged_hero"
         secondary={null}
       />

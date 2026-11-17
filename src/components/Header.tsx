@@ -174,7 +174,7 @@ export function Header() {
       )}
     >
       <div className={cx("mx-auto flex max-w-7xl items-center justify-between gap-6 px-5 transition-[height] duration-500 ease-[var(--ease-spring)] sm:px-8 lg:px-10", scrolled && !mobile ? "h-16" : "h-[4.5rem]")}>
-        <Link href="/" onClick={closeAll} className={cx("pressable origin-left text-[1.45rem] text-text-primary transition-transform duration-500", scrolled && !mobile && "scale-90")} aria-label={`${site.name} — página inicial`}>
+        <Link href="/" onClick={closeAll} className={cx("pressable origin-left text-[1.45rem] text-text-primary transition-transform duration-500", scrolled && !mobile && "scale-90")} aria-label={`Página inicial da ${site.name}`}>
           <Logo />
         </Link>
 
@@ -270,7 +270,7 @@ export function Header() {
             <ArrowIcon />
           </TrackedLink>
           <p className="mt-6 text-sm text-text-secondary">
-            {site.location.city} — {site.location.state}. Atendimento a empresas de todo o Brasil.
+            De {site.location.city} ({site.location.state}) para empresas de todo o Brasil.
           </p>
         </nav>
       </div>

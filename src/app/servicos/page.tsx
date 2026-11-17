@@ -33,13 +33,13 @@ export default function ServicesPage() {
       <PageHero art="servicos"
         crumbs={crumbs}
         eyebrow="Serviços"
-        title="Tudo o que acontece entre o anúncio e a venda, tratado como uma operação só."
-        lead="Cada serviço pode ser contratado conforme a necessidade identificada no diagnóstico. O que eles têm em comum é o objetivo: mais oportunidades qualificadas e melhor aproveitamento de cada uma."
+        title="Serviços para atrair clientes e acompanhar cada venda"
+        lead="Se o desafio é receber pedidos de orçamento, olhamos a mídia e a página. Se os pedidos chegam e ficam parados, começamos pelo atendimento."
         ctaLocation="services_hero"
       />
       <Section tone="light" labelledBy="lista-servicos">
         <Container>
-          <SectionHeader id="lista-servicos" eyebrow="Frentes de trabalho" title="Escolha por onde começar — ou combine." />
+          <SectionHeader id="lista-servicos" eyebrow="Frentes de trabalho" title="O que cada serviço entrega" />
           <div className="mt-14">
             <LinkRows items={services.map((s) => ({ href: `/servicos/${s.slug}`, title: s.name, text: s.summary }))} />
           </div>
@@ -51,15 +51,15 @@ export default function ServicesPage() {
             id="qual-servico"
             eyebrow="Como escolher"
             title="Qual serviço resolve o seu problema?"
-            intro="Um ponto de partida rápido. No diagnóstico, olhamos a operação inteira antes de recomendar."
+            intro="Encontre a situação mais parecida com a da sua empresa."
           />
           <div className="mt-12">
             <DataTable
-              caption="Relação entre o sintoma mais comum e o serviço que costuma endereçá-lo."
+              caption="Pontos de partida para cada desafio comercial."
               columns={["Se o problema principal é…", "Comece por", "Por quê"]}
               rows={[
                 ["Poucos contatos chegando", "Tráfego pago (Google Ads e/ou Meta Ads)", "Gera demanda nova ou captura quem já procura pelo que você vende."],
-                ["Contatos chegam, mas sem perfil", "Criativos, landing pages e qualificação", "A mensagem e a página filtram antes; os critérios separam depois."],
+                ["Contatos chegam, mas sem perfil", "Criativos, landing pages e qualificação", "O anúncio explica a oferta e o formulário ajuda a identificar quem faz sentido atender."],
                 ["Leads esfriam ou ficam sem resposta", "CRM, automação e IA", "Organiza o atendimento e reduz o tempo até o primeiro contato."],
                 ["Orçamentos não fecham", "Estruturação comercial", "Cria etapas, roteiros e rotina de follow-up."],
                 ["Ninguém sabe o que gera venda", "Tráfego pago + CRM", "Conecta a origem do lead ao resultado comercial."],

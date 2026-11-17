@@ -4,17 +4,17 @@ import { site } from "@/config/site";
 import { pageMetadata } from "@/lib/seo";
 import { faqNode, graph, webPageNode } from "@/lib/schema";
 import { segments } from "@/lib/content";
-import { publishedCases } from "@/content/cases";
+import { TestimonialCards } from "@/components/TestimonialCards";
 import type { FAQ } from "@/content/types";
 import { JsonLd } from "@/components/JsonLd";
 import { FaqList } from "@/components/Faq";
 import { TrackedLink } from "@/components/TrackedLink";
 import { CtaSection, LinkRows, SectionHeader } from "@/components/sections";
-import { ArrowIcon, Container, DevNote, Eyebrow, IconItem, Section, btn } from "@/components/ui";
+import { ArrowIcon, Container, Eyebrow, Section, btn } from "@/components/ui";
 import { methodSteps } from "@/content/method";
 
 const DESCRIPTION =
-  "Agência de marketing digital em Balneário Camboriú (SC): tráfego pago no Google Ads e Meta Ads, criativos e estrutura comercial para gerar demanda e vender.";
+  "A DX une anúncios no Google e na Meta, páginas de campanha e atendimento comercial. De Balneário Camboriú para empresas de todo o Brasil.";
 
 export const metadata = pageMetadata({
   title: "Agência de marketing digital em Balneário Camboriú | Digital Xpert",
@@ -23,23 +23,26 @@ export const metadata = pageMetadata({
   path: "/",
 });
 
-const pains = [
-  { t: "Contatos sem perfil", d: "O anúncio gera mensagens, mas pouca gente com real intenção de compra." },
-  { t: "Atendimento lento", d: "O lead chega quente e recebe resposta quando já falou com o concorrente." },
-  { t: "Só indicação", d: "Sem um canal previsível, o faturamento oscila junto com as indicações." },
-  { t: "Orçamentos parados", d: "Pedidos entram e param no “vou pensar” por falta de follow-up." },
-  { t: "Campanha sem venda", d: "Relatórios de cliques, mas ninguém sabe qual campanha gerou faturamento." },
-  { t: "Marketing longe do comercial", d: "Um lado comemora volume, o outro reclama da qualidade." },
-];
-
 const fronts = [
-  { n: "01", t: "Atrair", d: "Mídia, criativos e páginas pensados para o cliente certo.", items: ["Google Ads e Meta Ads", "Criativos e roteiros", "Landing pages"] },
-  { n: "02", t: "Qualificar", d: "Critérios claros e atendimento rápido, sem lead esfriando.", items: ["Pré-vendas e roteiros", "CRM e automação", "IA com supervisão"] },
-  { n: "03", t: "Converter", d: "Acompanhamento até a venda e otimização pelo que fecha negócio.", items: ["Follow-up estruturado", "Indicadores até a venda", "Otimização contínua"] },
+  {
+    title: "Atrair",
+    description: "Levamos sua oferta a quem já procura por ela no Google e a quem pode conhecê-la pelo Instagram ou Facebook.",
+    href: "/servicos/trafego-pago",
+    link: "Tráfego pago",
+  },
+  {
+    title: "Converter",
+    description: "Criamos páginas que respondem às dúvidas de quem veio do anúncio e facilitam o pedido de orçamento ou o agendamento.",
+    href: "/servicos/landing-pages",
+    link: "Páginas de campanha",
+  },
+  {
+    title: "Organizar o atendimento",
+    description: "Definimos com a sua equipe quem responde, quando retomar a conversa e como registrar no CRM o que virou venda.",
+    href: "/servicos/estruturacao-comercial",
+    link: "Estrutura comercial",
+  },
 ];
-
-const STATEMENT =
-  "Marketing, tecnologia e comercial na mesma mesa. De Balneário Camboriú para empresas de todo o Brasil, porque campanha boa é a que vira venda — e venda depende de quem atende.";
 
 const segmentTagline: Record<string, string> = {
   "intermediacao-e-revendas": "Proprietários que querem vender e compradores prontos para visitar.",
@@ -73,7 +76,7 @@ const faqs: FAQ[] = [
   },
   {
     q: "Como funciona o diagnóstico?",
-    a: "Você preenche um formulário curto e nossa equipe entra em contato para entender a operação: oferta, público, canais atuais, atendimento e metas. A partir disso, mostramos quais frentes fazem sentido priorizar. Veja a [metodologia completa](/metodologia).",
+    a: "Você solicita uma conversa e nossa equipe pergunta o que vende, como os clientes chegam e quem atende cada contato. A partir daí, definimos juntos o que vale ajustar primeiro. Veja a [metodologia completa](/metodologia).",
   },
 ];
 
@@ -87,51 +90,59 @@ export default function HomePage() {
         )}
       />
 
-      {/* HERO ----------------------------------------------------------
-          Minimalista: gradiente de luz em uma única cor (a da marca),
-          texto curto e centralizado, um CTA primary + um secundário. */}
-      <section className="surface-dark relative isolate flex min-h-[calc(100svh-4.5rem)] items-center overflow-hidden">
+      <section className="home-hero surface-dark relative isolate flex items-center overflow-hidden" aria-labelledby="home-title">
         <div aria-hidden className="hero-art">
           <div className="hero-beams" />
-          <div className="hero-parallax">
-            <div className="hero-glow" />
-          </div>
+          <div className="hero-parallax"><div className="hero-glow" /></div>
           <div className="hero-grain" />
         </div>
-        <Container className="hero-scroll relative flex flex-col items-center pb-48 pt-14 text-center sm:py-28">
-          <h1 className="flex flex-col items-center">
-            <span className="hero-rise mb-8 inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-bg-fill-secondary px-4 py-2 text-sm font-medium leading-5 text-text-secondary backdrop-blur-sm">
-              <span aria-hidden className="flow-node size-2 shrink-0 rounded-full bg-bg-fill-brand" />
-              <span>
-                Agência de marketing digital<span className="hidden sm:inline"> · {site.location.city}</span>
-              </span>
-            </span>
-            <span className="hero-rise font-display text-hero block max-w-5xl" style={{ ["--d" as string]: "80ms" }}>
-              Do clique à <em className="font-serif font-normal tracking-[-0.02em]">venda.</em>
-            </span>
-          </h1>
-          <p className="hero-rise text-lead mx-auto mt-8 max-w-xl text-text-secondary" style={{ ["--d" as string]: "180ms" }}>
-            Mais oportunidades de venda e um comercial preparado para aproveitar cada uma.
+        <Container className="relative flex flex-col items-center py-10 text-center sm:py-20">
+          <p className="hero-rise mb-4 text-sm font-medium text-text-secondary">
+            Agência de marketing digital<span className="hidden sm:inline"> em {site.location.city}</span>
           </p>
-          <div className="hero-rise mt-10 flex w-full flex-col-reverse justify-center gap-3 sm:w-auto sm:flex-row" style={{ ["--d" as string]: "260ms" }}>
-            <TrackedLink href={CTA_SECONDARY.href} trackLabel={CTA_SECONDARY.label} trackLocation="home_hero" className={btn("secondary", "backdrop-blur-sm")}>
-              {CTA_SECONDARY.label}
+          <h1 id="home-title" className="hero-rise text-hero font-display">
+            Do clique à <em className="font-serif font-normal">venda.</em>
+          </h1>
+          <p className="hero-rise text-lead mt-5 max-w-xl text-text-secondary">
+            Conectamos tráfego pago, criativos e atendimento comercial para transformar contatos em oportunidades de venda.
+          </p>
+          <div className="hero-rise mt-7 flex w-full flex-col items-center justify-center gap-1 sm:mt-9 sm:w-auto sm:flex-row-reverse sm:gap-6">
+            <TrackedLink href={CTA_PRIMARY.href} trackLabel={CTA_PRIMARY.label} trackLocation="home_hero" className={btn("primary", "w-full sm:w-auto")}>
+              {CTA_PRIMARY.label} <ArrowIcon />
             </TrackedLink>
-            <TrackedLink href={CTA_PRIMARY.href} trackLabel={CTA_PRIMARY.label} trackLocation="home_hero" className={btn("primary")}>
-              {CTA_PRIMARY.label}
-              <ArrowIcon className="transition-transform duration-200 group-hover:translate-x-0.5" />
+            <TrackedLink href="#como-funciona" trackLabel="Como funciona" trackLocation="home_hero" className={btn("ghost")}>
+              Como funciona <ArrowIcon className="rotate-90" />
             </TrackedLink>
           </div>
-          <p className="hero-rise mt-4 text-sm leading-5 text-text-secondary" style={{ ["--d" as string]: "320ms" }}>
-            Formulário de 1 minuto · atendimento feito por pessoas
-          </p>
         </Container>
-        <a href="#dores-title" aria-label="Rolar para o conteúdo" className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 sm:block">
-          <span aria-hidden className="block h-10 w-6 rounded-full border border-border-secondary">
-            <span className="scroll-cue mx-auto mt-2 block h-2 w-px bg-text-primary" />
-          </span>
-        </a>
       </section>
+
+      <Section tone="light" id="como-funciona" labelledBy="frentes-title">
+        <Container>
+          <SectionHeader id="frentes-title" eyebrow="Como funciona" title="O que acontece entre o anúncio e a venda?" />
+          <ol className="mt-10 grid gap-8 sm:mt-14 md:grid-cols-3 md:gap-10">
+            {fronts.map((front) => (
+              <li key={front.title} className="flex flex-col items-start border-t border-border-secondary pt-5">
+                <h3 className="text-h3">{front.title}</h3>
+                <p className="mb-4 mt-3 max-w-md text-text-secondary">{front.description}</p>
+                <Link className="group mt-auto inline-flex min-h-11 items-center gap-2 font-medium underline-offset-4 hover:underline" href={front.href}>
+                  {front.link} <ArrowIcon />
+                </Link>
+              </li>
+            ))}
+          </ol>
+        </Container>
+      </Section>
+
+      <Section tone="graphite" labelledBy="cases-title">
+        <Container>
+          <div className="mb-9 flex flex-wrap items-end justify-between gap-5">
+            <SectionHeader id="cases-title" eyebrow="Depoimentos" title="Quem trabalha com a DX conta." />
+            <Link href="/cases" className={btn("secondary")}>Ver cases <ArrowIcon /></Link>
+          </div>
+          <TestimonialCards />
+        </Container>
+      </Section>
 
       {/* FAIXA (decorativa) ------------------------------------------- */}
       <div aria-hidden className="marquee-wrap surface-dark overflow-hidden border-y border-border-tertiary py-6 sm:py-8">
@@ -149,63 +160,12 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* DORES --------------------------------------------------------- */}
-      <Section tone="light" labelledBy="dores-title">
-        <Container>
-          <SectionHeader
-            id="dores-title"
-            index="01"
-            eyebrow="O que trava o crescimento"
-            title="Anúncio sem processo comercial vira custo."
-          />
-          <ol className="mt-14 grid gap-x-16 gap-y-10 sm:grid-cols-2 lg:mt-20 lg:grid-cols-3">
-            {pains.map((p, i) => (
-              <li key={p.t} className="reveal" style={{ ["--reveal-delay" as string]: `${(i % 3) * 60}ms` }}>
-                <span className="text-sm tabular-nums leading-5 text-text-secondary">{String(i + 1).padStart(2, "0")}</span>
-                <h3 className="text-h3 mt-3">{p.t}</h3>
-                <p className="mt-2 text-text-secondary">{p.d}</p>
-              </li>
-            ))}
-          </ol>
-        </Container>
-      </Section>
-
-      {/* COMO ATUA ----------------------------------------------------- */}
-      <Section tone="graphite" labelledBy="frentes-title">
-        <Container>
-          <SectionHeader
-            id="frentes-title"
-            index="02"
-            eyebrow="Como a DX atua"
-            title="Três frentes, uma operação só."
-          />
-          <div className="mt-14 grid gap-12 lg:mt-20 lg:grid-cols-3 lg:gap-16">
-            {fronts.map((f, i) => (
-              <article key={f.t} className="reveal" style={{ ["--reveal-delay" as string]: `${i * 80}ms` }}>
-                <p className="text-sm tabular-nums leading-5 text-text-secondary">{f.n}</p>
-                <h3 className="font-display mt-4 text-[clamp(2rem,1.5rem+2vw,3rem)] font-semibold leading-[1.1] tracking-[-0.03em]">{f.t}</h3>
-                <p className="mt-4 text-text-secondary">{f.d}</p>
-                <ul className="mt-6 space-y-2">
-                  {f.items.map((it) => (
-                    <IconItem key={it} icon="dash">{it}</IconItem>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
-          <p className="reveal mt-14 max-w-2xl text-sm leading-5 text-text-secondary">
-            Resultados dependem também da oferta, do mercado, do investimento em mídia e da execução comercial. Nosso papel é estruturar, medir cada etapa e mostrar onde está o gargalo.
-          </p>
-        </Container>
-      </Section>
-
       {/* SERVIÇOS ------------------------------------------------------ */}
       <Section tone="light" labelledBy="servicos-title">
         <Container>
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <SectionHeader
               id="servicos-title"
-              index="03"
               eyebrow="Serviços"
               title="Do anúncio ao fechamento."
             />
@@ -224,7 +184,6 @@ export default function HomePage() {
         <Container>
           <SectionHeader
             id="segmentos-title"
-            index="04"
             eyebrow="Segmentos"
             title="Cada mercado vende de um jeito."
           />
@@ -249,7 +208,6 @@ export default function HomePage() {
         <Container>
           <SectionHeader
             id="metodo-title"
-            index="05"
             eyebrow="Metodologia"
             title="Do diagnóstico à otimização."
           />
@@ -272,33 +230,16 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* CASES (somente com cases autorizados) -------------------------- */}
-      {publishedCases.length ? (
-        <Section tone="light" labelledBy="cases-title">
-          <Container>
-            <SectionHeader id="cases-title" index="06" eyebrow="Cases" title="Resultados com autorização e dados verificáveis." />
-            <div className="mt-14">
-              <LinkRows items={publishedCases.map((c) => ({ href: `/cases/${c.slug}`, title: c.title, text: c.summary }))} />
-            </div>
-          </Container>
-        </Section>
-      ) : (
-        <Container><DevNote>a seção de cases só aparece quando houver um case com <code>published: true</code> em <code>src/content/cases.ts</code>.</DevNote></Container>
-      )}
-
       {/* SOBRE ---------------------------------------------------------- */}
       <Section tone="light" labelledBy="sobre-title">
         <Container>
-          <Eyebrow index={publishedCases.length ? "07" : "06"}>Sobre a DX</Eyebrow>
-          <h2
-            id="sobre-title"
-            className="scroll-words font-display max-w-5xl text-[clamp(1.75rem,1.1rem+2.6vw,3.5rem)] font-medium leading-[1.15] tracking-[-0.03em]"
-            style={{ ["--step" as string]: "1.1%" }}
-          >
-            {STATEMENT.split(" ").map((w, i) => (
-              <span key={i} style={{ ["--i" as string]: i }}>{w} </span>
-            ))}
+          <Eyebrow>Sobre a DX</Eyebrow>
+          <h2 id="sobre-title" className="text-h2 max-w-3xl">
+            De {site.location.city}, trabalhamos com quem vende em todo o Brasil.
           </h2>
+          <p className="text-lead mt-5 max-w-2xl text-text-secondary">
+            Acompanhamos as campanhas ao lado de quem atende os clientes. O que a equipe aprende nas conversas orienta os próximos anúncios.
+          </p>
           <Link href="/sobre" className={btn("secondary", "mt-12")}>
             Conheça a DX e os fundadores <ArrowIcon className="transition-transform duration-200 group-hover:translate-x-0.5" />
           </Link>

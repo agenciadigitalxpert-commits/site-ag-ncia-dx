@@ -24,18 +24,7 @@ const empty: LeadInput = {
   investeAnuncios: "", investimentoMidia: "", siteOuInstagram: "", detalhes: "",
 };
 
-/**
- * Formulário de diagnóstico em duas etapas (a segunda é opcional).
- * `integrationReady` vem do servidor: sem webhook configurado o formulário
- * informa a pendência e o envio é recusado — nunca exibe sucesso falso.
- */
-export function LeadForm({
-  integrationReady,
-  location,
-}: {
-  integrationReady: boolean;
-  location: string;
-}) {
+export function LeadForm({ location }: { location: string }) {
   const uid = useId();
   const [step, setStep] = useState<1 | 2>(1);
   const [values, setValues] = useState<LeadInput>(empty);
@@ -47,6 +36,7 @@ export function LeadForm({
   const leadSent = useRef(false);
   const statusRef = useRef<HTMLDivElement>(null);
   const step2Heading = useRef<HTMLHeadingElement>(null);
+  const moreFields = useRef<HTMLDetailsElement>(null);
   const honeypot = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -73,7 +63,10 @@ export function LeadForm({
 
   const focusFirstError = (e: LeadErrors) => {
     const first = Object.keys(e)[0];
-    if (first) document.getElementById(id(first))?.focus();
+    if (!first) return;
+    const control = document.getElementById(id(first));
+    if (control && moreFields.current?.contains(control)) moreFields.current.open = true;
+    control?.focus();
   };
 
   const goStep2 = (ev: FormEvent) => {
@@ -138,7 +131,7 @@ export function LeadForm({
     } catch {
       track("form_error", { form_location: location, error_code: "network" });
       setStatus("error");
-      setMessage("Sem conexão com o servidor. Verifique sua internet; seus dados continuam no formulário.");
+      setMessage("Não conseguimos conectar ao servidor. Seus dados continuam aqui para você tentar de novo.");
     }
     requestAnimationFrame(() => statusRef.current?.focus());
   };
@@ -149,7 +142,6 @@ export function LeadForm({
   const errText = "mt-2 flex gap-2 text-sm leading-5 text-text-critical";
   const hint = "mt-2 text-sm leading-5 text-text-secondary";
   const label = "text-[0.9375rem] font-medium leading-6";
-  const groupTitle = "mb-4 text-xs font-medium uppercase leading-4 tracking-[0.14em] text-text-secondary";
 
   if (status === "success") {
     return (
@@ -158,22 +150,9 @@ export function LeadForm({
           <CheckIcon className="!text-current" />
         </span>
         <h3 className="mt-6 text-h3">Recebemos sua solicitação, {values.nome.trim().split(" ")[0]}.</h3>
-        <p className="mt-2 text-text-secondary">Veja o que acontece agora:</p>
-        <ol className="mt-6 space-y-4">
-          {[
-            ["Analisamos o contexto", "Lemos as informações antes de falar com você."],
-            ["Chamamos no WhatsApp", `No número ${values.whatsapp}, com uma pessoa da equipe.`],
-            ["Conversamos sobre o diagnóstico", "Onde estão as oportunidades e o que priorizar."],
-          ].map(([t, d], i) => (
-            <li key={t} className="flex gap-4">
-              <span className="grid size-8 shrink-0 place-items-center rounded-full bg-bg-fill-secondary text-sm tabular-nums leading-5">{i + 1}</span>
-              <span>
-                <span className="block font-medium">{t}</span>
-                <span className="block text-sm leading-5 text-text-secondary">{d}</span>
-              </span>
-            </li>
-          ))}
-        </ol>
+        <p className="mt-3 text-text-secondary">
+          Nossa equipe vai chamar você pelo WhatsApp {values.whatsapp} para conversar sobre sua empresa e combinar o diagnóstico.
+        </p>
         <p className="mt-8 text-sm leading-5 text-text-secondary">
           Enquanto isso, veja <Link className="underline underline-offset-2 hover:text-text-primary" href="/metodologia">como funciona nossa metodologia</Link>.
         </p>
@@ -227,12 +206,6 @@ export function LeadForm({
 
   return (
     <div>
-      {!integrationReady ? (
-        <div role="note" className="mb-6 rounded-[var(--radius-field)] border border-dashed border-border-note bg-bg-note p-4 text-sm leading-5 text-text-note">
-          <strong>Formulário em configuração.</strong> A integração com o sistema de atendimento ainda não foi conectada, então os envios não estão sendo recebidos.
-        </div>
-      ) : null}
-
       {/* Progresso segmentado */}
       <div className="mb-8">
         <div className="flex gap-2" aria-hidden>
@@ -252,71 +225,66 @@ export function LeadForm({
         </div>
 
         {step === 1 ? (
-          <div key="s1" className="step-in space-y-10">
-            <fieldset>
-              <legend className={groupTitle}>Contato</legend>
-              <div className="space-y-5">
-                <div>
-                  <label htmlFor={id("nome")} className={label}>Qual é o seu nome?</label>
-                  <input {...fieldProps("nome")} type="text" autoComplete="name" enterKeyHint="next" required onChange={(e) => set("nome", e.target.value)} className={cx(field, errors.nome && errCls)} />
-                  {errorFor("nome")}
-                </div>
-                <div>
-                  <label htmlFor={id("whatsapp")} className={label}>Qual é o seu WhatsApp?</label>
-                  <input {...fieldProps("whatsapp")} type="tel" inputMode="tel" autoComplete="tel-national" enterKeyHint="next" placeholder="(47) 99999-9999" required onChange={(e) => set("whatsapp", e.target.value)} className={cx(field, errors.whatsapp && errCls)} />
-                  {errorFor("whatsapp")}
-                </div>
-              </div>
-            </fieldset>
-
-            <fieldset>
-              <legend className={groupTitle}>Empresa</legend>
-              <div className="space-y-6">
-                <div>
-                  <label htmlFor={id("empresa")} className={label}>Qual é o nome da empresa?</label>
-                  <input {...fieldProps("empresa")} type="text" autoComplete="organization" enterKeyHint="next" required onChange={(e) => set("empresa", e.target.value)} className={cx(field, errors.empresa && errCls)} />
-                  {errorFor("empresa")}
-                </div>
-                <div>
-                  <label htmlFor={id("segmento")} className={label}>Em qual segmento ela atua?</label>
-                  <input {...fieldProps("segmento")} type="text" placeholder="Ex.: oficina mecânica, clínica odontológica, delivery" required onChange={(e) => set("segmento", e.target.value)} className={cx(field, errors.segmento && errCls)} />
-                  {errorFor("segmento")}
-                </div>
-                {dropdown("desafio", "Qual é o principal desafio hoje?", CHALLENGE_OPTIONS)}
-              </div>
-            </fieldset>
-
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-sm leading-5 text-text-secondary sm:max-w-xs">Na próxima etapa, você pode adicionar contexto (opcional) e enviar.</p>
-              <button type="submit" className={btn("primary", "w-full sm:w-auto")}>
-                Continuar
-                <ArrowIcon className="transition-transform duration-200 group-hover:translate-x-0.5" />
-              </button>
+          <div key="s1" className="step-in space-y-6">
+            <div>
+              <label htmlFor={id("nome")} className={label}>Como você se chama?</label>
+              <input {...fieldProps("nome")} type="text" autoComplete="name" enterKeyHint="next" required maxLength={100} onChange={(e) => set("nome", e.target.value)} className={cx(field, errors.nome && errCls)} />
+              {errorFor("nome")}
+            </div>
+            <div>
+              <label htmlFor={id("empresa")} className={label}>Qual é o nome da empresa?</label>
+              <input {...fieldProps("empresa")} type="text" autoComplete="organization" enterKeyHint="next" required maxLength={120} onChange={(e) => set("empresa", e.target.value)} className={cx(field, errors.empresa && errCls)} />
+              {errorFor("empresa")}
+            </div>
+            <div>
+              <label htmlFor={id("whatsapp")} className={label}>Em qual WhatsApp podemos falar com você?</label>
+              <input {...fieldProps("whatsapp")} type="tel" inputMode="tel" autoComplete="tel-national" enterKeyHint="next" placeholder="(47) 99999-9999" required onChange={(e) => set("whatsapp", e.target.value)} className={cx(field, errors.whatsapp && errCls)} />
+              {errorFor("whatsapp")}
+            </div>
+            <div className="flex justify-end">
+              <button type="submit" className={btn("primary", "w-full sm:w-auto")}>Continuar <ArrowIcon /></button>
             </div>
           </div>
         ) : (
-          <div key="s2" className="step-in space-y-8">
+          <div key="s2" className="step-in space-y-6">
             <h3 ref={step2Heading} tabIndex={-1} className="text-lg font-medium leading-7 focus:outline-none">
-              Quer adiantar o contexto?
+              O que você gostaria de melhorar?
             </h3>
-            {dropdown("investeAnuncios", "Vocês já investem em anúncios?", ADS_OPTIONS, { optional: true })}
-            {dropdown("investimentoMidia", "Quanto investem por mês em mídia?", BUDGET_OPTIONS, { optional: true, describedBy: `${id("investimentoMidia")}-hint` })}
-            <p id={`${id("investimentoMidia")}-hint`} className="-mt-6 text-sm leading-5 text-text-secondary">
-              Valor pago às plataformas (Google, Meta). Não inclui os honorários da agência.
+            <p className="text-sm leading-5 text-text-secondary">
+              Se preferir contar na conversa, já pode enviar sua solicitação.
             </p>
-            <div>
-              <label htmlFor={id("siteOuInstagram")} className={label}>Qual é o site ou Instagram da empresa? <span className="font-normal text-text-secondary">(opcional)</span></label>
-              <input {...fieldProps("siteOuInstagram")} type="text" placeholder="seusite.com.br ou @suaempresa" onChange={(e) => set("siteOuInstagram", e.target.value)} className={cx(field, errors.siteOuInstagram && errCls)} />
-              {errorFor("siteOuInstagram")}
-            </div>
-            <div>
-              <label htmlFor={id("detalhes")} className={label}>Quer contar algo mais? <span className="font-normal text-text-secondary">(opcional)</span></label>
-              <textarea {...fieldProps("detalhes")} rows={3} onChange={(e) => set("detalhes", e.target.value)} className={cx(field, "resize-y", errors.detalhes && errCls)} />
-              {errorFor("detalhes")}
-            </div>
+            {dropdown("desafio", "Qual é o principal desafio hoje?", CHALLENGE_OPTIONS, { optional: true })}
+            <details ref={moreFields} className="rounded-[var(--radius-field)] border border-border-secondary px-4">
+              <summary className="cursor-pointer py-3 font-medium">Adicionar detalhes sobre a empresa</summary>
+              <div className="space-y-6 pb-5 pt-2">
+                <div>
+                  <label htmlFor={id("segmento")} className={label}>Em qual segmento a empresa atua?</label>
+                  <input {...fieldProps("segmento")} type="text" maxLength={80} placeholder="Por exemplo, revenda de veículos" onChange={(e) => set("segmento", e.target.value)} className={cx(field, errors.segmento && errCls)} />
+                  {errorFor("segmento")}
+                </div>
+                {dropdown("investeAnuncios", "Vocês já investem em anúncios?", ADS_OPTIONS, { optional: true })}
+                <div>
+                  {dropdown("investimentoMidia", "Quanto investem por mês em anúncios?", BUDGET_OPTIONS, { optional: true, describedBy: `${id("investimentoMidia")}-hint` })}
+                  <p id={`${id("investimentoMidia")}-hint`} className={hint}>Considere o valor pago ao Google, à Meta e a outras plataformas.</p>
+                </div>
+                <div>
+                  <label htmlFor={id("siteOuInstagram")} className={label}>Qual é o site ou Instagram da empresa?</label>
+                  <input {...fieldProps("siteOuInstagram")} type="text" maxLength={200} placeholder="seusite.com.br ou @suaempresa" onChange={(e) => set("siteOuInstagram", e.target.value)} className={cx(field, errors.siteOuInstagram && errCls)} />
+                  {errorFor("siteOuInstagram")}
+                </div>
+                <div>
+                  <label htmlFor={id("detalhes")} className={label}>O que mais devemos saber?</label>
+                  <textarea {...fieldProps("detalhes")} rows={3} maxLength={1000} onChange={(e) => set("detalhes", e.target.value)} className={cx(field, "resize-y", errors.detalhes && errCls)} />
+                  {errorFor("detalhes")}
+                </div>
+              </div>
+            </details>
             {/* Ações à direita: secundária → primária */}
             <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-              <button type="button" onClick={() => setStep(1)} className={btn("ghost")}>
+              <button type="button" disabled={status === "submitting"} onClick={() => {
+                setStep(1);
+                requestAnimationFrame(() => document.getElementById(id("nome"))?.focus());
+              }} className={btn("ghost")}>
                 Voltar e revisar
               </button>
               <button type="submit" disabled={status === "submitting"} className={btn("primary", "disabled:cursor-wait")}>

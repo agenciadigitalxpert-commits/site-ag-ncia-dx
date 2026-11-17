@@ -22,7 +22,7 @@ const faqs: FAQ[] = [
   { q: "Preciso contratar todas as etapas e serviços?", a: "Não. O escopo é definido a partir do diagnóstico e pode começar por uma frente específica, como [Google Ads](/servicos/google-ads) ou [estruturação comercial](/servicos/estruturacao-comercial), e evoluir conforme a operação amadurece." },
   { q: "Essa metodologia é um método registrado ou certificado?", a: "Não. É a forma como organizamos o trabalho para dar clareza ao processo. A sequência é flexível e se adapta ao momento de cada empresa." },
   { q: "Como acompanho o andamento do trabalho?", a: "Com indicadores combinados no planejamento, que conectam mídia, atendimento e vendas. A forma e a frequência do acompanhamento são definidas no escopo de cada projeto." },
-  { q: "O que acontece quando algo não funciona?", a: "Investigamos em qual etapa está o problema — campanha, página, atendimento ou oferta — e ajustamos. Testar, medir e corrigir faz parte do processo; o importante é decidir com base em dados." },
+  { q: "O que acontece quando algo não funciona?", a: "Conferimos onde os contatos deixam de avançar. Se o anúncio recebe cliques e a página recebe poucos pedidos, por exemplo, revisamos a oferta e o formulário antes de aumentar a verba." },
 ];
 
 export default function MethodPage() {
@@ -32,8 +32,8 @@ export default function MethodPage() {
       <PageHero art="metodologia"
         crumbs={crumbs}
         eyebrow="Metodologia"
-        title="Primeiro entender a operação. Depois investir. Sempre medir."
-        lead="Nossa forma de trabalhar segue cinco etapas: diagnóstico, planejamento, implementação, acompanhamento e otimização. É uma sequência de bom senso — não uma fórmula — para conectar mídia, atendimento e vendas."
+        title="Como planejamos e acompanhamos suas campanhas"
+        lead="Começamos ouvindo quem vende e quem atende. A partir daí, definimos os canais, colocamos as campanhas no ar e acompanhamos quais contatos chegam à venda."
         ctaLocation="method_hero"
         secondary={null}
       />
@@ -75,7 +75,7 @@ export default function MethodPage() {
 
       <Section tone="paper2" labelledBy="papeis">
         <Container>
-          <SectionHeader id="papeis" eyebrow="Responsabilidades" title="O que depende da DX e o que depende da sua empresa" intro="Resultado comercial é compartilhado. Esta divisão evita expectativas desalinhadas." />
+          <SectionHeader id="papeis" eyebrow="Responsabilidades" title="O que depende da DX e o que depende da sua empresa" intro="Veja quem cria as campanhas, quem aprova as peças e quem acompanha os contatos." />
           <div className="mt-12">
             <DataTable
               caption="Divisão de responsabilidades entre a DX e a empresa cliente."
@@ -104,7 +104,7 @@ export default function MethodPage() {
         </Container>
       </Section>
 
-      <CtaSection location="method_final" title="O primeiro passo é o diagnóstico." />
+      <CtaSection location="method_final" id="solicitar-diagnostico" title="O primeiro passo é o diagnóstico." />
     </>
   );
 }

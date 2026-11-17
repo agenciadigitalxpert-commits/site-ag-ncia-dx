@@ -12,9 +12,8 @@ export const segments: Segment[] = [
     metaDescription:
       "Marketing para intermediação de veículos e revendas: captação de quem quer vender e de quem quer comprar, triagem no WhatsApp e visitas com intenção real.",
     eyebrow: "Segmentos · Intermediação e revendas",
-    h1: "Marketing para intermediação de veículos com vendedor e comprador certos",
-    lead:
-      "Na intermediação e na revenda, você precisa de carro para oferecer e de gente pronta para comprar. Estruturamos a captação dos dois lados, a triagem no WhatsApp e o agendamento de visitas e avaliações.",
+    h1: "Marketing para intermediação e revenda de veículos",
+    lead: "Sua operação precisa de carros para oferecer e de compradores para visitar a loja. Planejamos campanhas para os dois públicos e organizamos a triagem até a avaliação ou o test-drive.",
     summary:
       "Captação de proprietários que querem vender e de compradores com intenção real, com triagem no WhatsApp e foco em visitas e avaliações agendadas.",
     context: {
@@ -181,9 +180,8 @@ export const segments: Segment[] = [
     metaDescription:
       "Marketing para oficinas e funilarias: orçamentos com foto, demanda local, foco nos serviços de maior margem e acompanhamento dos orçamentos que não voltam.",
     eyebrow: "Segmentos · Oficinas e funilarias",
-    h1: "Marketing para oficinas e funilarias que ocupa o pátio com o serviço certo",
-    lead:
-      "Pedido de orçamento com foto, cliente da região e orçamento que precisa de retorno. Organizamos a captação para priorizar os serviços que mais compensam, sem lotar o box com o que não paga a vaga.",
+    h1: "Marketing para oficinas e funilarias da sua região",
+    lead: "A partir dos serviços e da capacidade do pátio, definimos o que anunciar. Sua equipe recebe os pedidos, reúne as informações do veículo e acompanha os orçamentos.",
     summary:
       "Demanda local para funilaria, mecânica e estética automotiva, com orçamentos qualificados, foco nos serviços de maior margem e acompanhamento do que foi orçado.",
     context: {
@@ -350,9 +348,8 @@ export const segments: Segment[] = [
     metaDescription:
       "Marketing para clínicas de estética: demanda por procedimento, avaliação como etapa de venda, menos faltas na agenda e comunicação responsável e validada.",
     eyebrow: "Segmentos · Clínicas de estética",
-    h1: "Marketing para clínicas de estética que leva da procura à avaliação",
-    lead:
-      "Na estética, a venda passa pela avaliação. Organizamos a captação por procedimento, a triagem das conversas e a agenda, para a sua equipe atender quem tem interesse real e comparece.",
+    h1: "Marketing para clínicas de estética, da procura à avaliação",
+    lead: "Organizamos campanhas por procedimento e ajudamos a recepção a responder dúvidas, agendar avaliações e confirmar horários.",
     summary:
       "Captação por procedimento, avaliação tratada como etapa de venda, agenda com menos faltas e comunicação responsável, validada pelo profissional responsável.",
     context: {
@@ -519,9 +516,8 @@ export const segments: Segment[] = [
     metaDescription:
       "Marketing para dermatologistas: presença digital, procura por consulta particular, agenda organizada e comunicação alinhada à ética médica e às normas do CFM.",
     eyebrow: "Segmentos · Dermatologistas",
-    h1: "Marketing para dermatologistas com presença séria e agenda organizada",
-    lead:
-      "Para o dermatologista, marketing começa por reputação. Estruturamos a presença digital, a captação de consultas e o caminho até a agenda, com comunicação informativa, sem promessas e validada pelo médico.",
+    h1: "Marketing para dermatologistas com foco no agendamento",
+    lead: "Criamos campanhas informativas, validadas pelo médico, e organizamos o caminho entre a procura pela consulta e o contato com a recepção.",
     summary:
       "Presença digital, captação de consultas e organização da agenda para dermatologistas, com comunicação educativa, sem promessas e alinhada às normas do CFM.",
     context: {
@@ -688,9 +684,8 @@ export const segments: Segment[] = [
     metaDescription:
       "Marketing para clínicas odontológicas: captação para tratamentos e rotina, avaliações com comparecimento, orçamentos acompanhados e respeito às normas do CFO.",
     eyebrow: "Segmentos · Clínicas odontológicas",
-    h1: "Marketing para clínicas odontológicas, da avaliação ao plano aprovado",
-    lead:
-      "Na odontologia, a venda acontece entre a avaliação e o orçamento aprovado. Organizamos a captação, a recepção, as confirmações e o acompanhamento dos planos de tratamento que ficaram em aberto.",
+    h1: "Marketing para clínicas odontológicas e atendimento a pacientes",
+    lead: "Trabalhamos a divulgação da clínica, os pedidos de avaliação e as confirmações de consulta. A recepção ganha uma rotina para acompanhar os planos de tratamento apresentados.",
     summary:
       "Captação para tratamentos de maior valor e para a rotina, avaliações com comparecimento, recepção preparada e acompanhamento dos orçamentos, dentro das normas do CFO.",
     context: {
@@ -857,9 +852,8 @@ export const segments: Segment[] = [
     metaDescription:
       "Tráfego pago para delivery: campanhas por raio de entrega e horário de pico, mais pedidos diretos no seu cardápio e recompra da base, sem sacrificar a margem.",
     eyebrow: "Segmentos · Delivery e alimentação",
-    h1: "Tráfego pago para delivery que traz pedido direto para o seu canal",
-    lead:
-      "No delivery, o anúncio precisa chegar a quem está no raio de entrega, na hora da fome, e levar ao pedido sem atrito. Trabalhamos campanhas por região e horário, o caminho até o cardápio e a recompra da sua base.",
+    h1: "Tráfego pago para receber pedidos no seu canal de delivery",
+    lead: "Alcançamos quem está no seu raio de entrega nos horários em que a cozinha pode atender. O anúncio leva direto ao cardápio e acompanhamos os pedidos por canal.",
     summary:
       "Campanhas por raio de entrega e horário de pico, caminho curto até o cardápio, mais pedidos diretos e recompra da base, com cuidado na margem.",
     context: {

@@ -1,12 +1,11 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { CTA_PRIMARY, CTA_SECONDARY } from "@/config/navigation";
-import { leadIntegrationReady } from "@/config/env";
 import { Breadcrumbs, type Crumb } from "./Breadcrumbs";
 import { HeroArt, type HeroArtKey } from "./HeroArt";
-import { LeadForm } from "./LeadForm";
+import { DiagnosticIntake } from "./DiagnosticIntake";
 import { TrackedLink } from "./TrackedLink";
-import { ArrowIcon, Container, Eyebrow, IconItem, Section, btn, cx } from "./ui";
+import { ArrowIcon, Container, Eyebrow, Section, btn, cx } from "./ui";
 
 export function PageHero({
   crumbs,
@@ -14,6 +13,7 @@ export function PageHero({
   title,
   lead,
   ctaLocation,
+  primary = CTA_PRIMARY,
   secondary = CTA_SECONDARY,
   art,
   children,
@@ -23,6 +23,7 @@ export function PageHero({
   title: string;
   lead?: string;
   ctaLocation: string;
+  primary?: { label: string; href: string };
   secondary?: { label: string; href: string } | null;
   /** Ilustração própria da página (ver HeroArt). */
   art?: HeroArtKey;
@@ -46,8 +47,8 @@ export function PageHero({
             <p className="hero-rise text-lead mt-6 max-w-2xl text-text-secondary" style={{ ["--d" as string]: "140ms" }}>{lead}</p>
           ) : null}
           <div className="hero-rise mt-8 flex flex-col gap-3 sm:flex-row" style={{ ["--d" as string]: "220ms" }}>
-            <TrackedLink href={CTA_PRIMARY.href} trackLabel={CTA_PRIMARY.label} trackLocation={ctaLocation} className={btn("primary")}>
-              {CTA_PRIMARY.label}
+            <TrackedLink href={primary.href} trackLabel={primary.label} trackLocation={ctaLocation} className={btn("primary")}>
+              {primary.label}
               <ArrowIcon className="transition-transform duration-200 group-hover:translate-x-0.5" />
             </TrackedLink>
             {secondary ? (
@@ -128,8 +129,8 @@ export function LinkRows({ items }: { items: { href: string; title: string; text
 }
 
 export function CtaSection({
-  title = "Quer entender onde estão as oportunidades da sua operação?",
-  text = "Conte um pouco sobre a sua empresa. Vamos analisar o contexto e conversar sobre o que faz sentido priorizar — mídia, atendimento, processo comercial ou tudo junto.",
+  title = "Onde sua empresa quer chegar com os anúncios?",
+  text = "Conte como seus clientes chegam hoje. Vamos olhar as campanhas e o atendimento para identificar juntos o próximo passo.",
   location,
   id = "diagnostico",
 }: {
@@ -146,15 +147,10 @@ export function CtaSection({
             <Eyebrow>Diagnóstico</Eyebrow>
             <h2 id={`${id}-title`} className="text-h2">{title}</h2>
             <p className="text-lead mt-4 text-text-secondary">{text}</p>
-            <ul className="mt-8 space-y-3 text-text-secondary">
-              <IconItem>Leva cerca de um minuto.</IconItem>
-              <IconItem>O contato é feito por pessoas da equipe, pelo WhatsApp informado.</IconItem>
-              <IconItem>Investimento em mídia e honorários da agência são valores diferentes — falamos dos dois com clareza.</IconItem>
-            </ul>
           </div>
           {/* campos com raio 14 + padding 24/32 → painel 38/46 */}
           <div className="reveal rounded-[38px] bg-bg-surface p-6 sm:rounded-[46px] sm:p-8">
-            <LeadForm integrationReady={leadIntegrationReady} location={location} />
+            <DiagnosticIntake location={location} />
           </div>
         </div>
       </Container>

@@ -24,8 +24,8 @@ export default function BlogPage() {
       <PageHero art="conteudos"
         crumbs={crumbs}
         eyebrow="Conteúdos"
-        title="Ideias práticas para gerar e aproveitar mais oportunidades."
-        lead="Tráfego pago, atendimento, qualificação e processo comercial explicados de forma direta, para quem toma decisões no dia a dia do negócio."
+        title="Leituras para quem anuncia e vende"
+        lead="Entenda como escolher um canal de anúncios, reconhecer um bom contato e organizar o próximo passo da venda."
         ctaLocation="blog_hero"
         secondary={null}
       />

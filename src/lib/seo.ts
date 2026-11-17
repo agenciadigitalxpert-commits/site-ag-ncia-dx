@@ -22,7 +22,7 @@ type Opts = {
 export function pageMetadata(o: Opts): Metadata {
   const index = isIndexable && !o.noindex;
   const fullTitle = o.absoluteTitle ? o.title : `${o.title} | ${BRAND_SUFFIX}`;
-  const image = { url: "/opengraph-image", width: 1200, height: 630, alt: `${site.name} — tráfego pago, criativos e estrutura comercial` };
+  const image = { url: "/opengraph-image", width: 1200, height: 630, alt: `Tráfego pago, criativos e estrutura comercial na ${site.name}` };
   return {
     title: o.absoluteTitle ? { absolute: o.title } : o.title,
     description: o.description,

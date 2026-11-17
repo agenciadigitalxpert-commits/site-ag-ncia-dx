@@ -15,7 +15,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...services.map((s) => ({ path: `/servicos/${s.slug}` })),
     { path: "/segmentos" },
     ...segments.map((s) => ({ path: `/segmentos/${s.slug}` })),
-    ...(publishedCases.length ? [{ path: "/cases" }, ...publishedCases.map((c) => ({ path: `/cases/${c.slug}`, lastModified: c.publishedAt }))] : []),
+    { path: "/cases" },
+    ...publishedCases.map((c) => ({ path: `/cases/${c.slug}`, lastModified: c.publishedAt })),
     ...(published.length ? [{ path: "/conteudos" }] : []),
     ...published.map((a) => ({ path: `/conteudos/${a.slug}`, lastModified: a.updatedAt ?? a.publishedAt })),
     ...categories

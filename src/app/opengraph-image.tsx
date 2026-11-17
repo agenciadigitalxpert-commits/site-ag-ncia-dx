@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Agência Digital Xpert — tráfego pago, criativos e estrutura comercial";
+export const alt = "Tráfego pago, criativos e estrutura comercial na Agência Digital Xpert";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -24,7 +24,7 @@ export default function OgImage() {
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 36, fontSize: 26, color: "#a1a1a6" }}>
             <div style={{ width: 14, height: 14, borderRadius: 14, background: "#c8f53c" }} />
-            Tráfego pago · Criativos · Estrutura comercial · Balneário Camboriú — SC
+            Tráfego pago · Criativos · Estrutura comercial · Balneário Camboriú (SC)
           </div>
         </div>
       </div>

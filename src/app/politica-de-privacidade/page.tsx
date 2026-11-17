@@ -30,8 +30,7 @@ export default function PrivacyPage() {
         <p>Ao preencher o formulário de diagnóstico, coletamos:</p>
         <ul>
           <li>nome, empresa e número de WhatsApp;</li>
-          <li>segmento de atuação e principal desafio;</li>
-          <li>de forma opcional: se já investe em anúncios, faixa de investimento mensal em mídia, site ou Instagram e outras informações que você decidir compartilhar.</li>
+          <li>se você quiser complementar a solicitação, segmento, principal desafio, investimento em anúncios, site ou Instagram e informações que decidir compartilhar.</li>
         </ul>
         <p>Pedimos que não envie dados sensíveis (como informações de saúde) no campo de texto livre.</p>
         <h3>Dados coletados automaticamente</h3>
@@ -59,7 +58,7 @@ export default function PrivacyPage() {
         <p>Os dados podem ser tratados por fornecedores que nos ajudam a operar o site e o atendimento, sempre na medida necessária:</p>
         <ul>
           <li>provedor de hospedagem do site;</li>
-          <li>ferramenta de CRM, automação ou integração que recebe as solicitações do formulário;</li>
+          <li>plataforma de formulários, CRM e ferramentas de integração usadas para receber e encaminhar sua solicitação;</li>
           <li>ferramentas de comunicação usadas para o contato, como o WhatsApp;</li>
           {hasOptionalTracking ? <li>ferramentas de medição e publicidade, conforme as escolhas feitas no aviso de cookies.</li> : null}
         </ul>

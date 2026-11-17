@@ -9,7 +9,7 @@ export const site = {
   alternateName: ["DX", "Digital Xpert"],
   tagline: "Tráfego pago, criativos e estrutura comercial",
   description:
-    "A Agência Digital Xpert (DX) é uma agência de marketing digital de Balneário Camboriú (SC) que conecta tráfego pago no Google Ads e Meta Ads, criativos, landing pages, estruturação comercial, CRM e automação para gerar demanda e transformar atendimento em vendas.",
+    "A Digital Xpert é uma agência de marketing digital em Balneário Camboriú (SC). A equipe cria campanhas no Google e na Meta, desenvolve páginas e organiza o atendimento comercial de empresas em todo o Brasil.",
   location: {
     city: "Balneário Camboriú",
     state: "SC",
@@ -22,6 +22,7 @@ export const site = {
   },
   areaServed: "Brasil",
   contact: {
+    diagnosticForm: "https://form.respondi.app/6ajudkVN",
     /** PENDÊNCIA: e-mail comercial oficial. */
     email: null as string | null,
     /** PENDÊNCIA: telefone no formato +55 47 9XXXX-XXXX. */
@@ -29,9 +30,9 @@ export const site = {
   },
   /** PENDÊNCIA: URLs reais dos perfis. Só os preenchidos aparecem. */
   social: {
-    instagram: "https://www.instagram.com/agenciadigitalxpert/" as string | null,
+    instagram: "https://www.instagram.com/agenciadigitalxpert/",
     linkedin: null as string | null,
-    youtube: null as string | null,
+    youtube: "https://www.youtube.com/@Ag%C3%AAnciaDigitalXpert",
     facebook: null as string | null,
   },
   /** Fundadores (fotos em /public/equipe, 3:4). */

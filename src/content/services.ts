@@ -12,8 +12,8 @@ export const services: Service[] = [
     metaDescription:
       "Gestão de tráfego pago que define canais, divide a verba entre Google e Meta e mede o que vira venda, com ciclo de testes e integração ao seu comercial.",
     eyebrow: "Estratégia de aquisição",
-    h1: "Gestão de tráfego pago que começa pela decisão de onde investir",
-    lead: "Antes de subir campanha, a pergunta é outra: onde está a demanda do seu negócio, quanto dela já procura por você e quanto precisa ser despertada. A DX organiza essa decisão e acompanha o que acontece depois do clique.",
+    h1: "Tráfego pago para atrair clientes para a sua empresa",
+    lead: "Escolhemos os canais a partir da sua oferta e do que os clientes já procuram. Com sua equipe, acompanhamos quais campanhas geram pedidos de orçamento e vendas.",
     summary:
       "Planejamento e gestão de mídia paga multicanal: escolha de canais, divisão do investimento entre Google e Meta, mensuração ligada ao comercial e ciclo contínuo de testes.",
     definition: {
@@ -258,8 +258,8 @@ export const services: Service[] = [
     metaDescription:
       "Agência de Google Ads focada em quem já procura pelo seu serviço: palavras-chave, termos negativos, conversões bem configuradas e páginas que convertem.",
     eyebrow: "Demanda que já existe",
-    h1: "Gestão de Google Ads para aparecer quando o cliente já está procurando",
-    lead: "Quem pesquisa “funilaria perto de mim” ou “clareamento dental preço” já decidiu que precisa resolver algo. O trabalho é estar ali com o anúncio certo, a página certa e uma conversão medida de verdade.",
+    h1: "Google Ads para quem já procura o que você oferece",
+    lead: "Quando alguém pesquisa “funilaria perto de mim”, já tem uma necessidade. Planejamos o anúncio e a página para essa busca e acompanhamos o contato que ela gera.",
     summary:
       "Planejamento e operação de campanhas no Google Ads para capturar a demanda de quem já pesquisa pelo serviço, com controle de termos, conversões confiáveis e páginas alinhadas à busca.",
     definition: {
@@ -468,8 +468,8 @@ export const services: Service[] = [
     metaDescription:
       "Gestão de Meta Ads para gerar demanda no Instagram e no Facebook: criativos que filtram o público, remarketing, campanhas de mensagens e leads com qualidade.",
     eyebrow: "Demanda que precisa ser criada",
-    h1: "Gestão de Meta Ads para chegar em quem ainda não está procurando",
-    lead: "No Instagram e no Facebook, ninguém entrou para procurar o seu serviço. O anúncio precisa interromper, explicar e despertar interesse em segundos, e o lead que chega precisa ser filtrado antes de ocupar o seu comercial.",
+    h1: "Anúncios no Instagram e no Facebook para apresentar sua oferta",
+    lead: "Testamos imagens, vídeos e públicos para descobrir o que desperta interesse. O retorno do atendimento mostra quais anúncios trazem pessoas com intenção de compra.",
     summary:
       "Gestão de campanhas no Instagram e no Facebook para gerar demanda nova, com criativos como principal alavanca, remarketing, objetivos ligados ao comercial e atenção à qualidade do lead.",
     definition: {
@@ -673,8 +673,8 @@ export const services: Service[] = [
     metaDescription:
       "Roteiros de vídeo curto, estáticos e carrosséis pensados para anúncio: ângulos de comunicação, variações para teste e promessa alinhada ao que você entrega.",
     eyebrow: "Comunicação que filtra e convence",
-    h1: "Criativos e roteiros para anúncios que dizem a coisa certa para a pessoa certa",
-    lead: "Em mídia paga, o criativo decide quem para, quem entende e quem chama. A DX planeja ângulos, escreve roteiros e orienta a gravação para que cada peça tenha uma função clara na campanha.",
+    h1: "Criativos e roteiros para explicar sua oferta em poucos segundos",
+    lead: "Transformamos as perguntas dos clientes em ideias de anúncios. Escrevemos os roteiros e orientamos a gravação para que sua equipe saiba o que mostrar e dizer.",
     summary:
       "Planejamento de ângulos de comunicação, roteiros de vídeo curto, estáticos e carrosséis para anúncios, com variações para teste e alinhamento entre promessa, página e atendimento.",
     definition: {
@@ -874,8 +874,8 @@ export const services: Service[] = [
     metaDescription:
       "Landing pages dedicadas a cada oferta, com mensagem alinhada ao anúncio, formulário que qualifica, carregamento rápido no celular e integração com CRM.",
     eyebrow: "Do clique ao contato",
-    h1: "Landing pages feitas para transformar o clique do anúncio em contato",
-    lead: "A pessoa clicou porque o anúncio prometeu algo. A página precisa confirmar essa promessa em segundos, responder as dúvidas certas e facilitar o próximo passo, sem desviar a atenção.",
+    h1: "Páginas de campanha que facilitam o próximo passo",
+    lead: "Quem clica no anúncio encontra a mesma oferta na página, tira as principais dúvidas e consegue pedir um orçamento ou agendar pelo celular.",
     summary:
       "Criação e otimização de páginas dedicadas a ofertas e campanhas, com mensagem coerente com o anúncio, formulário com qualificação, foco em celular, mensuração de eventos e integração com o atendimento.",
     definition: {
@@ -1121,8 +1121,8 @@ export const services: Service[] = [
     metaDescription:
       "Estruturação comercial para empresas que geram leads: etapas do funil, critérios de qualificação, roteiros de follow-up, tempo de resposta e indicadores.",
     eyebrow: "Processo comercial",
-    h1: "Estruturação comercial: um caminho claro do primeiro contato ao fechamento",
-    lead: "Muitas empresas não têm um problema de demanda, têm um problema de processo. A DX desenha como o lead é recebido, qualificado, acompanhado e fechado, e apoia a sua equipe a colocar isso em prática.",
+    h1: "Um processo comercial para acompanhar cada oportunidade",
+    lead: "Definimos com sua equipe quem recebe cada contato, como registrar a conversa e quando retomar um orçamento em aberto.",
     summary:
       "Desenho e apoio à implantação do processo de pré-vendas e vendas: etapas do funil, qualificação, roteiros de abordagem e follow-up, distribuição de leads, rotina de acompanhamento e indicadores.",
     definition: {
@@ -1338,8 +1338,8 @@ export const services: Service[] = [
     metaDescription:
       "CRM e automação de atendimento para organizar leads, distribuir contatos, automatizar lembretes e follow-up e usar IA na triagem com supervisão humana.",
     eyebrow: "Atendimento organizado",
-    h1: "CRM e automação de atendimento para responder rápido sem perder o controle",
-    lead: "Quando os leads chegam por formulário, WhatsApp e telefone ao mesmo tempo, contatos começam a escapar. A DX organiza o pipeline, automatiza o que é repetitivo e aplica IA onde ela ajuda, sempre com uma pessoa no controle.",
+    h1: "CRM e automação para organizar o atendimento",
+    lead: "Reunimos os contatos de formulários, WhatsApp e telefone em um só fluxo. A automação distribui tarefas e lembra a equipe de retomar cada conversa.",
     summary:
       "Organização de leads em CRM, automações de distribuição, lembretes e follow-up, integração de formulários e WhatsApp e uso de IA na triagem inicial com supervisão humana.",
     definition: {

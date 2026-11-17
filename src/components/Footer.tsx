@@ -2,7 +2,6 @@ import Link from "next/link";
 import { segmentNav, serviceNav } from "@/config/navigation";
 import { site } from "@/config/site";
 import { hasOptionalTracking } from "@/config/env";
-import { publishedCases } from "@/content/cases";
 import { Logo } from "./Logo";
 import { CookiePreferencesButton } from "./consent/CookiePreferencesButton";
 
@@ -16,7 +15,7 @@ export function Footer() {
   const company = [
     { href: "/sobre", label: "Sobre a DX" },
     { href: "/metodologia", label: "Metodologia" },
-    ...(publishedCases.length ? [{ href: "/cases", label: "Cases" }] : []),
+    { href: "/cases", label: "Cases e depoimentos" },
     { href: "/conteudos", label: "Conteúdos" },
     { href: "/contato", label: "Contato" },
   ];
@@ -25,14 +24,14 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         <div className="grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_0.8fr]">
           <div>
-            <Link href="/" className="inline-block text-[1.6rem]" aria-label={`${site.name} — página inicial`}>
+            <Link href="/" className="inline-block text-[1.6rem]" aria-label={`Página inicial da ${site.name}`}>
               <Logo />
             </Link>
             <p className="mt-6 max-w-sm text-[0.9375rem] leading-6 text-text-secondary">
-              Tráfego pago, criativos, landing pages, estrutura comercial e CRM trabalhando juntos para gerar oportunidades e transformar atendimento em vendas.
+              Planejamos anúncios, criamos páginas de campanha e ajudamos sua equipe a acompanhar cada contato até a venda.
             </p>
             <p className="mt-6 text-[0.9375rem] leading-6 text-text-primary">
-              {site.location.city} — {site.location.stateName}
+              {site.location.city}, {site.location.stateName}
               <br />
               <span className="text-text-secondary">Atendimento a empresas de todo o Brasil</span>
             </p>
@@ -42,7 +41,7 @@ export function Footer() {
             {social.length ? (
               <ul className="mt-6 flex flex-wrap gap-4 text-sm">
                 {social.map(([k, url]) => (
-                  <li key={k}><a href={url} rel="noopener noreferrer" target="_blank" className="link-u capitalize">{k}</a></li>
+                  <li key={k}><a href={url} rel="noopener noreferrer" target="_blank" className="link-u capitalize">{k === "youtube" ? "YouTube" : k}</a></li>
                 ))}
               </ul>
             ) : null}

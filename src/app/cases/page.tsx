@@ -1,47 +1,60 @@
-import Link from "next/link";
+import { CTA_PRIMARY } from "@/config/navigation";
+import { site } from "@/config/site";
 import { pageMetadata } from "@/lib/seo";
 import { breadcrumbNode, graph, webPageNode } from "@/lib/schema";
-import { publishedCases, visibleCases } from "@/content/cases";
+import { visibleCases } from "@/content/cases";
 import { JsonLd } from "@/components/JsonLd";
-import { CtaSection, LinkRows, PageHero } from "@/components/sections";
-import { Container, DevNote, Section } from "@/components/ui";
+import { CtaSection, LinkRows, PageHero, SectionHeader } from "@/components/sections";
+import { TestimonialCards } from "@/components/TestimonialCards";
+import { ArrowIcon, Container, Section, btn } from "@/components/ui";
 
-const TITLE = "Cases";
-const DESC = "Cases da Agência Digital Xpert publicados com autorização dos clientes e resultados verificáveis, com período e fonte dos dados.";
+const TITLE = "Cases e depoimentos de clientes";
+const DESC = "Assista aos depoimentos de clientes da Agência Digital Xpert e conheça, pelas palavras de quem participou, os resultados de cada operação.";
 const crumbs = [
   { name: "Início", href: "/" },
   { name: "Cases", href: "/cases" },
 ];
 
-// Sem cases publicados, a página fica fora do índice e do sitemap.
-export const metadata = pageMetadata({ title: TITLE, description: DESC, path: "/cases", noindex: publishedCases.length === 0 });
+export const metadata = pageMetadata({ title: TITLE, description: DESC, path: "/cases" });
 
 export default function CasesPage() {
   return (
     <>
       <JsonLd data={graph(webPageNode({ path: "/cases", name: TITLE, description: DESC, type: "CollectionPage" }), breadcrumbNode("/cases", crumbs))} />
-      <PageHero art="cases"
+      <PageHero
+        art="cases"
         crumbs={crumbs}
         eyebrow="Cases"
-        title="Resultados contados com autorização e dados verificáveis."
-        lead="Publicamos cases apenas quando o cliente autoriza e quando os números podem ser verificados, com período e fonte. Preferimos poucos cases sólidos a vitrines infladas."
+        title="A experiência de quem trabalha com a DX."
+        lead="Ouça os clientes contarem como as campanhas e o atendimento influenciaram as vendas em cada unidade."
+        primary={{ href: "#depoimentos", label: "Ver depoimentos" }}
+        secondary={CTA_PRIMARY}
         ctaLocation="cases_hero"
       />
-      <Section tone="light">
+      <Section tone="light" id="depoimentos" labelledBy="relatos-title">
         <Container>
-          {visibleCases.length ? (
-            <LinkRows items={visibleCases.map((c) => ({ href: `/cases/${c.slug}`, title: c.title, text: c.summary }))} />
-          ) : (
-            <div className="max-w-2xl">
-              <h2 className="text-h3">Cases em preparação</h2>
-              <p className="mt-4 text-text-secondary">
-                Estamos organizando os primeiros cases autorizados. Enquanto isso, você pode entender <Link href="/metodologia" className="underline underline-offset-2">como trabalhamos</Link> ou conhecer nossa abordagem para o <Link href="/segmentos" className="underline underline-offset-2">seu segmento</Link>.
-              </p>
-            </div>
-          )}
-          <DevNote>entradas com <code>published: false</code> em src/content/cases.ts aparecem aqui só no ambiente de edição.</DevNote>
+          <h2 id="relatos-title" className="text-h2 mb-8">Depoimentos de clientes</h2>
+          <TestimonialCards />
+          <div className="mt-10 flex flex-wrap gap-3">
+            <a href={site.social.youtube} className={btn("secondary")} target="_blank" rel="noopener noreferrer">
+              Canal da DX no YouTube <ArrowIcon className="-rotate-45" />
+            </a>
+            <a href={site.social.instagram} className={btn("ghost")} target="_blank" rel="noopener noreferrer">
+              Instagram da DX <ArrowIcon className="-rotate-45" />
+            </a>
+          </div>
         </Container>
       </Section>
+      {visibleCases.length > 0 ? (
+        <Section tone="paper2" labelledBy="estudos-title">
+          <Container>
+            <SectionHeader id="estudos-title" title="Estudos de caso" />
+            <div className="mt-8">
+              <LinkRows items={visibleCases.map((c) => ({ href: `/cases/${c.slug}`, title: c.title, text: c.summary }))} />
+            </div>
+          </Container>
+        </Section>
+      ) : null}
       <CtaSection location="cases_final" />
     </>
   );

@@ -2,8 +2,8 @@
 
 Nada abaixo foi inventado no site: enquanto um item não for preenchido, ele simplesmente não aparece (ou aparece como aviso no ambiente de edição).
 
-## Bloqueiam a geração de leads
-- [ ] **Integração do formulário** — URL de webhook do CRM/automação (`LEAD_WEBHOOK_URL`). Sem ela, o formulário exibe "em configuração" e recusa os envios.
+## Integração e indexação
+- [ ] Configurar `LEAD_WEBHOOK_URL` para receber os pedidos do formulário próprio no CRM. Até lá, os botões de diagnóstico levam ao formulário oficial da DX no Respondi.
 - [ ] **Domínio** (`NEXT_PUBLIC_SITE_URL`) e `NEXT_PUBLIC_SITE_ENV=production` para liberar a indexação.
 
 ## Identidade
@@ -17,12 +17,12 @@ Nada abaixo foi inventado no site: enquanto um item não for preenchido, ele sim
 - [ ] Telefone e **WhatsApp** (`NEXT_PUBLIC_WHATSAPP_NUMBER`) — o botão só aparece com número real.
 - [ ] E-mail comercial.
 - [ ] Endereço completo (somente se for público).
-- [x] Instagram da agência (@agenciadigitalxpert). Outros perfis, se houver.
+- [x] Instagram e YouTube oficiais da agência.
 - [ ] Razão social, CNPJ e canal de privacidade/encarregado (para as políticas).
 
 ## Prova
-- [ ] **Cases autorizados** com dados verificáveis (período e fonte). A seção de cases fica oculta até existir um publicado.
-- [ ] Depoimentos reais, se houver (não há nenhum no site).
+- [x] Três depoimentos em vídeo na home e em Cases, com capa, resumo e link para a publicação original.
+- [ ] Estudos de caso detalhados, com período, fonte e autorização. Cada estudo aparece em Cases quando recebe `published: true`.
 
 ## Mensuração
 - [x] GTM `GTM-MLGX6B67` instalado (carrega após consentimento, com Consent Mode v2).

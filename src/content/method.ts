@@ -45,7 +45,7 @@ export const methodSteps = [
   {
     slug: "acompanhamento",
     title: "Acompanhamento",
-    short: "Acompanhar o funil inteiro — da mídia ao fechamento — e manter marketing e comercial alinhados.",
+    short: "Cruzar os dados dos anúncios com os registros de atendimento e venda.",
     goal: "Garantir que as oportunidades geradas sejam aproveitadas e que os dados reflitam a realidade.",
     what: [
       "Leitura dos indicadores de mídia, atendimento e vendas em conjunto.",

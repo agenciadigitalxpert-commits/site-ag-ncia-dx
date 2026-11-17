@@ -114,6 +114,8 @@ export function ConsentManager({ ids }: { ids: Ids }) {
     if (prev && ((prev.analytics && !analytics) || (prev.ads && !ads))) window.location.reload();
   };
 
+  const choiceButton = "min-h-11 rounded-full border border-border-secondary px-3 text-sm font-medium hover:bg-bg-fill-secondary-hover";
+
   if (!ready) return null;
 
   return (
@@ -123,35 +125,25 @@ export function ConsentManager({ ids }: { ids: Ids }) {
         <div
           role="region"
           aria-label="Aviso de cookies"
-          style={{ marginBottom: "env(safe-area-inset-bottom)" }}
-          className="surface-graphite fixed inset-x-3 bottom-3 z-[60] mx-auto max-w-3xl rounded-lg p-4 shadow-2xl shadow-black/50 sm:inset-x-6 sm:bottom-6 sm:p-6"
+          className="cookie-banner surface-graphite border border-border-secondary p-3 shadow-xl sm:p-4"
         >
-          <p className="text-sm leading-5 sm:text-[0.9375rem] sm:leading-6">
-            Usamos cookies necessários e, com a sua permissão, cookies de
-            {hasAnalyticsTool ? " medição" : ""}
-            {hasAnalyticsTool && hasAdsTool ? " e" : ""}
-            {hasAdsTool ? " publicidade" : ""} para melhorar o site e avaliar campanhas.{" "}
-            <Link href="/politica-de-cookies" className="underline underline-offset-2 hover:text-text-secondary">Saiba mais</Link>
-            {" · "}
+          <p className="text-sm leading-5">
+            Com sua permissão, usamos cookies de {hasAnalyticsTool ? "medição" : ""}
+            {hasAnalyticsTool && hasAdsTool ? " e " : ""}{hasAdsTool ? "publicidade" : ""}.
+          </p>
+          <div className="mt-2 grid grid-cols-[auto_1fr_1fr] items-center gap-2">
             <button
               type="button"
               onClick={() => {
                 setDraft({ analytics: false, ads: false });
                 dialogRef.current?.showModal();
               }}
-              className="underline underline-offset-2 hover:text-text-secondary"
+              className="min-h-11 px-1 text-sm underline underline-offset-4 hover:text-text-secondary"
             >
               Configurar
             </button>
-          </p>
-          {/* Lado a lado; ação principal à direita */}
-          <div className="mt-4 grid grid-cols-2 gap-2 sm:flex sm:justify-end">
-            <button type="button" onClick={() => decide(false, false)} className={btn("secondary", "px-4")}>
-              Rejeitar
-            </button>
-            <button type="button" onClick={() => decide(true, true)} className={btn("primary", "px-4")}>
-              Aceitar
-            </button>
+            <button type="button" onClick={() => decide(false, false)} className={choiceButton}>Rejeitar</button>
+            <button type="button" onClick={() => decide(true, true)} className={choiceButton}>Aceitar</button>
           </div>
         </div>
       ) : null}
@@ -159,7 +151,7 @@ export function ConsentManager({ ids }: { ids: Ids }) {
       <dialog
         ref={dialogRef}
         aria-labelledby="cookie-prefs-title"
-        className="surface-graphite m-auto w-[min(36rem,calc(100vw-1.5rem))] rounded-lg p-0 shadow-2xl shadow-black/50 backdrop:bg-black/70 backdrop:backdrop-blur-[20px]"
+        className="surface-graphite m-auto w-[min(36rem,calc(100vw-1.5rem))] max-h-[90dvh] overflow-y-auto rounded-lg p-0 shadow-2xl shadow-black/50 backdrop:bg-black/70 backdrop:backdrop-blur-[20px]"
       >
         <form
           method="dialog"
@@ -175,7 +167,7 @@ export function ConsentManager({ ids }: { ids: Ids }) {
               <svg aria-hidden viewBox="0 0 20 20" width="20" height="20"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>
             </button>
           </div>
-          <p className="mt-2 text-sm leading-5 text-text-secondary">Escolha o que podemos usar. Você pode mudar isso a qualquer momento pelo link no rodapé.</p>
+          <p className="mt-2 text-sm leading-5 text-text-secondary">Você pode mudar sua escolha pelo rodapé do site. Consulte a <Link href="/politica-de-cookies" onClick={() => dialogRef.current?.close()} className="underline underline-offset-2">política de cookies</Link>.</p>
           <fieldset className="mt-6 space-y-6">
             <legend className="sr-only">Categorias</legend>
             <Toggle id="c-nec" label="Necessários" desc="Funcionamento básico, segurança e registro desta escolha. Sempre ativos." checked disabled onChange={() => {}} />

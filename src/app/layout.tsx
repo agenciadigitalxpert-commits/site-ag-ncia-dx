@@ -61,13 +61,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <div aria-hidden className="scroll-progress" />
         <JsonLd data={graph(organizationNode(), websiteNode(), ...founderNodes())} />
         <Header />
+        {hasOptionalTracking ? <ConsentManager ids={tracking} /> : null}
         <main id="conteudo" tabIndex={-1} className="flex-1 focus:outline-none">
           {children}
         </main>
         <Footer />
         <SiteEffects />
         <RouteTracker />
-        {hasOptionalTracking ? <ConsentManager ids={tracking} /> : null}
         {whatsappNumber ? <WhatsAppButton number={whatsappNumber} /> : null}
       </body>
     </html>

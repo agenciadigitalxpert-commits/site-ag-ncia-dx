@@ -112,7 +112,7 @@ export default async function SegmentPage({ params }: PageProps<"/segmentos/[slu
       {/* Exemplos */}
       <Section tone="light" labelledBy="exemplos">
         <Container>
-          <SectionHeader id="exemplos" index="04" eyebrow="Na prática" title="Situações comuns e como lidamos com elas" intro="Cenários ilustrativos, construídos para explicar a lógica do trabalho. Não representam clientes reais." />
+          <SectionHeader id="exemplos" index="04" eyebrow="Na prática" title="Situações comuns e como lidamos com elas" intro="Estes exemplos ilustram decisões que sua equipe pode precisar tomar no dia a dia." />
           <div className="mt-12 grid gap-12 lg:grid-cols-3 lg:gap-16">
             {s.examples.map((e) => (
               <article key={e.title} className="reveal">
@@ -128,7 +128,7 @@ export default async function SegmentPage({ params }: PageProps<"/segmentos/[slu
       {/* Objeções */}
       <Section tone="paper2" labelledBy="objecoes">
         <Container>
-          <SectionHeader id="objecoes" index="05" eyebrow="Objeções" title="O que costumamos ouvir — e o que respondemos" />
+          <SectionHeader id="objecoes" index="05" eyebrow="Na conversa com a DX" title="Dúvidas que surgem antes de começar" />
           <div className="reveal mt-12 max-w-3xl">
             <FaqList faqs={s.objections.map((o) => ({ q: `“${o.q}”`, a: o.a }))} />
           </div>

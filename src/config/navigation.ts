@@ -21,9 +21,10 @@ export const segmentNav: NavLink[] = [
 
 export const mainNav: NavLink[] = [
   { href: "/metodologia", label: "Metodologia" },
+  { href: "/cases", label: "Cases" },
   { href: "/sobre", label: "Sobre" },
   { href: "/conteudos", label: "Conteúdos" },
 ];
 
 export const CTA_PRIMARY = { label: "Quero um diagnóstico", href: "/contato#diagnostico" };
-export const CTA_SECONDARY = { label: "Conheça nossa estratégia", href: "/metodologia" };
+export const CTA_SECONDARY = { label: "Conheça a metodologia", href: "/metodologia" };

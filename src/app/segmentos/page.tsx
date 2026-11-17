@@ -23,13 +23,13 @@ export default function SegmentsPage() {
       <PageHero art="segmentos"
         crumbs={crumbs}
         eyebrow="Segmentos"
-        title="Estratégias que partem de como o seu cliente decide comprar."
+        title="Como seus clientes decidem comprar?"
         lead="Uma oficina recebe pedido de orçamento com foto do para-choque. Uma clínica precisa que o paciente compareça à avaliação. Um delivery disputa o horário do jantar. Cada operação pede uma abordagem diferente."
         ctaLocation="segments_hero"
       />
       <Section tone="light" labelledBy="lista-segmentos">
         <Container>
-          <SectionHeader id="lista-segmentos" eyebrow="Onde atuamos" title="Segmentos prioritários" intro="Não atendemos apenas esses mercados, mas são os que conhecemos de perto — e onde a conexão entre mídia e atendimento faz mais diferença." />
+          <SectionHeader id="lista-segmentos" eyebrow="Onde atuamos" title="Encontre seu segmento" intro="Veja exemplos de campanhas, rotinas de atendimento e indicadores para a sua área." />
           <ul className="mt-14 border-t border-border-tertiary">
             {segments.map((s, i) => (
               <li key={s.slug} className="reveal border-b border-border-tertiary">
