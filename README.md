@@ -28,7 +28,7 @@ npm run build && npm start   # build de produção
 | Dados institucionais, contatos, redes, CNPJ | `src/config/site.ts` |
 | Domínio, ambiente, IDs de mensuração, WhatsApp, webhook | variáveis de ambiente (`.env.example`) |
 | Menus e CTAs | `src/config/navigation.ts` |
-| Cores e tipografia (tokens) | `src/app/globals.css` (`:root`) — a cor de destaque é **provisória** |
+| Tokens de design (cor, raio, tipografia) | `src/app/globals.css` — primitivos (`--grey-*`, `--lime-*`) → semânticos `color-{elemento}-{prioridade}-{estado}`, remapeados por superfície (`.surface-dark`, `.surface-light`…). A cor da marca é **provisória**: troque só `--lime-*`. |
 | Serviços | `src/content/services.ts` |
 | Segmentos | `src/content/segments.ts` |
 | Artigos e categorias | `src/content/articles.ts` |
@@ -53,3 +53,13 @@ Somente com autorização registrada do cliente e resultados com período e font
 6. Se usar mensuração: IDs configurados, tags conferidas no modo de visualização do GTM e políticas revisadas.
 
 Mais detalhes: `docs/mensuracao.md` e `docs/pendencias.md`.
+
+## Regras de design (padrão DX)
+
+- Cor da marca **só** no CTA principal e em indicadores de estado; o resto é neutro.
+- Um botão `primary` por área (`btn("primary" | "secondary" | "ghost")` em `src/components/ui.tsx`); ação principal à direita.
+- Agrupar por proximidade; superfície (`bg-bg-surface*`, `.surface-dark`) apenas como ênfase.
+- Line-height no grid de 4px; ícones de 20px em caixa de 24px com 8px de gap (`IconItem`).
+- Raios: externo = interno + padding (`--radius-sm` 8 → `--radius-xl` 32 / `--radius-2xl` 40 nos painéis do formulário).
+- Formulário: opções curtas como chips de seleção única, rótulos em forma de pergunta, campos agrupados por decisão.
+- Componentes usam apenas tokens semânticos (ex.: `text-text-secondary`, `bg-bg-fill-brand`, `border-border-tertiary`).

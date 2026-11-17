@@ -51,7 +51,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-dvh flex-col">
         <a
           href="#conteudo"
-          className="fixed left-3 top-3 z-[100] -translate-y-20 rounded-full bg-accent px-5 py-3 font-medium text-accent-ink transition-transform focus:translate-y-0"
+          className="fixed left-3 top-3 z-[100] -translate-y-20 rounded-full bg-bg-fill-brand px-5 py-3 font-medium text-text-on-brand transition-transform focus:translate-y-0"
         >
           Pular para o conteúdo
         </a>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { btn } from "../ui";
 import { CONSENT_EVENT, OPEN_PREFS_EVENT, readConsent, saveConsent, type Consent } from "./store";
 
 const SSR = "__ssr__";
@@ -122,31 +123,33 @@ export function ConsentManager({ ids }: { ids: Ids }) {
         <div
           role="region"
           aria-label="Aviso de cookies"
-          className="fixed inset-x-3 bottom-3 z-[60] mx-auto max-w-3xl rounded-2xl border border-line-dark bg-graphite p-5 text-white shadow-2xl shadow-black/50 sm:inset-x-6 sm:bottom-6 sm:p-6"
+          className="surface-graphite fixed inset-x-3 bottom-3 z-[60] mx-auto max-w-3xl rounded-lg p-4 shadow-2xl shadow-black/50 sm:inset-x-6 sm:bottom-6 sm:p-6"
         >
-          <p className="text-[0.95rem] leading-relaxed text-white/90">
-            Usamos cookies necessários para o site funcionar. Com a sua permissão, também usamos cookies de
-            {hasAnalyticsTool ? " medição de audiência" : ""}
-            {hasAnalyticsTool && hasAdsTool ? " e de" : ""}
-            {hasAdsTool ? " publicidade" : ""} para entender o uso do site e avaliar nossas campanhas.{" "}
-            <Link href="/politica-de-cookies" className="underline underline-offset-2">Saiba mais</Link>.
-          </p>
-          <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-            <button type="button" onClick={() => decide(true, true)} className="min-h-11 rounded-full bg-accent px-5 font-medium text-accent-ink hover:bg-white">
-              Aceitar todos
-            </button>
-            <button type="button" onClick={() => decide(false, false)} className="min-h-11 rounded-full border border-white/30 px-5 font-medium hover:border-white">
-              Rejeitar opcionais
-            </button>
+          <p className="text-sm leading-5 sm:text-[0.9375rem] sm:leading-6">
+            Usamos cookies necessários e, com a sua permissão, cookies de
+            {hasAnalyticsTool ? " medição" : ""}
+            {hasAnalyticsTool && hasAdsTool ? " e" : ""}
+            {hasAdsTool ? " publicidade" : ""} para melhorar o site e avaliar campanhas.{" "}
+            <Link href="/politica-de-cookies" className="underline underline-offset-2 hover:text-text-secondary">Saiba mais</Link>
+            {" · "}
             <button
               type="button"
               onClick={() => {
                 setDraft({ analytics: false, ads: false });
                 dialogRef.current?.showModal();
               }}
-              className="min-h-11 rounded-full px-5 font-medium underline underline-offset-4 hover:text-accent"
+              className="underline underline-offset-2 hover:text-text-secondary"
             >
               Configurar
+            </button>
+          </p>
+          {/* Lado a lado; ação principal à direita */}
+          <div className="mt-4 grid grid-cols-2 gap-2 sm:flex sm:justify-end">
+            <button type="button" onClick={() => decide(false, false)} className={btn("secondary", "px-4")}>
+              Rejeitar
+            </button>
+            <button type="button" onClick={() => decide(true, true)} className={btn("primary", "px-4")}>
+              Aceitar
             </button>
           </div>
         </div>
@@ -155,7 +158,7 @@ export function ConsentManager({ ids }: { ids: Ids }) {
       <dialog
         ref={dialogRef}
         aria-labelledby="cookie-prefs-title"
-        className="m-auto w-[min(36rem,calc(100vw-1.5rem))] rounded-2xl border border-line-dark bg-graphite p-0 text-white backdrop:bg-black/70"
+        className="surface-graphite m-auto w-[min(36rem,calc(100vw-1.5rem))] rounded-lg p-0 shadow-2xl shadow-black/50 backdrop:bg-black/70 backdrop:backdrop-blur-[20px]"
       >
         <form
           method="dialog"
@@ -165,9 +168,14 @@ export function ConsentManager({ ids }: { ids: Ids }) {
             decide(draft.analytics, draft.ads);
           }}
         >
-          <h2 id="cookie-prefs-title" className="text-h3">Preferências de cookies</h2>
-          <p className="mt-2 text-sm text-muted-dark">Escolha o que podemos usar. Você pode mudar isso a qualquer momento pelo link no rodapé.</p>
-          <fieldset className="mt-6 space-y-3">
+          <div className="flex items-start justify-between gap-4">
+            <h2 id="cookie-prefs-title" className="text-h3">Preferências de cookies</h2>
+            <button type="button" aria-label="Fechar" onClick={() => dialogRef.current?.close()} className="-mr-2 -mt-1 grid size-10 shrink-0 place-items-center rounded-full text-text-secondary hover:bg-bg-fill-secondary hover:text-text-primary">
+              <svg aria-hidden viewBox="0 0 20 20" width="20" height="20"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>
+            </button>
+          </div>
+          <p className="mt-2 text-sm leading-5 text-text-secondary">Escolha o que podemos usar. Você pode mudar isso a qualquer momento pelo link no rodapé.</p>
+          <fieldset className="mt-6 space-y-6">
             <legend className="sr-only">Categorias</legend>
             <Toggle id="c-nec" label="Necessários" desc="Funcionamento básico, segurança e registro desta escolha. Sempre ativos." checked disabled onChange={() => {}} />
             {hasAnalyticsTool ? (
@@ -177,11 +185,11 @@ export function ConsentManager({ ids }: { ids: Ids }) {
               <Toggle id="c-ads" label="Publicidade" desc="Medição de campanhas e públicos de anúncios (ex.: Meta Pixel, Google Ads)." checked={draft.ads} onChange={(v) => setDraft((d) => ({ ...d, ads: v }))} />
             ) : null}
           </fieldset>
-          <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-            <button type="button" onClick={() => dialogRef.current?.close()} className="min-h-11 rounded-full px-5 underline underline-offset-4">
+          <div className="mt-8 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+            <button type="button" onClick={() => dialogRef.current?.close()} className={btn("secondary")}>
               Cancelar
             </button>
-            <button type="submit" className="min-h-11 rounded-full bg-accent px-6 font-medium text-accent-ink hover:bg-white">
+            <button type="submit" className={btn("primary")}>
               Salvar preferências
             </button>
           </div>
@@ -193,10 +201,10 @@ export function ConsentManager({ ids }: { ids: Ids }) {
 
 function Toggle({ id, label, desc, checked, disabled, onChange }: { id: string; label: string; desc: string; checked: boolean; disabled?: boolean; onChange: (v: boolean) => void }) {
   return (
-    <div className="flex items-start justify-between gap-4 rounded-xl border border-line-dark p-4">
+    <div className="flex items-start justify-between gap-6">
       <div>
-        <label htmlFor={id} className="font-medium">{label}</label>
-        <p id={`${id}-d`} className="mt-1 text-sm text-muted-dark">{desc}</p>
+        <label htmlFor={id} className="font-medium leading-6">{label}</label>
+        <p id={`${id}-d`} className="text-sm leading-5 text-text-secondary">{desc}</p>
       </div>
       <input
         id={id}
@@ -206,7 +214,7 @@ function Toggle({ id, label, desc, checked, disabled, onChange }: { id: string; 
         checked={checked}
         disabled={disabled}
         onChange={(e) => onChange(e.target.checked)}
-        className="mt-1 size-5 shrink-0 accent-[var(--accent)] disabled:opacity-60"
+        className="mt-0.5 size-5 shrink-0 accent-[var(--lime-400)] disabled:opacity-60"
       />
     </div>
   );

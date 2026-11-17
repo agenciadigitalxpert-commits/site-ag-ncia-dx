@@ -34,7 +34,7 @@ export default function CasesPage() {
           ) : (
             <div className="max-w-2xl">
               <h2 className="text-h3">Cases em preparação</h2>
-              <p className="mt-4 leading-relaxed text-muted-light">
+              <p className="mt-4 text-text-secondary">
                 Estamos organizando os primeiros cases autorizados. Enquanto isso, você pode entender <Link href="/metodologia" className="underline underline-offset-2">como trabalhamos</Link> ou conhecer nossa abordagem para o <Link href="/segmentos" className="underline underline-offset-2">seu segmento</Link>.
               </p>
             </div>

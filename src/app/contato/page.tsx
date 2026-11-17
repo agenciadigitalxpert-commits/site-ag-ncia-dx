@@ -35,33 +35,33 @@ export default function ContactPage() {
           <Breadcrumbs items={crumbs} />
           <div className="mt-12 grid gap-14 lg:mt-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
             <div>
-              <p className="hero-rise mb-5 text-[0.8rem] font-medium uppercase tracking-[0.16em] text-accent">Contato</p>
+              <p className="hero-rise mb-4 text-[0.8125rem] font-medium uppercase leading-5 tracking-[0.14em] text-text-secondary">Contato</p>
               <h1 className="hero-rise text-h1" style={{ ["--d" as string]: "60ms" }}>Vamos entender a sua operação.</h1>
-              <p className="hero-rise text-lead mt-6 text-white/75" style={{ ["--d" as string]: "140ms" }}>
+              <p className="hero-rise text-lead mt-6 text-text-secondary" style={{ ["--d" as string]: "140ms" }}>
                 Preencha o formulário para solicitar um diagnóstico. Quanto mais contexto, mais produtiva será a primeira conversa.
               </p>
               <ol className="mt-12 space-y-6">
                 {next.map((n, i) => (
                   <li key={n.t} className="flex gap-5">
-                    <span className="grid size-9 shrink-0 place-items-center rounded-full border border-line-dark text-sm tabular-nums text-accent">{i + 1}</span>
+                    <span className="grid size-8 shrink-0 place-items-center rounded-full bg-bg-fill-secondary text-sm tabular-nums leading-5">{i + 1}</span>
                     <div>
                       <p className="font-medium">{n.t}</p>
-                      <p className="mt-1 text-[0.95rem] text-muted-dark">{n.d}</p>
+                      <p className="mt-1 text-[0.95rem] text-text-secondary">{n.d}</p>
                     </div>
                   </li>
                 ))}
               </ol>
-              <div className="mt-12 border-t border-line-dark pt-8 text-[0.95rem] text-white/80">
-                <p className="font-medium text-white">{site.name}</p>
+              <div className="mt-12 border-t border-border-tertiary pt-8 text-[0.95rem] text-text-secondary">
+                <p className="font-medium text-text-primary">{site.name}</p>
                 <p className="mt-1">{site.location.city} — {site.location.stateName}</p>
-                <p className="mt-1 text-muted-dark">Atendimento a empresas de todo o Brasil</p>
+                <p className="mt-1 text-text-secondary">Atendimento a empresas de todo o Brasil</p>
                 {site.contact.email ? <p className="mt-3"><a className="link-u" href={`mailto:${site.contact.email}`}>{site.contact.email}</a></p> : null}
                 {site.contact.phone ? <p className="mt-1"><a className="link-u" href={`tel:${site.contact.phone.replace(/\s/g, "")}`}>{site.contact.phone}</a></p> : null}
                 {whatsappNumber ? <WhatsAppInline number={whatsappNumber} /> : null}
               </div>
               <DevNote>e-mail, telefone e WhatsApp aparecem automaticamente quando configurados (src/config/site.ts e NEXT_PUBLIC_WHATSAPP_NUMBER).</DevNote>
             </div>
-            <div id="diagnostico" className="scroll-mt-28 rounded-3xl border border-line-dark bg-graphite p-6 sm:p-10">
+            <div id="diagnostico" className="scroll-mt-28 self-start rounded-xl bg-bg-surface p-6 sm:rounded-2xl sm:p-8">
               <h2 className="text-h3 mb-6">Quero um diagnóstico</h2>
               <LeadForm integrationReady={leadIntegrationReady} location="contact_page" />
             </div>

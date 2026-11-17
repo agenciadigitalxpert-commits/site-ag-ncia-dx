@@ -44,8 +44,8 @@ export default function AboutPage() {
               <Eyebrow index="01">Quem somos</Eyebrow>
               <h2 id="quem-somos" className="text-h2">O que é a Agência Digital Xpert?</h2>
             </div>
-            <div className="reveal space-y-5 text-lead text-muted-light">
-              <p className="text-ink">
+            <div className="reveal space-y-5 text-lead text-text-secondary">
+              <p className="text-text-primary">
                 A Agência Digital Xpert (DX) é uma agência de marketing digital de Balneário Camboriú que ajuda empresas a gerar demanda, organizar o atendimento e transformar oportunidades em vendas.
               </p>
               <p>
@@ -63,7 +63,7 @@ export default function AboutPage() {
         <Container>
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
             <SectionHeader id="nao-somos" index="02" eyebrow="O que nos diferencia" title="Não somos uma agência de posts nem de impulsionamento." />
-            <div className="reveal space-y-6 text-lead text-white/75">
+            <div className="reveal space-y-6 text-lead text-text-secondary">
               <p>
                 Postar com frequência e impulsionar publicações pode ter seu lugar, mas não é o centro do nosso trabalho. Nosso foco é a geração de oportunidades comerciais e o caminho que elas percorrem até a venda.
               </p>
@@ -78,11 +78,11 @@ export default function AboutPage() {
       <Section tone="light" labelledBy="principios">
         <Container>
           <SectionHeader id="principios" index="03" eyebrow="Como pensamos" title="Princípios que orientam o trabalho" />
-          <ul className="mt-14 grid gap-x-12 border-t border-line-light md:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-14 grid gap-x-16 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
             {principles.map((p) => (
-              <li key={p.t} className="reveal border-b border-line-light py-8">
+              <li key={p.t} className="reveal">
                 <h3 className="text-h3">{p.t}</h3>
-                <p className="mt-3 leading-relaxed text-muted-light">{p.d}</p>
+                <p className="mt-2 text-text-secondary">{p.d}</p>
               </li>
             ))}
           </ul>
@@ -93,7 +93,7 @@ export default function AboutPage() {
         <Container>
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-20">
             <SectionHeader id="onde" index="04" eyebrow="Onde estamos" title="Base em Balneário Camboriú. Clientes em todo o Brasil." />
-            <div className="reveal space-y-5 text-lead text-muted-light">
+            <div className="reveal space-y-5 text-lead text-text-secondary">
               <p>
                 Nossa base fica em {site.location.city}, {site.location.stateName}. O atendimento é feito de forma remota, o que permite acompanhar empresas de diferentes cidades e estados com a mesma proximidade.
               </p>

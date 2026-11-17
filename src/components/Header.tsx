@@ -100,7 +100,7 @@ export function Header() {
           aria-expanded={isOpen}
           aria-controls={panelId}
           onClick={() => setOpen(isOpen ? null : key)}
-          className="flex h-11 items-center gap-1.5 rounded-full px-3.5 text-[0.95rem] text-white/85 transition-colors hover:text-white aria-expanded:text-white"
+          className="flex h-11 items-center gap-2 rounded-full px-4 text-[0.9375rem] text-text-primary transition-colors duration-200 hover:bg-bg-fill-secondary aria-expanded:bg-bg-fill-secondary"
         >
           {label}
           <svg aria-hidden viewBox="0 0 12 12" width="12" height="12" className={cx("transition-transform duration-300", isOpen && "rotate-180")}>
@@ -109,8 +109,11 @@ export function Header() {
         </button>
         <div
           id={panelId}
-          hidden={!isOpen}
-          className="absolute left-1/2 top-full z-50 mt-3 w-[min(34rem,90vw)] -translate-x-1/2 rounded-2xl border border-line-dark bg-graphite p-3 shadow-2xl shadow-black/40"
+          inert={!isOpen}
+          className={cx(
+            "absolute left-1/2 top-full z-50 mt-3 w-[min(34rem,90vw)] -translate-x-1/2 rounded-lg bg-bg-surface p-3 shadow-2xl shadow-black/40 transition-[opacity,transform,visibility] duration-200 ease-out-soft",
+            isOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-1 opacity-0",
+          )}
         >
           <ul className={cx("grid gap-1", items.length > 6 && "sm:grid-cols-2")}>
             {items.map((it) => (
@@ -118,10 +121,10 @@ export function Header() {
                 <Link
                   href={it.href}
                   onClick={closeAll}
-                  className="block rounded-xl px-4 py-3 transition-colors hover:bg-white/[0.06] focus-visible:bg-white/[0.06]"
+                  className="block rounded-[12px] px-4 py-3 transition-colors duration-150 hover:bg-bg-fill-secondary focus-visible:bg-bg-fill-secondary"
                 >
-                  <span className="block text-[0.97rem] text-white">{it.label}</span>
-                  {it.description ? <span className="mt-0.5 block text-sm text-muted-dark">{it.description}</span> : null}
+                  <span className="block text-[0.9375rem] font-medium leading-6 text-text-primary">{it.label}</span>
+                  {it.description ? <span className="block text-sm leading-5 text-text-secondary">{it.description}</span> : null}
                 </Link>
               </li>
             ))}
@@ -129,7 +132,7 @@ export function Header() {
           <Link
             href={hubHref}
             onClick={closeAll}
-            className="mt-2 flex items-center justify-between rounded-xl border-t border-line-dark px-4 pb-2 pt-4 text-sm text-white/80 hover:text-white"
+            className="mt-1 flex items-center justify-between rounded-[12px] px-4 py-3 text-sm font-medium text-text-secondary transition-colors duration-150 hover:bg-bg-fill-secondary hover:text-text-primary"
           >
             {hubLabel}
             <ArrowIcon />
@@ -142,13 +145,13 @@ export function Header() {
   return (
     <header
       className={cx(
-        "sticky top-0 z-40 border-b text-white transition-[background-color,border-color] duration-300",
+        "surface-dark sticky top-0 z-40 border-b transition-[background-color,border-color] duration-300",
         // Sem backdrop-filter com o menu aberto: ele criaria um bloco de contenção para o painel fixo.
-        mobile ? "border-line-dark bg-ink" : scrolled ? "border-line-dark bg-ink/90 backdrop-blur-md" : "border-transparent bg-ink",
+        mobile ? "border-border-tertiary" : scrolled ? "border-border-tertiary !bg-[rgb(10_10_11/0.9)] backdrop-blur-md" : "border-transparent",
       )}
     >
       <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between gap-6 px-5 sm:px-8 lg:px-10">
-        <Link href="/" onClick={closeAll} className="text-[1.45rem] text-white" aria-label={`${site.name} — página inicial`}>
+        <Link href="/" onClick={closeAll} className="text-[1.45rem] text-text-primary" aria-label={`${site.name} — página inicial`}>
           <Logo />
         </Link>
 
@@ -158,7 +161,7 @@ export function Header() {
             {dropdown("segmentos", "Segmentos", segmentNav, "/segmentos", "Ver todos os segmentos")}
             {mainNav.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} onClick={closeAll} className="flex h-11 items-center rounded-full px-3.5 text-[0.95rem] text-white/85 transition-colors hover:text-white">
+                <Link href={l.href} onClick={closeAll} className="flex h-11 items-center rounded-full px-3.5 text-[0.95rem] text-text-primary transition-colors hover:text-text-primary">
                   {l.label}
                 </Link>
               </li>
@@ -175,14 +178,14 @@ export function Header() {
           <button
             ref={mobileBtn}
             type="button"
-            className="relative grid size-11 place-items-center rounded-full border border-line-dark lg:hidden"
+            className="relative grid size-11 place-items-center rounded-full transition-colors hover:bg-bg-fill-secondary lg:hidden"
             aria-expanded={mobile}
             aria-controls={`${uid}-mobile`}
             aria-label={mobile ? "Fechar menu" : "Abrir menu"}
             onClick={() => setMobile((v) => !v)}
           >
-            <span aria-hidden className={cx("absolute h-[1.5px] w-5 bg-white transition-transform duration-300", mobile ? "rotate-45" : "-translate-y-[4px]")} />
-            <span aria-hidden className={cx("absolute h-[1.5px] w-5 bg-white transition-transform duration-300", mobile ? "-rotate-45" : "translate-y-[4px]")} />
+            <span aria-hidden className={cx("absolute h-[1.5px] w-5 bg-text-primary transition-transform duration-300", mobile ? "rotate-45" : "-translate-y-[4px]")} />
+            <span aria-hidden className={cx("absolute h-[1.5px] w-5 bg-text-primary transition-transform duration-300", mobile ? "-rotate-45" : "translate-y-[4px]")} />
           </button>
         </div>
       </div>
@@ -191,31 +194,34 @@ export function Header() {
       <div
         id={`${uid}-mobile`}
         ref={mobilePanel}
-        hidden={!mobile}
-        className="fixed inset-x-0 bottom-0 top-[4.5rem] overflow-y-auto overscroll-contain bg-ink lg:hidden"
+        inert={!mobile}
+        className={cx(
+          "surface-dark fixed inset-x-0 bottom-0 top-[4.5rem] overflow-y-auto overscroll-contain transition-[opacity,transform,visibility] duration-250 ease-out-soft lg:hidden",
+          mobile ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0",
+        )}
       >
         <nav aria-label="Menu principal (celular)" className="mx-auto flex min-h-full max-w-xl flex-col px-5 pb-10 pt-4 sm:px-8">
           {[
             { key: "s", label: "Serviços", items: serviceNav, hub: "/servicos", hubLabel: "Todos os serviços" },
             { key: "g", label: "Segmentos", items: segmentNav, hub: "/segmentos", hubLabel: "Todos os segmentos" },
           ].map((g) => (
-            <details key={g.key} className="acc border-b border-line-dark">
+            <details key={g.key} className="acc border-b border-border-tertiary">
               <summary className="flex min-h-16 items-center justify-between text-xl font-medium">
                 {g.label}
-                <span className="acc-icon grid size-9 place-items-center rounded-full border border-line-dark" aria-hidden>
-                  <svg viewBox="0 0 20 20" width="18" height="18"><path d="M10 4v12M4 10h12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>
+                <span className="acc-icon grid size-10 place-items-center" aria-hidden>
+                  <svg viewBox="0 0 20 20" width="20" height="20"><path d="M10 4v12M4 10h12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>
                 </span>
               </summary>
               <ul className="pb-4">
                 {g.items.map((it) => (
                   <li key={it.href}>
-                    <Link href={it.href} onClick={closeAll} className="flex min-h-12 items-center text-[1.05rem] text-white/80 hover:text-white">
+                    <Link href={it.href} onClick={closeAll} className="flex min-h-12 items-center text-base text-text-secondary hover:text-text-primary">
                       {it.label}
                     </Link>
                   </li>
                 ))}
                 <li>
-                  <Link href={g.hub} onClick={closeAll} className="flex min-h-12 items-center gap-2 text-[1.05rem] text-accent">
+                  <Link href={g.hub} onClick={closeAll} className="flex min-h-12 items-center gap-2 text-base font-medium text-text-primary">
                     {g.hubLabel} <ArrowIcon />
                   </Link>
                 </li>
@@ -223,7 +229,7 @@ export function Header() {
             </details>
           ))}
           {[...mainNav, { href: "/contato", label: "Contato" }].map((l) => (
-            <Link key={l.href} href={l.href} onClick={closeAll} className="flex min-h-16 items-center border-b border-line-dark text-xl font-medium">
+            <Link key={l.href} href={l.href} onClick={closeAll} className="flex min-h-16 items-center border-b border-border-tertiary text-xl font-medium">
               {l.label}
             </Link>
           ))}
@@ -231,7 +237,7 @@ export function Header() {
             {CTA_PRIMARY.label}
             <ArrowIcon />
           </TrackedLink>
-          <p className="mt-6 text-sm text-muted-dark">
+          <p className="mt-6 text-sm text-text-secondary">
             {site.location.city} — {site.location.state}. Atendimento a empresas de todo o Brasil.
           </p>
         </nav>

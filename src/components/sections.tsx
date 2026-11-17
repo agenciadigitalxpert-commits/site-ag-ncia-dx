@@ -5,7 +5,7 @@ import { leadIntegrationReady } from "@/config/env";
 import { Breadcrumbs, type Crumb } from "./Breadcrumbs";
 import { LeadForm } from "./LeadForm";
 import { TrackedLink } from "./TrackedLink";
-import { ArrowIcon, Container, Eyebrow, Section, btn, cx } from "./ui";
+import { ArrowIcon, Container, Eyebrow, IconItem, Section, btn, cx } from "./ui";
 
 export function PageHero({
   crumbs,
@@ -25,20 +25,20 @@ export function PageHero({
   children?: ReactNode;
 }) {
   return (
-    <section className="surface-dark relative overflow-hidden border-b border-line-dark">
+    <section className="surface-dark relative overflow-hidden">
       <HeroGrid />
-      <Container className="relative pb-16 pt-10 sm:pb-20 lg:pb-28 lg:pt-14">
+      <Container className="relative pb-16 pt-8 sm:pb-20 lg:pb-28 lg:pt-12">
         <Breadcrumbs items={crumbs} />
         <div className="mt-12 max-w-4xl lg:mt-16">
-          {eyebrow ? <p className="hero-rise mb-5 text-[0.8rem] font-medium uppercase tracking-[0.16em] text-accent">{eyebrow}</p> : null}
+          {eyebrow ? <Eyebrow className="hero-rise">{eyebrow}</Eyebrow> : null}
           <h1 className="hero-rise text-h1" style={{ ["--d" as string]: "60ms" }}>{title}</h1>
           {lead ? (
-            <p className="hero-rise text-lead mt-6 max-w-2xl text-white/75" style={{ ["--d" as string]: "140ms" }}>{lead}</p>
+            <p className="hero-rise text-lead mt-6 max-w-2xl text-text-secondary" style={{ ["--d" as string]: "140ms" }}>{lead}</p>
           ) : null}
-          <div className="hero-rise mt-9 flex flex-col gap-3 sm:flex-row" style={{ ["--d" as string]: "220ms" }}>
+          <div className="hero-rise mt-8 flex flex-col gap-3 sm:flex-row" style={{ ["--d" as string]: "220ms" }}>
             <TrackedLink href={CTA_PRIMARY.href} trackLabel={CTA_PRIMARY.label} trackLocation={ctaLocation} className={btn("primary")}>
               {CTA_PRIMARY.label}
-              <ArrowIcon className="transition-transform group-hover:translate-x-0.5" />
+              <ArrowIcon className="transition-transform duration-200 group-hover:translate-x-0.5" />
             </TrackedLink>
             {secondary ? (
               <TrackedLink href={secondary.href} trackLabel={secondary.label} trackLocation={ctaLocation} className={btn("secondary")}>
@@ -58,7 +58,7 @@ export function HeroGrid() {
   return (
     <div
       aria-hidden
-      className="pointer-events-none absolute inset-0 opacity-[0.5] [mask-image:radial-gradient(ellipse_at_70%_20%,black,transparent_70%)]"
+      className="pointer-events-none absolute inset-0 opacity-50 [mask-image:radial-gradient(ellipse_at_70%_20%,black,transparent_70%)]"
       style={{
         backgroundImage:
           "linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px)",
@@ -89,28 +89,30 @@ export function SectionHeader({
     <div className={cx("reveal max-w-3xl", className)}>
       {eyebrow ? <Eyebrow index={index}>{eyebrow}</Eyebrow> : null}
       <H id={id} className="text-h2">{title}</H>
-      {intro ? <div className="text-lead mt-5 opacity-80">{intro}</div> : null}
+      {intro ? <div className="text-lead mt-4 text-text-secondary">{intro}</div> : null}
     </div>
   );
 }
 
-/** Lista editorial de links (em vez de cards). */
-export function LinkRows({ items, location }: { items: { href: string; title: string; text: string; tag?: string }[]; location?: string }) {
+/**
+ * Lista editorial de links. Âncora visual = número à esquerda; seta só no hover
+ * (neutra — a cor da marca fica reservada ao CTA).
+ */
+export function LinkRows({ items }: { items: { href: string; title: string; text: string }[] }) {
   return (
-    <ul className="border-t border-current/15">
+    <ul className="border-t border-border-tertiary">
       {items.map((it, i) => (
-        <li key={it.href} className="reveal border-b border-current/15" style={{ ["--reveal-delay" as string]: `${Math.min(i, 6) * 50}ms` }}>
+        <li key={it.href} className="reveal border-b border-border-tertiary" style={{ ["--reveal-delay" as string]: `${Math.min(i, 6) * 40}ms` }}>
           <Link
             href={it.href}
-            data-location={location}
-            className="group grid gap-2 py-6 transition-[padding] duration-500 ease-out-soft sm:grid-cols-[minmax(0,5fr)_minmax(0,6fr)_auto] sm:items-center sm:gap-8 sm:py-8 sm:hover:pl-3"
+            className="group grid gap-2 py-6 sm:grid-cols-[minmax(0,5fr)_minmax(0,6fr)_2.75rem] sm:items-center sm:gap-8 sm:py-8"
           >
             <span className="flex items-baseline gap-4">
-              <span className="w-7 text-sm tabular-nums opacity-50">{String(i + 1).padStart(2, "0")}</span>
-              <span className="font-display text-h3">{it.title}</span>
+              <span className="w-6 text-sm tabular-nums text-text-secondary">{String(i + 1).padStart(2, "0")}</span>
+              <span className="font-display text-h3 transition-transform duration-200 ease-out-soft sm:group-hover:translate-x-1">{it.title}</span>
             </span>
-            <span className="pl-11 leading-relaxed opacity-75 sm:pl-0">{it.text}</span>
-            <span className="hidden size-11 place-items-center rounded-full border border-current/20 transition-colors group-hover:border-transparent group-hover:bg-accent group-hover:text-accent-ink sm:grid">
+            <span className="pl-10 text-text-secondary sm:pl-0">{it.text}</span>
+            <span className="hidden size-11 place-items-center rounded-full text-text-secondary transition-colors duration-200 group-hover:bg-bg-fill-inverse group-hover:text-text-on-inverse sm:grid">
               <ArrowIcon />
             </span>
           </Link>
@@ -134,20 +136,21 @@ export function CtaSection({
   id?: string;
 }) {
   return (
-    <Section tone="dark" id={id} labelledBy={`${id}-title`} className="border-t border-line-dark">
+    <Section tone="dark" id={id} labelledBy={`${id}-title`}>
       <Container>
         <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
           <div className="reveal">
             <Eyebrow>Diagnóstico</Eyebrow>
             <h2 id={`${id}-title`} className="text-h2">{title}</h2>
-            <p className="text-lead mt-5 text-white/75">{text}</p>
-            <ul className="mt-8 space-y-3 text-[0.97rem] text-white/80">
-              <li className="flex gap-3"><span aria-hidden className="mt-2.5 h-px w-4 shrink-0 bg-accent" />Leva cerca de um minuto.</li>
-              <li className="flex gap-3"><span aria-hidden className="mt-2.5 h-px w-4 shrink-0 bg-accent" />O contato é feito por pessoas da equipe, pelo WhatsApp informado.</li>
-              <li className="flex gap-3"><span aria-hidden className="mt-2.5 h-px w-4 shrink-0 bg-accent" />Investimento em mídia e honorários da agência são valores diferentes — falamos dos dois com clareza.</li>
+            <p className="text-lead mt-4 text-text-secondary">{text}</p>
+            <ul className="mt-8 space-y-3 text-text-secondary">
+              <IconItem>Leva cerca de um minuto.</IconItem>
+              <IconItem>O contato é feito por pessoas da equipe, pelo WhatsApp informado.</IconItem>
+              <IconItem>Investimento em mídia e honorários da agência são valores diferentes — falamos dos dois com clareza.</IconItem>
             </ul>
           </div>
-          <div className="reveal rounded-3xl border border-line-dark bg-graphite p-6 sm:p-10">
+          {/* campos com raio 8 + padding 24/32 → painel 32/40 */}
+          <div className="reveal rounded-xl bg-bg-surface p-6 sm:rounded-2xl sm:p-8">
             <LeadForm integrationReady={leadIntegrationReady} location={location} defaultSegment={defaultSegment} />
           </div>
         </div>
@@ -156,17 +159,17 @@ export function CtaSection({
   );
 }
 
-/** Bloco compacto de CTA (sem formulário) para o meio das páginas. */
+/** CTA compacto no meio das páginas: superfície escura usada como ênfase. */
 export function CtaInline({ title, text, location }: { title: string; text: string; location: string }) {
   return (
-    <div className="reveal flex flex-col gap-6 rounded-3xl bg-ink p-8 text-white sm:p-12 md:flex-row md:items-center md:justify-between">
+    <div className="surface-dark reveal flex flex-col gap-6 rounded-lg p-8 sm:p-10 md:flex-row md:items-center md:justify-between">
       <div className="max-w-2xl">
         <p className="font-display text-h3">{title}</p>
-        <p className="mt-3 text-white/70">{text}</p>
+        <p className="mt-2 text-text-secondary">{text}</p>
       </div>
       <TrackedLink href={CTA_PRIMARY.href} trackLabel={CTA_PRIMARY.label} trackLocation={location} className={btn("primary", "shrink-0")}>
         {CTA_PRIMARY.label}
-        <ArrowIcon className="transition-transform group-hover:translate-x-0.5" />
+        <ArrowIcon className="transition-transform duration-200 group-hover:translate-x-0.5" />
       </TrackedLink>
     </div>
   );
@@ -174,7 +177,7 @@ export function CtaInline({ title, text, location }: { title: string; text: stri
 
 export function ExampleBadge() {
   return (
-    <span className="inline-flex items-center rounded-full border border-current/25 px-2.5 py-0.5 text-[0.72rem] font-medium uppercase tracking-[0.12em] opacity-80">
+    <span className="inline-flex items-center rounded-full bg-bg-fill-secondary px-2.5 py-0.5 text-xs font-medium uppercase leading-5 tracking-[0.1em] text-text-secondary">
       Exemplo ilustrativo
     </span>
   );
@@ -183,24 +186,24 @@ export function ExampleBadge() {
 export function DataTable({ caption, columns, rows }: { caption: string; columns: string[]; rows: string[][] }) {
   return (
     <figure className="reveal">
-      <div className="overflow-x-auto rounded-2xl border border-current/15" role="region" aria-label={caption} tabIndex={0}>
-        <table className="w-full min-w-[40rem] border-collapse text-left text-[0.95rem]">
+      <div className="overflow-x-auto" role="region" aria-label={caption} tabIndex={0}>
+        <table className="w-full min-w-[40rem] border-collapse text-left text-[0.9375rem] leading-6">
           <caption className="sr-only">{caption}</caption>
           <thead>
-            <tr className="border-b border-current/15 bg-current/[0.04]">
+            <tr className="border-b border-border-secondary">
               {columns.map((c) => (
-                <th key={c} scope="col" className="px-5 py-4 font-semibold">{c}</th>
+                <th key={c} scope="col" className="py-4 pr-6 text-sm font-semibold text-text-secondary">{c}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {rows.map((r, i) => (
-              <tr key={i} className="border-b border-current/10 last:border-0">
+              <tr key={i} className="border-b border-border-tertiary last:border-0">
                 {r.map((cell, j) =>
                   j === 0 ? (
-                    <th key={j} scope="row" className="px-5 py-4 align-top font-medium">{cell}</th>
+                    <th key={j} scope="row" className="py-4 pr-6 align-top font-semibold">{cell}</th>
                   ) : (
-                    <td key={j} className="px-5 py-4 align-top leading-relaxed opacity-85">{cell}</td>
+                    <td key={j} className="py-4 pr-6 align-top text-text-secondary">{cell}</td>
                   ),
                 )}
               </tr>
@@ -208,7 +211,7 @@ export function DataTable({ caption, columns, rows }: { caption: string; columns
           </tbody>
         </table>
       </div>
-      <figcaption className="mt-3 text-sm opacity-70">{caption}</figcaption>
+      <figcaption className="mt-3 text-sm text-text-secondary">{caption}</figcaption>
     </figure>
   );
 }

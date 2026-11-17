@@ -17,11 +17,11 @@ export function LegalPage({ title, path, lead, children }: { title: string; path
       <Section tone="light">
         <Container narrow>
           {!site.policiesValidated ? (
-            <p role="note" className="mb-10 rounded-xl border border-dashed border-amber-600 bg-amber-50 p-4 text-sm leading-relaxed text-amber-900">
+            <p role="note" className="mb-10 rounded-sm border border-dashed border-border-note bg-bg-note p-4 text-sm leading-5 text-text-note">
               <strong>Minuta em validação.</strong> Este texto descreve a operação prevista do site e será revisado antes da versão definitiva.
             </p>
           ) : null}
-          <p className="text-sm text-muted-light">Última atualização: {formatDate(site.policiesUpdatedAt)}</p>
+          <p className="text-sm text-text-secondary">Última atualização: {formatDate(site.policiesUpdatedAt)}</p>
           <div className="prose-dx mt-8">{children}</div>
         </Container>
       </Section>

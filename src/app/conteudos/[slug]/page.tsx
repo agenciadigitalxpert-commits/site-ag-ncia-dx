@@ -44,17 +44,17 @@ function Block({ b }: { b: ArticleBlock }) {
       return <ol>{b.items.map((it, i) => <li key={i}><Rich text={it} /></li>)}</ol>;
     case "example":
       return (
-        <aside className="not-prose rounded-[var(--radius)] border border-line-light bg-paper-2 p-6 sm:p-7">
+        <aside className="not-prose rounded-md bg-bg-surface-recessed p-6 sm:p-8">
           <ExampleBadge />
-          <p className="mt-4 text-lg font-semibold leading-snug">{b.title}</p>
-          <p className="mt-2 leading-relaxed text-muted-light"><Rich text={b.text} /></p>
+          <p className="mt-4 text-lg font-semibold leading-7">{b.title}</p>
+          <p className="mt-2 text-base leading-6 text-text-secondary"><Rich text={b.text} /></p>
         </aside>
       );
     case "table":
       return <DataTable caption={b.table.caption} columns={b.table.columns} rows={b.table.rows} />;
     case "callout":
       return (
-        <p className="border-l-2 border-ink pl-5 text-lg font-medium leading-relaxed">
+        <p className="border-l-2 border-text-primary pl-5 text-lg font-medium leading-8">
           <Rich text={b.text} />
         </p>
       );
@@ -88,15 +88,15 @@ export default async function ArticlePage({ params }: PageProps<"/conteudos/[slu
         )}
       />
       <article>
-        <header className="surface-dark relative overflow-hidden border-b border-line-dark">
+        <header className="surface-dark relative overflow-hidden">
           <HeroGrid />
           <Container className="relative pb-14 pt-10 lg:pb-20 lg:pt-14">
             <Breadcrumbs items={crumbs} />
             <div className="mt-12 max-w-4xl">
-              {cat ? <p className="mb-5 text-[0.8rem] font-medium uppercase tracking-[0.16em] text-accent">{cat.name}</p> : null}
+              {cat ? <p className="mb-4 text-[0.8125rem] font-medium uppercase leading-5 tracking-[0.14em] text-text-secondary">{cat.name}</p> : null}
               <h1 className="hero-rise text-h1">{a.title}</h1>
-              <p className="mt-8 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-dark">
-                <span>Por <span className="text-white/90">{site.name}</span></span>
+              <p className="mt-8 flex flex-wrap gap-x-4 gap-y-1 text-sm text-text-secondary">
+                <span>Por <span className="text-text-primary">{site.name}</span></span>
                 {published && a.publishedAt ? (
                   <span>Publicado em <time dateTime={a.publishedAt}>{formatDate(a.publishedAt)}</time></span>
                 ) : null}
@@ -106,7 +106,7 @@ export default async function ArticlePage({ params }: PageProps<"/conteudos/[slu
                 <span>{readingMinutes(a)} min de leitura</span>
               </p>
               {!published ? (
-                <p role="note" className="mt-6 inline-block rounded-lg border border-dashed border-amber-300/60 bg-amber-300/10 px-4 py-2 text-sm text-amber-100">
+                <p role="note" className="mt-6 inline-block rounded-sm border border-dashed border-border-note bg-bg-note px-4 py-2 text-sm leading-5 text-text-note">
                   Versão de pré-visualização: texto em revisão editorial, ainda não publicado nem indexado.
                 </p>
               ) : null}
@@ -118,9 +118,9 @@ export default async function ArticlePage({ params }: PageProps<"/conteudos/[slu
           <Container>
             <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-20">
               <div className="min-w-0 max-w-[44rem]">
-                <section aria-labelledby="resposta" className="rounded-[var(--radius)] bg-ink p-7 text-white sm:p-8">
-                  <h2 id="resposta" className="text-sm font-medium uppercase tracking-[0.16em] text-accent">Resposta direta</h2>
-                  <p className="mt-3 text-lg leading-relaxed text-white/90"><Rich text={a.keyTakeaway} /></p>
+                <section aria-labelledby="resposta" className="surface-dark rounded-md p-6 sm:p-8">
+                  <h2 id="resposta" className="text-xs font-medium uppercase leading-4 tracking-[0.14em] text-text-secondary">Resposta direta</h2>
+                  <p className="mt-3 text-lg leading-7"><Rich text={a.keyTakeaway} /></p>
                 </section>
                 <div className="prose-dx mt-12">
                   {a.blocks.map((b, i) => <Block key={i} b={b} />)}
@@ -132,8 +132,8 @@ export default async function ArticlePage({ params }: PageProps<"/conteudos/[slu
 
               <aside className="lg:sticky lg:top-28 lg:self-start">
                 {toc.length ? (
-                  <nav aria-labelledby="toc-title" className="border-t border-line-light pt-6">
-                    <h2 id="toc-title" className="text-sm font-medium uppercase tracking-[0.14em] text-muted-light">Neste artigo</h2>
+                  <nav aria-labelledby="toc-title">
+                    <h2 id="toc-title" className="text-sm font-medium uppercase tracking-[0.14em] text-text-secondary">Neste artigo</h2>
                     <ol className="mt-4 space-y-2.5 text-[0.95rem]">
                       {toc.map((h) => (
                         <li key={h.id}><a href={`#${h.id}`} className="link-u leading-snug">{h.text}</a></li>
@@ -142,8 +142,8 @@ export default async function ArticlePage({ params }: PageProps<"/conteudos/[slu
                   </nav>
                 ) : null}
                 {svc.length || seg.length ? (
-                  <div className="mt-10 border-t border-line-light pt-6">
-                    <h2 className="text-sm font-medium uppercase tracking-[0.14em] text-muted-light">Relacionados</h2>
+                  <div className="mt-10">
+                    <h2 className="text-sm font-medium uppercase tracking-[0.14em] text-text-secondary">Relacionados</h2>
                     <ul className="mt-4 space-y-2.5 text-[0.95rem]">
                       {svc.map((s) => <li key={s.slug}><Link href={`/servicos/${s.slug}`} className="link-u">{s.name}</Link></li>)}
                       {seg.map((s) => <li key={s.slug}><Link href={`/segmentos/${s.slug}`} className="link-u">{s.name}</Link></li>)}
@@ -154,14 +154,14 @@ export default async function ArticlePage({ params }: PageProps<"/conteudos/[slu
             </div>
 
             {more.length ? (
-              <section aria-labelledby="mais" className="mt-24 border-t border-line-light pt-12">
+              <section aria-labelledby="mais" className="mt-24">
                 <h2 id="mais" className="text-h3">Continue lendo</h2>
                 <ul className="mt-6 grid gap-4 md:grid-cols-2">
                   {more.map((m) => (
                     <li key={m.slug}>
-                      <Link href={`/conteudos/${m.slug}`} className="group flex h-full flex-col justify-between rounded-[var(--radius)] border border-line-light p-7 transition-colors hover:border-ink">
-                        <span className="text-lg font-semibold leading-snug">{m.title}</span>
-                        <span className="mt-6 inline-flex items-center gap-2 text-sm text-muted-light group-hover:text-ink">Ler artigo <ArrowIcon className="transition-transform group-hover:translate-x-1" /></span>
+                      <Link href={`/conteudos/${m.slug}`} className="group flex h-full flex-col justify-between rounded-md bg-bg-fill-secondary p-6 transition-colors duration-150 hover:bg-bg-fill-secondary-hover">
+                        <span className="text-lg font-semibold leading-7">{m.title}</span>
+                        <span className="mt-6 inline-flex items-center gap-2 text-sm text-text-secondary group-hover:text-text-primary">Ler artigo <ArrowIcon className="transition-transform group-hover:translate-x-1" /></span>
                       </Link>
                     </li>
                   ))}

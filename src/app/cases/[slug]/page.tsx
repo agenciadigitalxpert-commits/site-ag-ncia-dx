@@ -35,7 +35,7 @@ export default async function CasePage({ params }: PageProps<"/cases/[slug]">) {
     <>
       <JsonLd data={graph(webPageNode({ path, name: c.title, description: c.summary }), breadcrumbNode(path, crumbs))} />
       {!c.published ? (
-        <p role="note" className="bg-amber-100 px-5 py-3 text-center text-sm text-amber-900">Rascunho — visível apenas no ambiente de edição.</p>
+        <p role="note" className="border-b border-dashed border-border-note bg-bg-note px-5 py-3 text-sm leading-5 text-text-note">Rascunho — visível apenas no ambiente de edição.</p>
       ) : null}
       <PageHero crumbs={crumbs} eyebrow={seg ? seg.navLabel : "Case"} title={c.title} lead={c.summary} ctaLocation={`case_${c.slug}_hero`} />
       <Section tone="light">

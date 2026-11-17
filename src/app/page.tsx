@@ -11,7 +11,7 @@ import { FaqList } from "@/components/Faq";
 import { TrackedLink } from "@/components/TrackedLink";
 import { BigX, HeroFlow } from "@/components/HeroFlow";
 import { CtaSection, HeroGrid, LinkRows, SectionHeader } from "@/components/sections";
-import { ArrowIcon, Container, DevNote, Eyebrow, Section, btn } from "@/components/ui";
+import { ArrowIcon, Container, DevNote, Eyebrow, IconItem, Section, btn } from "@/components/ui";
 import { methodSteps } from "@/content/method";
 
 const DESCRIPTION =
@@ -97,19 +97,19 @@ export default function HomePage() {
         <BigX className="pointer-events-none absolute -right-[18%] top-[-10%] hidden h-[130%] text-white/[0.05] lg:block" />
         <Container className="relative grid gap-14 pb-20 pt-14 sm:pt-20 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:items-center lg:gap-14 lg:pb-32 lg:pt-24">
           <div>
-            <p className="hero-rise mb-7 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.8rem] font-medium uppercase tracking-[0.16em] text-white/70">
-              <span className="text-accent">Agência de marketing digital</span>
-              <span aria-hidden className="hidden h-px w-5 bg-white/30 sm:block" />
+            <p className="hero-rise mb-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.8125rem] font-medium uppercase leading-5 tracking-[0.14em] text-text-secondary">
+              <span className="text-text-primary">Agência de marketing digital</span>
+              <span aria-hidden className="hidden h-px w-5 bg-border-secondary sm:block" />
               <span>{site.location.city} — {site.location.state}</span>
             </p>
             <h1 className="hero-rise text-display" style={{ ["--d" as string]: "80ms" }}>
               Mais oportunidades de venda.{" "}
-              <span className="text-white/55">Um comercial preparado para aproveitar cada uma.</span>
+              <span className="text-text-secondary">Um comercial preparado para aproveitar cada uma.</span>
             </h1>
-            <p className="hero-rise text-lead mt-7 max-w-xl text-white/75" style={{ ["--d" as string]: "180ms" }}>
+            <p className="hero-rise text-lead mt-6 max-w-xl text-text-secondary" style={{ ["--d" as string]: "180ms" }}>
               Tráfego pago, criativos e estrutura comercial para empresas que querem gerar demanda e transformar atendimento em vendas.
             </p>
-            <div className="hero-rise mt-10 flex flex-col gap-3 sm:flex-row" style={{ ["--d" as string]: "260ms" }}>
+            <div className="hero-rise mt-8 flex flex-col gap-3 sm:flex-row" style={{ ["--d" as string]: "260ms" }}>
               <TrackedLink href={CTA_PRIMARY.href} trackLabel={CTA_PRIMARY.label} trackLocation="home_hero" className={btn("primary")}>
                 {CTA_PRIMARY.label}
                 <ArrowIcon className="transition-transform group-hover:translate-x-0.5" />
@@ -118,7 +118,7 @@ export default function HomePage() {
                 {CTA_SECONDARY.label}
               </TrackedLink>
             </div>
-            <p className="hero-rise mt-10 max-w-lg text-sm leading-relaxed text-muted-dark" style={{ ["--d" as string]: "340ms" }}>
+            <p className="hero-rise mt-10 max-w-lg text-sm leading-6 text-text-secondary" style={{ ["--d" as string]: "340ms" }}>
               Google Ads · Meta Ads · Criativos · Landing pages · Estruturação comercial · CRM e automação
             </p>
           </div>
@@ -138,14 +138,12 @@ export default function HomePage() {
             title="Anúncio sem processo comercial vira custo. Processo sem demanda fica parado."
             intro="Na maioria das empresas, o problema não é só a campanha ou só o atendimento. É a distância entre os dois."
           />
-          <ol className="mt-14 grid gap-x-12 border-t border-line-light sm:grid-cols-2 lg:mt-20">
+          <ol className="mt-14 grid gap-x-16 gap-y-10 sm:grid-cols-2 lg:mt-20 lg:grid-cols-3">
             {pains.map((p, i) => (
-              <li key={p.t} className="reveal flex gap-5 border-b border-line-light py-8" style={{ ["--reveal-delay" as string]: `${(i % 2) * 80}ms` }}>
-                <span className="font-display pt-1 text-sm tabular-nums text-muted-light">{String(i + 1).padStart(2, "0")}</span>
-                <div>
-                  <h3 className="text-h3">{p.t}</h3>
-                  <p className="mt-2 leading-relaxed text-muted-light">{p.d}</p>
-                </div>
+              <li key={p.t} className="reveal" style={{ ["--reveal-delay" as string]: `${(i % 3) * 60}ms` }}>
+                <span className="text-sm tabular-nums leading-5 text-text-secondary">{String(i + 1).padStart(2, "0")}</span>
+                <h3 className="text-h3 mt-3">{p.t}</h3>
+                <p className="mt-2 text-text-secondary">{p.d}</p>
               </li>
             ))}
           </ol>
@@ -162,21 +160,21 @@ export default function HomePage() {
             title="Três frentes trabalhando como uma operação só."
             intro="Atrair, qualificar e converter fazem parte do mesmo funil. Por isso cuidamos das três de forma integrada — e medimos o resultado na ponta: oportunidades que viram vendas."
           />
-          <div className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-line-dark bg-line-dark lg:mt-20 lg:grid-cols-3">
+          <div className="mt-14 grid gap-12 lg:mt-20 lg:grid-cols-3 lg:gap-16">
             {fronts.map((f, i) => (
-              <article key={f.t} className="reveal bg-graphite p-8 sm:p-10" style={{ ["--reveal-delay" as string]: `${i * 90}ms` }}>
-                <p className="text-sm tabular-nums text-accent">{f.n}</p>
-                <h3 className="font-display mt-6 text-[clamp(2rem,1.5rem+2vw,3rem)] font-semibold tracking-[-0.03em]">{f.t}</h3>
-                <p className="mt-4 leading-relaxed text-white/75">{f.d}</p>
-                <ul className="mt-8 space-y-2.5 border-t border-line-dark pt-6 text-[0.95rem] text-white/85">
+              <article key={f.t} className="reveal" style={{ ["--reveal-delay" as string]: `${i * 80}ms` }}>
+                <p className="text-sm tabular-nums leading-5 text-text-secondary">{f.n}</p>
+                <h3 className="font-display mt-4 text-[clamp(2rem,1.5rem+2vw,3rem)] font-semibold leading-[1.1] tracking-[-0.03em]">{f.t}</h3>
+                <p className="mt-4 text-text-secondary">{f.d}</p>
+                <ul className="mt-6 space-y-2">
                   {f.items.map((it) => (
-                    <li key={it} className="flex items-center gap-3"><span aria-hidden className="h-px w-3 bg-accent" />{it}</li>
+                    <IconItem key={it} icon="dash">{it}</IconItem>
                   ))}
                 </ul>
               </article>
             ))}
           </div>
-          <p className="reveal mt-10 max-w-3xl text-[0.97rem] leading-relaxed text-muted-dark">
+          <p className="reveal mt-14 max-w-3xl text-[0.9375rem] leading-6 text-text-secondary">
             Resultado comercial depende de vários fatores ao mesmo tempo: a oferta, o mercado, o investimento em mídia e a execução do time que atende. Nosso papel é estruturar o que está sob nosso alcance, medir cada etapa e mostrar com clareza onde está o gargalo.
           </p>
         </Container>
@@ -212,19 +210,14 @@ export default function HomePage() {
             title="Cada mercado vende de um jeito. A estratégia começa por entender o seu."
             intro="Atendemos empresas de diferentes setores, com experiência prática em negócios onde a venda depende de atendimento rápido e bem conduzido."
           />
-          <ul className="mt-14 grid gap-4 sm:grid-cols-2 lg:mt-20 lg:grid-cols-3">
+          <ul className="mt-14 grid gap-x-16 gap-y-12 sm:grid-cols-2 lg:mt-20 lg:grid-cols-3">
             {segments.map((s, i) => (
-              <li key={s.slug} className="reveal" style={{ ["--reveal-delay" as string]: `${(i % 3) * 70}ms` }}>
-                <Link
-                  href={`/segmentos/${s.slug}`}
-                  className="group flex h-full flex-col justify-between rounded-[var(--radius)] border border-line-light bg-paper p-7 transition-colors duration-300 hover:border-ink hover:bg-ink hover:text-white"
-                >
-                  <div>
-                    <h3 className="text-h3">{s.navLabel}</h3>
-                    <p className="mt-3 leading-relaxed text-muted-light transition-colors group-hover:text-white/75">{s.summary}</p>
-                  </div>
-                  <span className="mt-8 inline-flex items-center gap-2 text-[0.95rem] font-medium">
-                    Ver abordagem <ArrowIcon className="transition-transform group-hover:translate-x-1" />
+              <li key={s.slug} className="reveal" style={{ ["--reveal-delay" as string]: `${(i % 3) * 60}ms` }}>
+                <Link href={`/segmentos/${s.slug}`} className="group block">
+                  <h3 className="text-h3 underline-offset-4 group-hover:underline">{s.navLabel}</h3>
+                  <p className="mt-2 text-text-secondary">{s.summary}</p>
+                  <span className="mt-4 inline-flex items-center gap-2 text-[0.9375rem] font-medium leading-6">
+                    Ver abordagem <ArrowIcon className="transition-transform duration-200 group-hover:translate-x-1" />
                   </span>
                 </Link>
               </li>
@@ -243,16 +236,17 @@ export default function HomePage() {
             title="Uma forma de trabalhar clara, do diagnóstico à otimização."
             intro="Não é fórmula pronta. É a sequência que usamos para entender a operação antes de investir e para melhorar com base no que acontece de verdade."
           />
-          <ol className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-line-dark bg-line-dark sm:grid-cols-2 lg:mt-20 lg:grid-cols-5">
+          <ol className="mt-14 grid gap-10 sm:grid-cols-2 lg:mt-20 lg:grid-cols-5 lg:gap-8">
             {methodSteps.map((s, i) => (
-              <li key={s.title} className="reveal flex flex-col bg-ink p-7" style={{ ["--reveal-delay" as string]: `${i * 70}ms` }}>
-                <span className="text-sm tabular-nums text-accent">{String(i + 1).padStart(2, "0")}</span>
-                <h3 className="text-h3 mt-8">{s.title}</h3>
-                <p className="mt-3 text-[0.95rem] leading-relaxed text-white/70">{s.short}</p>
+              <li key={s.title} className="reveal relative border-t border-border-secondary pt-6" style={{ ["--reveal-delay" as string]: `${i * 60}ms` }}>
+                <span aria-hidden className="absolute -top-[5px] left-0 size-[9px] rounded-full bg-text-primary" />
+                <span className="text-sm tabular-nums leading-5 text-text-secondary">{String(i + 1).padStart(2, "0")}</span>
+                <h3 className="text-h3 mt-3">{s.title}</h3>
+                <p className="mt-2 text-[0.9375rem] leading-6 text-text-secondary">{s.short}</p>
               </li>
             ))}
           </ol>
-          <div className="reveal mt-10">
+          <div className="reveal mt-14">
             <TrackedLink href={CTA_SECONDARY.href} trackLabel={CTA_SECONDARY.label} trackLocation="home_method" className={btn("secondary")}>
               {CTA_SECONDARY.label}
               <ArrowIcon />
@@ -276,7 +270,7 @@ export default function HomePage() {
       )}
 
       {/* SOBRE --------------------------------------------------------- */}
-      <Section tone="light" labelledBy="sobre-title" className="border-t border-line-light">
+      <Section tone="light" labelledBy="sobre-title">
         <Container>
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
             <SectionHeader
@@ -285,14 +279,14 @@ export default function HomePage() {
               eyebrow="Sobre a DX"
               title="Marketing, tecnologia e comercial na mesma mesa."
             />
-            <div className="reveal space-y-5 text-lead text-muted-light">
+            <div className="reveal space-y-5 text-lead text-text-secondary">
               <p>
                 A Agência Digital Xpert nasceu em Balneário Camboriú com uma visão prática: campanha boa é a que gera venda, e venda depende de um atendimento preparado para aproveitar cada oportunidade.
               </p>
               <p>
                 Por isso, além da mídia e dos criativos, olhamos para o que acontece depois do clique — como o lead é recebido, qualificado e acompanhado até o fechamento. Atendemos empresas de várias regiões do Brasil, com proximidade e acompanhamento de perto.
               </p>
-              <Link href="/sobre" className="inline-flex items-center gap-2 font-medium text-ink link-u">
+              <Link href="/sobre" className="group inline-flex items-center gap-2 font-medium text-text-primary underline-offset-4 hover:underline">
                 Conheça a DX <ArrowIcon />
               </Link>
             </div>

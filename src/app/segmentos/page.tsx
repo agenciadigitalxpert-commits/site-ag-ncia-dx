@@ -30,21 +30,21 @@ export default function SegmentsPage() {
       <Section tone="light" labelledBy="lista-segmentos">
         <Container>
           <SectionHeader id="lista-segmentos" eyebrow="Onde atuamos" title="Segmentos prioritários" intro="Não atendemos apenas esses mercados, mas são os que conhecemos de perto — e onde a conexão entre mídia e atendimento faz mais diferença." />
-          <ul className="mt-14 border-t border-line-light">
+          <ul className="mt-14 border-t border-border-tertiary">
             {segments.map((s, i) => (
-              <li key={s.slug} className="reveal border-b border-line-light">
+              <li key={s.slug} className="reveal border-b border-border-tertiary">
                 <Link href={`/segmentos/${s.slug}`} className="group grid gap-4 py-8 sm:grid-cols-[3rem_minmax(0,5fr)_minmax(0,6fr)_auto] sm:items-start sm:gap-8 sm:py-10">
-                  <span className="text-sm tabular-nums text-muted-light">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="text-sm tabular-nums text-text-secondary">{String(i + 1).padStart(2, "0")}</span>
                   <span className="font-display text-h3">{s.name}</span>
-                  <span className="leading-relaxed text-muted-light">{s.summary}</span>
-                  <span className="hidden size-11 place-items-center rounded-full border border-line-light transition-colors group-hover:border-transparent group-hover:bg-accent sm:grid">
+                  <span className=" text-text-secondary">{s.summary}</span>
+                  <span className="hidden size-11 place-items-center rounded-full text-text-secondary transition-colors duration-200 group-hover:bg-bg-fill-inverse group-hover:text-text-on-inverse sm:grid">
                     <ArrowIcon />
                   </span>
                 </Link>
               </li>
             ))}
           </ul>
-          <p className="reveal mt-10 max-w-2xl text-muted-light">
+          <p className="reveal mt-10 max-w-2xl text-text-secondary">
             Seu segmento não está na lista? A lógica de atrair, qualificar e converter vale para a maioria dos negócios que vendem por atendimento. <Link href="/contato" className="underline underline-offset-2">Fale com a gente</Link>.
           </p>
         </Container>

@@ -9,7 +9,7 @@ import { FaqList } from "@/components/Faq";
 import { Rich } from "@/components/RichText";
 import { inSentence } from "@/lib/rich";
 import { CtaInline, CtaSection, DataTable, PageHero, SectionHeader } from "@/components/sections";
-import { ArrowIcon, CheckIcon, Container, Eyebrow, Section } from "@/components/ui";
+import { ArrowIcon, Container, Eyebrow, IconItem, Section } from "@/components/ui";
 
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
@@ -59,7 +59,7 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
             <div className="reveal space-y-5">
               <p className="text-lead font-medium"><Rich text={s.definition.answer} /></p>
               {s.definition.paragraphs.map((p, i) => (
-                <p key={i} className="leading-relaxed text-muted-light"><Rich text={p} /></p>
+                <p key={i} className="text-text-secondary"><Rich text={p} /></p>
               ))}
             </div>
           </div>
@@ -70,21 +70,18 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
       <Section tone="paper2" labelledBy="para-quem">
         <Container>
           <SectionHeader id="para-quem" index="02" eyebrow="Para quem faz sentido" title={`Quando ${inSentence(s.navLabel)} é o próximo passo certo`} intro={<Rich text={s.forWhom.intro} />} />
-          <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-16">
-            <ul className="reveal grid gap-x-10 border-t border-line-light sm:grid-cols-2">
+          <div className="mt-12 grid gap-12 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-20">
+            <ul className="reveal grid gap-x-10 gap-y-4 sm:grid-cols-2">
               {s.forWhom.items.map((it) => (
-                <li key={it} className="flex gap-3 border-b border-line-light py-5 leading-relaxed">
-                  <CheckIcon className="mt-1" />
-                  <span>{it}</span>
-                </li>
+                <IconItem key={it}>{it}</IconItem>
               ))}
             </ul>
             {s.forWhom.notFor?.length ? (
-              <aside className="reveal self-start rounded-[var(--radius)] border border-line-light bg-paper p-7">
-                <h3 className="text-lg font-semibold">Talvez ainda não seja o momento se…</h3>
-                <ul className="mt-4 space-y-3 text-[0.97rem] leading-relaxed text-muted-light">
+              <aside className="reveal">
+                <h3 className="text-lg font-semibold leading-7">Talvez ainda não seja o momento se…</h3>
+                <ul className="mt-4 space-y-3 text-text-secondary">
                   {s.forWhom.notFor.map((it) => (
-                    <li key={it} className="flex gap-3"><span aria-hidden className="mt-3 h-px w-3 shrink-0 bg-ink/50" />{it}</li>
+                    <IconItem key={it} icon="dash">{it}</IconItem>
                   ))}
                 </ul>
               </aside>
@@ -97,11 +94,11 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
       <Section tone="dark" labelledBy="problemas">
         <Container>
           <SectionHeader id="problemas" index="03" eyebrow="Problemas que ajuda a resolver" title="O que costuma estar travando" />
-          <ul className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-line-dark bg-line-dark sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-14 grid gap-x-16 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
             {s.problems.map((p, i) => (
-              <li key={p.title} className="reveal bg-ink p-7 sm:p-8" style={{ ["--reveal-delay" as string]: `${(i % 3) * 70}ms` }}>
+              <li key={p.title} className="reveal" style={{ ["--reveal-delay" as string]: `${(i % 3) * 60}ms` }}>
                 <h3 className="text-h3">{p.title}</h3>
-                <p className="mt-3 leading-relaxed text-white/70"><Rich text={p.text} /></p>
+                <p className="mt-2 text-text-secondary"><Rich text={p.text} /></p>
               </li>
             ))}
           </ul>
@@ -112,15 +109,15 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
       <Section tone="light" labelledBy="entregas">
         <Container>
           <SectionHeader id="entregas" index="04" eyebrow="O que pode fazer parte" title="Possíveis frentes de entrega" intro={<Rich text={s.deliverables.intro} />} />
-          <dl className="mt-12 grid gap-x-12 border-t border-line-light md:grid-cols-2">
+          <dl className="mt-12 grid gap-x-16 gap-y-8 md:grid-cols-2">
             {s.deliverables.items.map((d) => (
-              <div key={d.title} className="reveal border-b border-line-light py-6">
-                <dt className="text-lg font-semibold">{d.title}</dt>
-                <dd className="mt-2 leading-relaxed text-muted-light"><Rich text={d.text} /></dd>
+              <div key={d.title} className="reveal">
+                <dt className="text-lg font-semibold leading-7">{d.title}</dt>
+                <dd className="mt-1 text-text-secondary"><Rich text={d.text} /></dd>
               </div>
             ))}
           </dl>
-          <p className="reveal mt-6 text-sm text-muted-light">{s.deliverables.note}</p>
+          <p className="reveal mt-10 text-sm leading-5 text-text-secondary">{s.deliverables.note}</p>
           <div className="mt-14">
             <CtaInline
               title="Quer saber quais dessas frentes fazem sentido para você?"
@@ -135,12 +132,12 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
       <Section tone="paper2" labelledBy="como-funciona">
         <Container>
           <SectionHeader id="como-funciona" index="05" eyebrow="Como funciona" title="Como o trabalho acontece" />
-          <ol className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <ol className="mt-12 grid gap-x-16 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
             {s.process.map((p, i) => (
-              <li key={p.title} className="reveal rounded-[var(--radius)] border border-line-light bg-paper p-7" style={{ ["--reveal-delay" as string]: `${(i % 3) * 70}ms` }}>
-                <span className="text-sm tabular-nums text-muted-light">Etapa {String(i + 1).padStart(2, "0")}</span>
+              <li key={p.title} className="reveal relative border-t border-border-secondary pt-6" style={{ ["--reveal-delay" as string]: `${(i % 3) * 60}ms` }}>
+                <span className="text-sm tabular-nums leading-5 text-text-secondary">Etapa {String(i + 1).padStart(2, "0")}</span>
                 <h3 className="text-h3 mt-3">{p.title}</h3>
-                <p className="mt-3 leading-relaxed text-muted-light"><Rich text={p.text} /></p>
+                <p className="mt-2 text-text-secondary"><Rich text={p.text} /></p>
               </li>
             ))}
           </ol>
@@ -151,21 +148,17 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
       <Section tone="light" labelledBy="papeis">
         <Container>
           <SectionHeader id="papeis" index="06" eyebrow="Responsabilidades" title="O papel da DX e o papel da sua empresa" intro="Resultado comercial é construído a quatro mãos. Deixar claro quem faz o quê evita ruído e acelera as decisões." />
-          <div className="mt-12 grid gap-4 md:grid-cols-2">
-            <div className="reveal rounded-[var(--radius)] bg-ink p-8 text-white">
+          <div className="mt-12 grid gap-12 md:grid-cols-2 md:gap-6">
+            <div className="surface-dark reveal rounded-lg p-8">
               <h3 className="text-h3">O que a DX faz</h3>
               <ul className="mt-6 space-y-3">
-                {s.roles.dx.map((r) => (
-                  <li key={r} className="flex gap-3 leading-relaxed text-white/85"><CheckIcon className="mt-1 text-accent" />{r}</li>
-                ))}
+                {s.roles.dx.map((r) => <IconItem key={r}>{r}</IconItem>)}
               </ul>
             </div>
-            <div className="reveal rounded-[var(--radius)] border border-line-light bg-paper-2 p-8">
+            <div className="reveal p-0 md:p-8">
               <h3 className="text-h3">O que fica com a sua empresa</h3>
               <ul className="mt-6 space-y-3">
-                {s.roles.client.map((r) => (
-                  <li key={r} className="flex gap-3 leading-relaxed"><CheckIcon className="mt-1" />{r}</li>
-                ))}
+                {s.roles.client.map((r) => <IconItem key={r}>{r}</IconItem>)}
               </ul>
             </div>
           </div>
@@ -176,11 +169,11 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
       <Section tone="graphite" labelledBy="resultados">
         <Container>
           <SectionHeader id="resultados" index="07" eyebrow="Acompanhamento" title="Como acompanhar os resultados" intro={<Rich text={s.measurement.intro} />} />
-          <dl className="mt-12 grid gap-x-12 border-t border-line-dark md:grid-cols-2">
+          <dl className="mt-12 grid gap-x-16 gap-y-8 md:grid-cols-2">
             {s.measurement.items.map((m) => (
-              <div key={m.metric} className="reveal border-b border-line-dark py-6">
-                <dt className="font-semibold text-white">{m.metric}</dt>
-                <dd className="mt-2 leading-relaxed text-white/70">{m.why}</dd>
+              <div key={m.metric} className="reveal">
+                <dt className="text-lg font-semibold leading-7">{m.metric}</dt>
+                <dd className="mt-1 text-text-secondary">{m.why}</dd>
               </div>
             ))}
           </dl>
@@ -217,13 +210,13 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
           <div className="grid gap-12 lg:grid-cols-2">
             <div>
               <h2 id="relacionados" className="text-h3">Serviços relacionados</h2>
-              <ul className="mt-6 border-t border-line-light">
+              <ul className="mt-6 space-y-6">
                 {related.map((r) => (
-                  <li key={r.slug} className="border-b border-line-light">
-                    <Link href={`/servicos/${r.slug}`} className="group flex items-center justify-between gap-6 py-5">
+                  <li key={r.slug}>
+                    <Link href={`/servicos/${r.slug}`} className="group flex items-start justify-between gap-6">
                       <span>
-                        <span className="block font-medium">{r.name}</span>
-                        <span className="mt-1 block text-sm text-muted-light">{r.summary}</span>
+                        <span className="block font-medium underline-offset-4 group-hover:underline">{r.name}</span>
+                        <span className="block text-sm leading-5 text-text-secondary">{r.summary}</span>
                       </span>
                       <ArrowIcon className="transition-transform group-hover:translate-x-1" />
                     </Link>
@@ -237,7 +230,7 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
                 <ul className="mt-6 flex flex-wrap gap-2">
                   {segs.map((g) => (
                     <li key={g.slug}>
-                      <Link href={`/segmentos/${g.slug}`} className="inline-flex min-h-11 items-center rounded-full border border-line-light px-4 transition-colors hover:border-ink hover:bg-ink hover:text-white">
+                      <Link href={`/segmentos/${g.slug}`} className="inline-flex min-h-11 items-center rounded-full bg-bg-fill-secondary px-4 transition-colors duration-150 hover:bg-bg-fill-secondary-hover">
                         {g.navLabel}
                       </Link>
                     </li>

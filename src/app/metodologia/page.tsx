@@ -5,7 +5,7 @@ import type { FAQ } from "@/content/types";
 import { JsonLd } from "@/components/JsonLd";
 import { FaqList } from "@/components/Faq";
 import { CtaSection, DataTable, PageHero, SectionHeader } from "@/components/sections";
-import { Container, Eyebrow, Section } from "@/components/ui";
+import { Container, Eyebrow, IconItem, Section } from "@/components/ui";
 
 const TITLE = "Metodologia: do diagnóstico à otimização";
 const DESC =
@@ -41,30 +41,30 @@ export default function MethodPage() {
       <Section tone="light" labelledBy="etapas">
         <Container>
           <SectionHeader id="etapas" eyebrow="As etapas" title="Como o trabalho evolui" />
-          <ol className="mt-14 space-y-4">
+          <ol className="mt-14 space-y-16">
             {methodSteps.map((s, i) => (
-              <li key={s.slug} id={s.slug} className="reveal grid gap-8 rounded-3xl border border-line-light p-7 sm:p-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-16">
+              <li key={s.slug} id={s.slug} className="reveal grid gap-8 border-t border-border-secondary pt-8 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-16">
                 <div>
-                  <span className="text-sm tabular-nums text-muted-light">Etapa {String(i + 1).padStart(2, "0")}</span>
+                  <span className="text-sm tabular-nums leading-5 text-text-secondary">Etapa {String(i + 1).padStart(2, "0")}</span>
                   <h3 className="text-h2 mt-3">{s.title}</h3>
-                  <p className="mt-4 leading-relaxed text-muted-light">{s.goal}</p>
+                  <p className="mt-3 text-text-secondary">{s.goal}</p>
                 </div>
                 <div className="grid gap-8 sm:grid-cols-2">
                   <div className="sm:col-span-2">
-                    <h4 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-light">O que acontece</h4>
-                    <ul className="mt-4 space-y-2.5">
+                    <h4 className="text-xs font-medium uppercase leading-4 tracking-[0.14em] text-text-secondary">O que acontece</h4>
+                    <ul className="mt-3 space-y-2">
                       {s.what.map((w) => (
-                        <li key={w} className="flex gap-3 leading-relaxed"><span aria-hidden className="mt-3 h-px w-3 shrink-0 bg-ink/60" />{w}</li>
+                        <IconItem key={w} icon="dash">{w}</IconItem>
                       ))}
                     </ul>
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-light">Participação da empresa</h4>
-                    <p className="mt-3 leading-relaxed">{s.client}</p>
+                    <h4 className="text-xs font-medium uppercase leading-4 tracking-[0.14em] text-text-secondary">Participação da empresa</h4>
+                    <p className="mt-2">{s.client}</p>
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-light">Resultado da etapa</h4>
-                    <p className="mt-3 leading-relaxed">{s.output}</p>
+                    <h4 className="text-xs font-medium uppercase leading-4 tracking-[0.14em] text-text-secondary">Resultado da etapa</h4>
+                    <p className="mt-2">{s.output}</p>
                   </div>
                 </div>
               </li>

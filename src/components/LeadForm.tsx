@@ -15,7 +15,7 @@ import {
 } from "@/lib/lead";
 import { track } from "@/lib/analytics";
 import { readAttribution } from "@/lib/utm";
-import { ArrowIcon, CheckIcon, cx } from "./ui";
+import { ArrowIcon, CheckIcon, btn, cx } from "./ui";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -33,12 +33,10 @@ export function LeadForm({
   integrationReady,
   location,
   defaultSegment,
-  tone = "dark",
 }: {
   integrationReady: boolean;
   location: string;
   defaultSegment?: string;
-  tone?: "dark" | "light";
 }) {
   const uid = useId();
   const [step, setStep] = useState<1 | 2>(1);
@@ -148,27 +146,26 @@ export function LeadForm({
     requestAnimationFrame(() => statusRef.current?.focus());
   };
 
-  const dark = tone === "dark";
-  const field = cx(
-    "mt-2 block min-h-12 w-full rounded-xl border px-4 py-3 text-base transition-colors outline-none focus-visible:outline-2",
-    dark
-      ? "border-white/20 bg-white/[0.04] text-white placeholder:text-white/40 focus:border-accent"
-      : "border-ink/20 bg-white text-ink placeholder:text-ink/40 focus:border-ink",
-  );
-  const errCls = dark ? "border-danger-dark" : "border-danger";
-  const errText = cx("mt-2 text-sm", dark ? "text-danger-dark" : "text-danger");
-  const hint = cx("mt-1.5 text-sm", dark ? "text-muted-dark" : "text-muted-light");
+  const field =
+    "mt-2 block min-h-12 w-full rounded-sm border border-border-secondary bg-bg-fill-secondary px-4 py-3 text-base leading-6 text-text-primary transition-colors duration-150 outline-none placeholder:text-text-placeholder hover:border-text-secondary focus:border-border-focus focus-visible:outline-2";
+  const errCls = "!border-text-critical";
+  const errText = "mt-2 text-sm leading-5 text-text-critical";
+  const hint = "mt-2 text-sm leading-5 text-text-secondary";
+  const label = "text-[0.9375rem] font-medium leading-6";
+  const groupTitle = "mb-4 text-xs font-medium uppercase leading-4 tracking-[0.14em] text-text-secondary";
 
   if (status === "success") {
     return (
-      <div ref={statusRef} tabIndex={-1} role="status" className={cx("rounded-2xl border p-8", dark ? "border-accent/50 bg-white/[0.03]" : "border-ink/15 bg-white")}>
-        <span className="grid size-11 place-items-center rounded-full bg-accent text-accent-ink"><CheckIcon /></span>
-        <h3 className="mt-5 text-h3">Recebemos sua solicitação.</h3>
-        <p className={cx("mt-3 leading-relaxed", dark ? "text-white/80" : "text-muted-light")}>
+      <div ref={statusRef} tabIndex={-1} role="status" className="focus:outline-none">
+        <span className="grid size-12 place-items-center rounded-full bg-bg-fill-brand text-text-on-brand">
+          <CheckIcon className="!text-current" />
+        </span>
+        <h3 className="mt-6 text-h3">Recebemos sua solicitação.</h3>
+        <p className="mt-2 text-text-secondary">
           Obrigado, {values.nome.split(" ")[0]}. Nossa equipe vai analisar as informações e entrar em contato pelo WhatsApp informado para conversar sobre o diagnóstico.
         </p>
-        <p className={cx("mt-6 text-sm", dark ? "text-muted-dark" : "text-muted-light")}>
-          Enquanto isso, veja <Link className="underline underline-offset-2" href="/metodologia">como funciona nossa metodologia</Link>.
+        <p className="mt-6 text-sm leading-5 text-text-secondary">
+          Enquanto isso, veja <Link className="underline underline-offset-2 hover:text-text-primary" href="/metodologia">como funciona nossa metodologia</Link>.
         </p>
       </div>
     );
@@ -188,19 +185,58 @@ export function LeadForm({
       <p id={`${id(k)}-err`} className={errText}>{errors[k]}</p>
     ) : null;
 
+  /** Seleção única visível (2–7 opções): radios estilizados como chips. */
+  const chips = (k: keyof LeadInput, legend: string, options: readonly string[], describedBy?: string) => (
+    <fieldset aria-describedby={[errors[k] ? `${id(k)}-err` : "", describedBy ?? ""].join(" ").trim() || undefined}>
+      <legend className={label}>{legend}</legend>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {options.map((o, i) => (
+          <label key={o} className="relative cursor-pointer">
+            <input
+              type="radio"
+              name={k}
+              value={o}
+              id={i === 0 ? id(k) : undefined}
+              checked={values[k] === o}
+              onChange={() => set(k, o)}
+              onFocus={onFocusAny}
+              className="peer absolute inset-0 opacity-0"
+            />
+            <span
+              className={cx(
+                "inline-flex min-h-11 items-center rounded-sm border px-4 py-2 text-[0.9375rem] leading-6 transition-colors duration-150",
+                "border-border-secondary text-text-primary hover:border-text-primary hover:bg-bg-fill-secondary",
+                "peer-checked:border-transparent peer-checked:bg-bg-fill-inverse peer-checked:text-text-on-inverse",
+                "peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--color-border-focus)]",
+                errors[k] && "!border-text-critical",
+              )}
+            >
+              {o}
+            </span>
+          </label>
+        ))}
+      </div>
+      {errorFor(k)}
+    </fieldset>
+  );
+
   return (
-    <div className={dark ? "text-white" : "text-ink"}>
+    <div>
       {!integrationReady ? (
-        <div role="note" className={cx("mb-6 rounded-xl border border-dashed p-4 text-sm leading-relaxed", dark ? "border-amber-300/60 bg-amber-300/10 text-amber-100" : "border-amber-600 bg-amber-50 text-amber-900")}>
+        <div role="note" className="mb-6 rounded-sm border border-dashed border-border-note bg-bg-note p-4 text-sm leading-5 text-text-note">
           <strong>Formulário em configuração.</strong> A integração com o sistema de atendimento ainda não foi conectada, então os envios não estão sendo recebidos.
         </div>
       ) : null}
 
-      <div className="mb-6 flex items-center gap-3 text-sm" aria-hidden>
-        <span className={cx("grid size-7 place-items-center rounded-full font-medium", step === 1 ? "bg-accent text-accent-ink" : dark ? "bg-white/15" : "bg-ink/10")}>1</span>
-        <span className={cx("h-px w-8", dark ? "bg-white/25" : "bg-ink/20")} />
-        <span className={cx("grid size-7 place-items-center rounded-full font-medium", step === 2 ? "bg-accent text-accent-ink" : dark ? "bg-white/15" : "bg-ink/10")}>2</span>
-        <span className={dark ? "text-muted-dark" : "text-muted-light"}>{step === 1 ? "Seus dados" : "Contexto (opcional)"}</span>
+      {/* Progresso segmentado */}
+      <div className="mb-8">
+        <div className="flex gap-2" aria-hidden>
+          <span className="h-1 flex-1 rounded-full bg-bg-fill-brand" />
+          <span className={cx("h-1 flex-1 rounded-full transition-colors duration-300", step === 2 ? "bg-bg-fill-brand" : "bg-bg-fill-secondary-hover")} />
+        </div>
+        <p className="mt-3 text-sm leading-5 text-text-secondary" aria-live="polite">
+          Etapa {step} de 2 · {step === 1 ? "Seus dados" : "Contexto (opcional)"}
+        </p>
       </div>
 
       <form noValidate onSubmit={step === 1 ? goStep2 : submit} aria-busy={status === "submitting"}>
@@ -211,111 +247,93 @@ export function LeadForm({
         </div>
 
         {step === 1 ? (
-          <fieldset className="grid gap-5 sm:grid-cols-2">
-            <legend className="sr-only">Etapa 1 de 2: seus dados</legend>
-            <div>
-              <label htmlFor={id("nome")} className="text-[0.95rem] font-medium">Nome</label>
-              <input {...fieldProps("nome")} type="text" autoComplete="name" required onChange={(e) => set("nome", e.target.value)} className={cx(field, errors.nome && errCls)} />
-              {errorFor("nome")}
-            </div>
-            <div>
-              <label htmlFor={id("empresa")} className="text-[0.95rem] font-medium">Empresa</label>
-              <input {...fieldProps("empresa")} type="text" autoComplete="organization" required onChange={(e) => set("empresa", e.target.value)} className={cx(field, errors.empresa && errCls)} />
-              {errorFor("empresa")}
-            </div>
-            <div>
-              <label htmlFor={id("whatsapp")} className="text-[0.95rem] font-medium">WhatsApp</label>
-              <input {...fieldProps("whatsapp")} type="tel" inputMode="tel" autoComplete="tel-national" placeholder="(47) 99999-9999" required onChange={(e) => set("whatsapp", e.target.value)} className={cx(field, errors.whatsapp && errCls)} />
-              {errorFor("whatsapp")}
-            </div>
-            <div>
-              <label htmlFor={id("segmento")} className="text-[0.95rem] font-medium">Segmento</label>
-              <select {...fieldProps("segmento")} required onChange={(e) => set("segmento", e.target.value)} className={cx(field, "appearance-none", errors.segmento && errCls, dark && "[&>option]:text-ink")}>
-                <option value="">Selecione</option>
-                {SEGMENT_OPTIONS.map((o) => <option key={o}>{o}</option>)}
-              </select>
-              {errorFor("segmento")}
-            </div>
-            <div className="sm:col-span-2">
-              <label htmlFor={id("desafio")} className="text-[0.95rem] font-medium">Principal desafio hoje</label>
-              <select {...fieldProps("desafio")} required onChange={(e) => set("desafio", e.target.value)} className={cx(field, "appearance-none", errors.desafio && errCls, dark && "[&>option]:text-ink")}>
-                <option value="">Selecione</option>
-                {CHALLENGE_OPTIONS.map((o) => <option key={o}>{o}</option>)}
-              </select>
-              {errorFor("desafio")}
-            </div>
-            <div className="sm:col-span-2">
-              <button type="submit" className="group inline-flex min-h-12 w-full items-center justify-center gap-2.5 rounded-full bg-accent px-6 font-medium text-accent-ink transition-colors hover:bg-white sm:w-auto">
+          <div key="s1" className="step-in space-y-10">
+            <fieldset>
+              <legend className={groupTitle}>Contato</legend>
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label htmlFor={id("nome")} className={label}>Qual é o seu nome?</label>
+                  <input {...fieldProps("nome")} type="text" autoComplete="name" required onChange={(e) => set("nome", e.target.value)} className={cx(field, errors.nome && errCls)} />
+                  {errorFor("nome")}
+                </div>
+                <div>
+                  <label htmlFor={id("whatsapp")} className={label}>Qual é o seu WhatsApp?</label>
+                  <input {...fieldProps("whatsapp")} type="tel" inputMode="tel" autoComplete="tel-national" placeholder="(47) 99999-9999" required onChange={(e) => set("whatsapp", e.target.value)} className={cx(field, errors.whatsapp && errCls)} />
+                  {errorFor("whatsapp")}
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend className={groupTitle}>Empresa</legend>
+              <div className="space-y-6">
+                <div>
+                  <label htmlFor={id("empresa")} className={label}>Qual é o nome da empresa?</label>
+                  <input {...fieldProps("empresa")} type="text" autoComplete="organization" required onChange={(e) => set("empresa", e.target.value)} className={cx(field, errors.empresa && errCls)} />
+                  {errorFor("empresa")}
+                </div>
+                {chips("segmento", "Em qual segmento ela atua?", SEGMENT_OPTIONS)}
+                {chips("desafio", "Qual é o principal desafio hoje?", CHALLENGE_OPTIONS)}
+              </div>
+            </fieldset>
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-sm leading-5 text-text-secondary sm:max-w-xs">Na próxima etapa, você pode adicionar contexto (opcional) e enviar.</p>
+              <button type="submit" className={btn("primary", "w-full sm:w-auto")}>
                 Continuar
-                <ArrowIcon className="transition-transform group-hover:translate-x-0.5" />
+                <ArrowIcon className="transition-transform duration-200 group-hover:translate-x-0.5" />
               </button>
-              <p className={hint}>Na próxima etapa, você pode adicionar contexto (opcional) e enviar.</p>
             </div>
-          </fieldset>
+          </div>
         ) : (
-          <fieldset className="grid gap-5 sm:grid-cols-2">
-            <legend className="sr-only">Etapa 2 de 2: contexto opcional</legend>
-            <h3 ref={step2Heading} tabIndex={-1} className="text-lg font-medium sm:col-span-2 focus:outline-none">
-              Quer adiantar o contexto? Todos os campos abaixo são opcionais.
+          <div key="s2" className="step-in space-y-8">
+            <h3 ref={step2Heading} tabIndex={-1} className="text-lg font-medium leading-7 focus:outline-none">
+              Quer adiantar o contexto? Todas as perguntas abaixo são opcionais.
             </h3>
+            {chips("investeAnuncios", "Vocês já investem em anúncios?", ADS_OPTIONS)}
+            {chips("investimentoMidia", "Quanto investem por mês em mídia?", BUDGET_OPTIONS, `${id("investimentoMidia")}-hint`)}
+            <p id={`${id("investimentoMidia")}-hint`} className="-mt-5 text-sm leading-5 text-text-secondary">
+              Valor pago às plataformas (Google, Meta). Não inclui os honorários da agência.
+            </p>
             <div>
-              <label htmlFor={id("investeAnuncios")} className="text-[0.95rem] font-medium">Já investe em anúncios?</label>
-              <select {...fieldProps("investeAnuncios")} onChange={(e) => set("investeAnuncios", e.target.value)} className={cx(field, "appearance-none", dark && "[&>option]:text-ink")}>
-                <option value="">Prefiro não informar</option>
-                {ADS_OPTIONS.map((o) => <option key={o}>{o}</option>)}
-              </select>
-              {errorFor("investeAnuncios")}
-            </div>
-            <div>
-              <label htmlFor={id("investimentoMidia")} className="text-[0.95rem] font-medium">Investimento mensal em mídia</label>
-              <select {...fieldProps("investimentoMidia")} aria-describedby={`${id("investimentoMidia")}-hint`} onChange={(e) => set("investimentoMidia", e.target.value)} className={cx(field, "appearance-none", dark && "[&>option]:text-ink")}>
-                <option value="">Prefiro não informar</option>
-                {BUDGET_OPTIONS.map((o) => <option key={o}>{o}</option>)}
-              </select>
-              <p id={`${id("investimentoMidia")}-hint`} className={hint}>Valor pago às plataformas (Google, Meta). Não inclui os honorários da agência.</p>
-            </div>
-            <div className="sm:col-span-2">
-              <label htmlFor={id("siteOuInstagram")} className="text-[0.95rem] font-medium">Site ou Instagram</label>
+              <label htmlFor={id("siteOuInstagram")} className={label}>Qual é o site ou Instagram da empresa?</label>
               <input {...fieldProps("siteOuInstagram")} type="text" placeholder="seusite.com.br ou @suaempresa" onChange={(e) => set("siteOuInstagram", e.target.value)} className={cx(field, errors.siteOuInstagram && errCls)} />
               {errorFor("siteOuInstagram")}
             </div>
-            <div className="sm:col-span-2">
-              <label htmlFor={id("detalhes")} className="text-[0.95rem] font-medium">Algo mais que devemos saber?</label>
+            <div>
+              <label htmlFor={id("detalhes")} className={label}>Quer contar algo mais?</label>
               <textarea {...fieldProps("detalhes")} rows={3} onChange={(e) => set("detalhes", e.target.value)} className={cx(field, "resize-y", errors.detalhes && errCls)} />
               {errorFor("detalhes")}
             </div>
-            <div className="flex flex-col gap-3 sm:col-span-2 sm:flex-row sm:items-center">
-              <button
-                type="submit"
-                disabled={status === "submitting"}
-                className="group inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full bg-accent px-6 font-medium text-accent-ink transition-colors hover:bg-white disabled:cursor-wait disabled:opacity-70"
-              >
+            {/* Ações à direita: secundária → primária */}
+            <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+              <button type="button" onClick={() => setStep(1)} className={btn("ghost")}>
+                Voltar e revisar
+              </button>
+              <button type="submit" disabled={status === "submitting"} className={btn("primary", "disabled:cursor-wait")}>
                 {status === "submitting" ? (
                   <>
-                    <span aria-hidden className="size-4 animate-spin rounded-full border-2 border-accent-ink/30 border-t-accent-ink" />
+                    <span aria-hidden className="size-4 animate-spin rounded-full border-2 border-current/30 border-t-current" />
                     Enviando…
                   </>
                 ) : (
-                  <>Enviar solicitação <ArrowIcon className="transition-transform group-hover:translate-x-0.5" /></>
+                  <>Enviar solicitação <ArrowIcon className="transition-transform duration-200 group-hover:translate-x-0.5" /></>
                 )}
               </button>
-              <button type="button" onClick={() => setStep(1)} className="min-h-12 px-2 text-[0.95rem] underline underline-offset-4">
-                Voltar e revisar
-              </button>
             </div>
-          </fieldset>
+          </div>
         )}
 
         <div ref={statusRef} tabIndex={-1} aria-live="polite" className="focus:outline-none">
           {status === "error" ? (
-            <p role="alert" className={cx("mt-5 rounded-xl border p-4 text-[0.95rem]", dark ? "border-danger-dark/60 bg-danger-dark/10 text-danger-dark" : "border-danger/40 bg-red-50 text-danger")}>
+            <p role="alert" className="mt-6 rounded-sm border border-text-critical/50 p-4 text-[0.9375rem] leading-6 text-text-critical">
               {message}
             </p>
           ) : null}
         </div>
 
-        <p className={cx(hint, "mt-6")}>
-          Usamos seus dados apenas para responder a esta solicitação. Veja a <Link href="/politica-de-privacidade" className="underline underline-offset-2">política de privacidade</Link>.
+        <p className={cx(hint, "mt-8")}>
+          Usamos seus dados apenas para responder a esta solicitação. Veja a <Link href="/politica-de-privacidade" className="underline underline-offset-2 hover:text-text-primary">política de privacidade</Link>.
         </p>
       </form>
     </div>

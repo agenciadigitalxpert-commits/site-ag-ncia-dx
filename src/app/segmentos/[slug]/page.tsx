@@ -70,9 +70,9 @@ export default async function SegmentPage({ params }: PageProps<"/segmentos/[slu
               <Eyebrow index="01">O contexto</Eyebrow>
               <h2 id="contexto" className="text-h2">{s.context.title}</h2>
             </div>
-            <div className="reveal space-y-5 text-lead text-muted-light">
+            <div className="reveal space-y-5 text-lead text-text-secondary">
               {s.context.paragraphs.map((p, i) => (
-                <p key={i} className={i === 0 ? "text-ink" : undefined}><Rich text={p} /></p>
+                <p key={i} className={i === 0 ? "text-text-primary" : undefined}><Rich text={p} /></p>
               ))}
             </div>
           </div>
@@ -83,13 +83,13 @@ export default async function SegmentPage({ params }: PageProps<"/segmentos/[slu
       <Section tone="paper2" labelledBy="desafios">
         <Container>
           <SectionHeader id="desafios" index="02" eyebrow="Desafios comuns" title="Onde as oportunidades costumam se perder" />
-          <ol className="mt-12 grid gap-x-12 border-t border-line-light md:grid-cols-2">
+          <ol className="mt-12 grid gap-x-16 gap-y-10 md:grid-cols-2">
             {s.challenges.map((c, i) => (
-              <li key={c.title} className="reveal flex gap-5 border-b border-line-light py-7">
-                <span className="pt-1 text-sm tabular-nums text-muted-light">{String(i + 1).padStart(2, "0")}</span>
+              <li key={c.title} className="reveal flex gap-4">
+                <span className="pt-1 text-sm tabular-nums leading-5 text-text-secondary">{String(i + 1).padStart(2, "0")}</span>
                 <div>
                   <h3 className="text-h3">{c.title}</h3>
-                  <p className="mt-2 leading-relaxed text-muted-light"><Rich text={c.text} /></p>
+                  <p className="mt-2 text-text-secondary"><Rich text={c.text} /></p>
                 </div>
               </li>
             ))}
@@ -101,15 +101,15 @@ export default async function SegmentPage({ params }: PageProps<"/segmentos/[slu
       <Section tone="dark" labelledBy="abordagem">
         <Container>
           <SectionHeader id="abordagem" index="03" eyebrow="Como a DX atua" title={`Atrair, qualificar e converter no contexto de ${inSentence(s.navLabel)}`} />
-          <div className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-line-dark bg-line-dark lg:grid-cols-3">
+          <div className="mt-14 grid gap-12 lg:grid-cols-3 lg:gap-16">
             {stages.map((stage, i) => (
-              <div key={stage} className="reveal bg-ink p-7 sm:p-9" style={{ ["--reveal-delay" as string]: `${i * 80}ms` }}>
-                <p className="text-sm uppercase tracking-[0.16em] text-accent">{stage}</p>
-                <ul className="mt-6 space-y-7">
+              <div key={stage} className="reveal border-t border-border-secondary pt-6" style={{ ["--reveal-delay" as string]: `${i * 80}ms` }}>
+                <p className="font-display text-2xl font-semibold leading-8 tracking-[-0.02em]">{stage}</p>
+                <ul className="mt-6 space-y-6">
                   {s.approach.filter((a) => a.stage === stage).map((a) => (
                     <li key={a.title}>
-                      <h3 className="text-lg font-semibold">{a.title}</h3>
-                      <p className="mt-2 leading-relaxed text-white/70"><Rich text={a.text} /></p>
+                      <h3 className="text-lg font-semibold leading-7">{a.title}</h3>
+                      <p className="mt-1 text-text-secondary"><Rich text={a.text} /></p>
                     </li>
                   ))}
                 </ul>
@@ -123,12 +123,12 @@ export default async function SegmentPage({ params }: PageProps<"/segmentos/[slu
       <Section tone="light" labelledBy="exemplos">
         <Container>
           <SectionHeader id="exemplos" index="04" eyebrow="Na prática" title="Situações comuns e como lidamos com elas" intro="Cenários ilustrativos, construídos para explicar a lógica do trabalho. Não representam clientes reais." />
-          <div className="mt-12 grid gap-4 lg:grid-cols-3">
+          <div className="mt-12 grid gap-12 lg:grid-cols-3 lg:gap-16">
             {s.examples.map((e) => (
-              <article key={e.title} className="reveal flex flex-col rounded-[var(--radius)] border border-line-light p-7">
+              <article key={e.title} className="reveal">
                 <ExampleBadge />
-                <h3 className="text-h3 mt-5">{e.title}</h3>
-                <p className="mt-3 leading-relaxed text-muted-light"><Rich text={e.text} /></p>
+                <h3 className="text-h3 mt-4">{e.title}</h3>
+                <p className="mt-2 text-text-secondary"><Rich text={e.text} /></p>
               </article>
             ))}
           </div>
@@ -139,11 +139,11 @@ export default async function SegmentPage({ params }: PageProps<"/segmentos/[slu
       <Section tone="paper2" labelledBy="objecoes">
         <Container>
           <SectionHeader id="objecoes" index="05" eyebrow="Objeções" title="O que costumamos ouvir — e o que respondemos" />
-          <dl className="mt-12 grid gap-4 md:grid-cols-2">
+          <dl className="mt-12 grid gap-x-16 gap-y-10 md:grid-cols-2">
             {s.objections.map((o) => (
-              <div key={o.q} className="reveal rounded-[var(--radius)] bg-paper p-7">
-                <dt className="font-display text-xl font-medium">“{o.q}”</dt>
-                <dd className="mt-3 leading-relaxed text-muted-light"><Rich text={o.a} /></dd>
+              <div key={o.q} className="reveal">
+                <dt className="font-display text-xl font-medium leading-7">“{o.q}”</dt>
+                <dd className="mt-2 text-text-secondary"><Rich text={o.a} /></dd>
               </div>
             ))}
           </dl>
@@ -153,12 +153,12 @@ export default async function SegmentPage({ params }: PageProps<"/segmentos/[slu
       {s.compliance ? (
         <Section tone="light" labelledBy="comunicacao-responsavel">
           <Container>
-            <div className="grid gap-10 rounded-3xl border border-line-light p-8 sm:p-12 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-16">
+            <div className="grid gap-8 rounded-lg bg-bg-surface-recessed p-8 sm:p-12 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-16">
               <div>
                 <Eyebrow>Comunicação responsável</Eyebrow>
                 <h2 id="comunicacao-responsavel" className="text-h3">{s.compliance.title}</h2>
               </div>
-              <div className="space-y-4 leading-relaxed text-muted-light">
+              <div className="space-y-4 text-text-secondary">
                 {s.compliance.paragraphs.map((p, i) => <p key={i}><Rich text={p} /></p>)}
               </div>
             </div>
@@ -170,11 +170,11 @@ export default async function SegmentPage({ params }: PageProps<"/segmentos/[slu
       <Section tone="graphite" labelledBy="indicadores">
         <Container>
           <SectionHeader id="indicadores" index="06" eyebrow="Indicadores" title="O que acompanhamos neste segmento" intro="Indicadores que conectam a mídia ao que acontece no atendimento e nas vendas." />
-          <dl className="mt-12 grid gap-x-12 border-t border-line-dark md:grid-cols-2">
+          <dl className="mt-12 grid gap-x-16 gap-y-8 md:grid-cols-2">
             {s.metrics.map((m) => (
-              <div key={m.metric} className="reveal border-b border-line-dark py-6">
-                <dt className="font-semibold">{m.metric}</dt>
-                <dd className="mt-2 leading-relaxed text-white/70">{m.why}</dd>
+              <div key={m.metric} className="reveal">
+                <dt className="text-lg font-semibold leading-7">{m.metric}</dt>
+                <dd className="mt-1 text-text-secondary">{m.why}</dd>
               </div>
             ))}
           </dl>
@@ -192,14 +192,14 @@ export default async function SegmentPage({ params }: PageProps<"/segmentos/[slu
             <div className="reveal"><FaqList faqs={s.faqs} /></div>
           </div>
 
-          <div className="mt-20 border-t border-line-light pt-12">
+          <div className="mt-20">
             <h2 className="text-h3">Serviços mais usados neste segmento</h2>
             <ul className={cx("mt-6 grid gap-3 sm:grid-cols-2", svc.length > 3 ? "lg:grid-cols-4" : "lg:grid-cols-3")}>
               {svc.map((x) => (
                 <li key={x.slug}>
-                  <Link href={`/servicos/${x.slug}`} className="group flex h-full flex-col justify-between rounded-[var(--radius)] border border-line-light p-6 transition-colors hover:border-ink">
+                  <Link href={`/servicos/${x.slug}`} className="group flex h-full flex-col justify-between rounded-md bg-bg-fill-secondary p-6 transition-colors duration-150 hover:bg-bg-fill-secondary-hover">
                     <span className="font-medium">{x.name}</span>
-                    <span className="mt-4 inline-flex items-center gap-2 text-sm text-muted-light group-hover:text-ink">Ver serviço <ArrowIcon className="transition-transform group-hover:translate-x-1" /></span>
+                    <span className="mt-4 inline-flex items-center gap-2 text-sm leading-5 text-text-secondary group-hover:text-text-primary">Ver serviço <ArrowIcon className="transition-transform duration-200 group-hover:translate-x-1" /></span>
                   </Link>
                 </li>
               ))}
