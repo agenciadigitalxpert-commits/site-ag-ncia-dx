@@ -5,7 +5,7 @@ import { pageMetadata } from "@/lib/seo";
 import { breadcrumbNode, graph, ids, webPageNode } from "@/lib/schema";
 import { JsonLd } from "@/components/JsonLd";
 import { CtaSection, PageHero, SectionHeader } from "@/components/sections";
-import { ArrowIcon, Container, Eyebrow, Section } from "@/components/ui";
+import { Container, Eyebrow, Section } from "@/components/ui";
 
 const TITLE = "Sobre a Agência Digital Xpert (DX)";
 const DESC =
@@ -63,35 +63,38 @@ export default function AboutPage() {
       <Section tone="paper2" labelledBy="fundadores">
         <Container>
           <SectionHeader id="fundadores" index="02" eyebrow="Fundadores" title="Quem está à frente da DX." />
-          <ul className="mt-14 grid gap-12 sm:grid-cols-2 lg:max-w-4xl lg:gap-16">
+          <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:max-w-5xl lg:gap-8">
             {site.founders.map((f, i) => (
-              <li key={f.id} className="reveal" style={{ ["--reveal-delay" as string]: `${i * 80}ms` }}>
-                <figure>
-                  <div className="overflow-hidden rounded-lg bg-bg-fill-inverse">
-                    <Image
-                      src={f.photo}
-                      alt={`${f.name}, ${f.role.toLowerCase()} da Agência Digital Xpert`}
-                      width={900}
-                      height={1200}
-                      sizes="(min-width: 1024px) 26rem, (min-width: 640px) 45vw, 100vw"
-                      className="aspect-[3/4] h-auto w-full object-cover transition-transform duration-500 ease-out-soft hover:scale-[1.02]"
-                    />
-                  </div>
-                  <figcaption className="mt-6">
-                    <p className="text-h3">{f.name}</p>
-                    <p className="text-text-secondary">{f.role}</p>
-                    <p className="mt-3">{f.bio}</p>
-                    <a
-                      href={f.instagram}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-3 inline-flex min-h-11 items-center gap-2 font-medium underline-offset-4 hover:underline"
-                    >
-                      Instagram de {f.name.split(" ")[0]}
-                      <span className="sr-only">(abre em nova aba)</span>
-                      <ArrowIcon className="-rotate-45" />
-                    </a>
+              <li key={f.id} className="reveal" style={{ ["--reveal-delay" as string]: `${i * 100}ms` }}>
+                <figure className="portrait group relative isolate overflow-hidden rounded-lg bg-bg-fill-inverse">
+                  <Image
+                    src={f.photo}
+                    alt={`${f.name}, ${f.role.toLowerCase()} da Agência Digital Xpert`}
+                    width={900}
+                    height={1200}
+                    sizes="(min-width: 1024px) 32rem, (min-width: 640px) 45vw, 100vw"
+                    className="aspect-[3/4] h-auto w-full object-cover"
+                  />
+                  {/* degradê para o texto sobre a foto passar no contraste */}
+                  <div aria-hidden className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+                  <figcaption className="surface-dark absolute inset-x-0 bottom-0 !bg-transparent p-6 sm:p-8">
+                    <span aria-hidden className="portrait-bar mb-4 block h-0.5 w-12 rounded-full bg-bg-fill-brand" />
+                    <p className="font-display text-[clamp(1.5rem,1.2rem+1vw,2rem)] font-semibold leading-tight tracking-[-0.02em]">{f.name}</p>
+                    <p className="mt-1 text-sm leading-5 text-text-secondary">{f.role} · {f.bio}</p>
                   </figcaption>
+                  <a
+                    href={f.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Instagram de ${f.name} (abre em nova aba)`}
+                    className="pressable material-bar absolute right-4 top-4 grid size-11 place-items-center rounded-full text-white"
+                  >
+                    <svg aria-hidden viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.7">
+                      <rect x="3" y="3" width="18" height="18" rx="5" />
+                      <circle cx="12" cy="12" r="4" />
+                      <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none" />
+                    </svg>
+                  </a>
                 </figure>
               </li>
             ))}

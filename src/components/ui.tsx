@@ -86,7 +86,7 @@ export type BtnVariant = "primary" | "secondary" | "ghost";
  */
 export function btn(variant: BtnVariant = "primary", className?: string) {
   const base =
-    "group inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-[0.9375rem] font-medium leading-6 transition-[background-color,color,border-color,transform] duration-200 ease-out-soft active:scale-[0.98] focus-visible:outline-offset-4 disabled:cursor-not-allowed disabled:opacity-60";
+    "pressable group inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-[0.9375rem] font-medium leading-6 focus-visible:outline-offset-4 disabled:cursor-not-allowed disabled:opacity-60";
   const v: Record<BtnVariant, string> = {
     primary: "bg-bg-fill-brand text-text-on-brand hover:bg-bg-fill-brand-hover hover:text-text-on-brand-hover",
     secondary: "border border-border-secondary text-text-primary hover:border-text-primary hover:bg-bg-fill-secondary",

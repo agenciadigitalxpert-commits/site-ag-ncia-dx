@@ -100,14 +100,14 @@ export function LinkRows({ items }: { items: { href: string; title: string; text
         <li key={it.href} className="reveal border-b border-border-tertiary" style={{ ["--reveal-delay" as string]: `${Math.min(i, 6) * 40}ms` }}>
           <Link
             href={it.href}
-            className="group grid gap-2 py-6 sm:grid-cols-[minmax(0,5fr)_minmax(0,6fr)_2.75rem] sm:items-center sm:gap-8 sm:py-8"
+            className="row-sweep pressable group grid gap-2 py-6 sm:grid-cols-[minmax(0,5fr)_minmax(0,6fr)_2.75rem] sm:items-center sm:gap-8 sm:py-8"
           >
             <span className="flex items-baseline gap-4">
               <span className="w-6 text-sm tabular-nums text-text-secondary">{String(i + 1).padStart(2, "0")}</span>
-              <span className="font-display text-h3 transition-transform duration-200 ease-out-soft sm:group-hover:translate-x-1">{it.title}</span>
+              <span className="font-display text-h3 transition-transform duration-500 ease-[var(--ease-spring)] sm:group-hover:translate-x-2">{it.title}</span>
             </span>
             <span className="pl-10 text-text-secondary sm:pl-0">{it.text}</span>
-            <span className="hidden size-11 place-items-center rounded-full text-text-secondary transition-colors duration-200 group-hover:bg-bg-fill-inverse group-hover:text-text-on-inverse sm:grid">
+            <span className="hidden size-11 place-items-center rounded-full text-text-secondary transition-[background-color,color,transform] duration-500 ease-[var(--ease-spring)] group-hover:-rotate-45 group-hover:bg-bg-fill-inverse group-hover:text-text-on-inverse sm:grid">
               <ArrowIcon />
             </span>
           </Link>

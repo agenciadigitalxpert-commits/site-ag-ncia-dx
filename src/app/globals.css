@@ -139,12 +139,18 @@
   --radius-xl: var(--radius-xl);
   --radius-2xl: var(--radius-2xl);
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Mola no estilo iOS (amortecida, sem quique exagerado) */
+  --ease-spring: linear(0, 0.006, 0.025 2.8%, 0.101 6.1%, 0.539 18.9%, 0.721 25.3%, 0.849 31.5%, 0.937 38.1%, 0.968 41.8%, 0.991 45.7%, 1.006 50.1%, 1.015 55%, 1.017 63.9%, 1.001);
 }
 
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent; /* iOS: o feedback de toque é nosso (escala), não o realce cinza */
     scroll-padding-top: 6rem;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
   }
   body {
     background: var(--color-bg);
@@ -314,3 +320,102 @@ html.js .reveal.is-visible { opacity: 1; transform: none; }
   font-weight: 500;
 }
 @media (prefers-reduced-motion: reduce) { .hero-glow, .scroll-cue { animation: none; } }
+
+/* ==========================================================================
+   Movimento — regras de iOS (HIG): mola, feedback de toque, materiais,
+   nada que dependa só de hover, e respeito a Reduzir Movimento/Transparência.
+   ========================================================================== */
+
+/* Feedback de toque: tudo que é tocável "afunda" levemente, com mola. */
+@utility pressable {
+  transition-property: transform, background-color, color, border-color, opacity;
+  transition-duration: 450ms;
+  transition-timing-function: var(--ease-spring);
+  &:active { transform: scale(0.97); transition-duration: 120ms; }
+}
+
+/* Material translúcido (barra de navegação estilo iOS) */
+.material-bar {
+  background-color: rgb(10 10 11 / 0.84);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .material-bar { background-color: var(--grey-950); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+
+/* Transição entre páginas (View Transitions API) ----------------------------
+   Saída rápida, entrada mais suave (assimetria) e cabeçalho ancorado. */
+::view-transition { pointer-events: none; }
+::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+::view-transition-old(.page) { animation: 160ms var(--ease-out-soft) both page-out; }
+::view-transition-new(.page) { animation: 420ms var(--ease-spring) 90ms both page-in; }
+::view-transition-group(site-header) { animation: none; z-index: 100; }
+::view-transition-old(site-header) { display: none; }
+::view-transition-new(site-header) { animation: none; }
+@keyframes page-out { to { opacity: 0; transform: translateY(-10px); filter: blur(4px); } }
+@keyframes page-in { from { opacity: 0; transform: translateY(28px); filter: blur(6px); } }
+
+/* Barra de progresso de leitura (indicador de estado → pode usar a cor da marca) */
+.scroll-progress {
+  position: fixed; inset: 0 0 auto; height: 2px; z-index: 70;
+  background: var(--lime-400); transform-origin: 0 50%; transform: scaleX(0);
+  pointer-events: none;
+}
+@supports (animation-timeline: scroll()) {
+  .scroll-progress { animation: progress-grow linear both; animation-timeline: scroll(root); }
+}
+@keyframes progress-grow { to { transform: scaleX(1); } }
+
+/* Hero: o título "recolhe" ao rolar (como o título grande do iOS) e a luz sobe */
+@supports (animation-timeline: view()) {
+  .hero-scroll { animation: hero-out linear both; animation-timeline: view(); animation-range: exit 0% exit 90%; }
+  .hero-parallax { animation: glow-rise linear both; animation-timeline: view(); animation-range: exit 0% exit 100%; }
+}
+.hero-parallax { position: absolute; inset: 0; }
+@keyframes hero-out { to { opacity: 0; transform: translateY(-48px) scale(0.94); filter: blur(6px); } }
+@keyframes glow-rise { to { transform: translateY(-18%) scale(1.15); } }
+
+/* Texto que acende palavra por palavra conforme a rolagem */
+@supports (animation-timeline: view()) {
+  .scroll-words { view-timeline-name: --words; }
+  .scroll-words > span {
+    animation: word-lit linear both;
+    animation-timeline: --words;
+    animation-range: cover calc(8% + var(--i) * var(--step)) cover calc(14% + var(--i) * var(--step));
+  }
+}
+@keyframes word-lit { from { opacity: 0.16; } to { opacity: 1; } }
+
+/* Faixa infinita (decorativa, pausa no hover) */
+.marquee { display: flex; width: max-content; animation: marquee 48s linear infinite; }
+.marquee-wrap:hover .marquee { animation-play-state: paused; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+.text-outline { color: transparent; -webkit-text-stroke: 1px rgb(255 255 255 / 0.35); }
+
+/* Linha de lista com preenchimento que varre no hover */
+.row-sweep { position: relative; isolation: isolate; }
+.row-sweep::before {
+  content: ""; position: absolute; inset: 0 -1rem; z-index: -1; border-radius: var(--radius-md);
+  background: var(--color-bg-fill-secondary); transform: scaleX(0); transform-origin: 0 50%;
+  transition: transform 500ms var(--ease-spring);
+}
+@media (hover: hover) { .row-sweep:hover::before { transform: scaleX(1); } }
+
+/* Retrato P&B → cor. Com mouse: no hover. Sem mouse (iOS): ao passar pelo centro da tela. */
+.portrait img { filter: grayscale(1) contrast(1.06); transform: scale(1.0); transition: filter 900ms var(--ease-out-soft), transform 900ms var(--ease-spring); }
+.portrait .portrait-bar { transform: scaleX(0); transform-origin: 0 50%; transition: transform 600ms var(--ease-spring) 120ms; }
+@media (hover: hover) {
+  .portrait:hover img, .portrait:focus-within img { filter: grayscale(0) contrast(1); transform: scale(1.04); }
+  .portrait:hover .portrait-bar, .portrait:focus-within .portrait-bar { transform: scaleX(1); }
+}
+@media (hover: none) {
+  .portrait.in-view img { filter: grayscale(0) contrast(1); transform: scale(1.03); }
+  .portrait.in-view .portrait-bar { transform: scaleX(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*), ::view-transition-new(*), ::view-transition-group(*) { animation-duration: 0s !important; animation-delay: 0s !important; }
+  .marquee { animation: none; }
+  .hero-scroll, .hero-parallax, .scroll-words > span { animation: none !important; }
+}

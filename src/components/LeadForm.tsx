@@ -219,7 +219,7 @@ export function LeadForm({
             />
             <span
               className={cx(
-                "inline-flex min-h-11 items-center rounded-sm border px-4 py-2 text-[0.9375rem] leading-6 transition-colors duration-150",
+                "pressable inline-flex min-h-11 items-center rounded-sm border px-4 py-2 text-[0.9375rem] leading-6",
                 "border-border-secondary text-text-primary hover:border-text-primary hover:bg-bg-fill-secondary",
                 "peer-checked:border-transparent peer-checked:bg-bg-fill-inverse peer-checked:text-text-on-inverse",
                 "peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--color-border-focus)]",
@@ -268,12 +268,12 @@ export function LeadForm({
               <div className="space-y-5">
                 <div>
                   <label htmlFor={id("nome")} className={label}>Qual é o seu nome?</label>
-                  <input {...fieldProps("nome")} type="text" autoComplete="name" required onChange={(e) => set("nome", e.target.value)} className={cx(field, errors.nome && errCls)} />
+                  <input {...fieldProps("nome")} type="text" autoComplete="name" enterKeyHint="next" required onChange={(e) => set("nome", e.target.value)} className={cx(field, errors.nome && errCls)} />
                   {errorFor("nome")}
                 </div>
                 <div>
                   <label htmlFor={id("whatsapp")} className={label}>Qual é o seu WhatsApp?</label>
-                  <input {...fieldProps("whatsapp")} type="tel" inputMode="tel" autoComplete="tel-national" placeholder="(47) 99999-9999" required onChange={(e) => set("whatsapp", e.target.value)} className={cx(field, errors.whatsapp && errCls)} />
+                  <input {...fieldProps("whatsapp")} type="tel" inputMode="tel" autoComplete="tel-national" enterKeyHint="next" placeholder="(47) 99999-9999" required onChange={(e) => set("whatsapp", e.target.value)} className={cx(field, errors.whatsapp && errCls)} />
                   {errorFor("whatsapp")}
                 </div>
               </div>
@@ -284,7 +284,7 @@ export function LeadForm({
               <div className="space-y-6">
                 <div>
                   <label htmlFor={id("empresa")} className={label}>Qual é o nome da empresa?</label>
-                  <input {...fieldProps("empresa")} type="text" autoComplete="organization" required onChange={(e) => set("empresa", e.target.value)} className={cx(field, errors.empresa && errCls)} />
+                  <input {...fieldProps("empresa")} type="text" autoComplete="organization" enterKeyHint="next" required onChange={(e) => set("empresa", e.target.value)} className={cx(field, errors.empresa && errCls)} />
                   {errorFor("empresa")}
                 </div>
                 <div>

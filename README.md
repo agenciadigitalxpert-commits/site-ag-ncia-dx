@@ -66,3 +66,14 @@ Mais detalhes: `docs/mensuracao.md` e `docs/pendencias.md`.
 - Densidade: frases curtas; listas longas mostram os itens principais e o detalhe fica em acordeão.
 - Formulário em uma coluna, opcionais marcados com "(opcional)", erro com ícone + texto.
 - Componentes usam apenas tokens semânticos (ex.: `text-text-secondary`, `bg-bg-fill-brand`, `border-border-tertiary`).
+
+## Movimento e regras de iOS (Apple HIG)
+
+- **Transição entre páginas:** View Transitions API via `<ViewTransition>` em `src/app/template.tsx` — saída rápida (160ms), entrada com mola (420ms), cabeçalho ancorado.
+- **Mola no estilo iOS:** `--ease-spring` em `globals.css`, usada em menus, botões e hovers.
+- **Feedback de toque:** utilitário `pressable` (escala 0,97 com mola) em botões, chips e linhas clicáveis; sem o realce cinza padrão do iOS.
+- **Material translúcido:** cabeçalho com `.material-bar` (blur + saturação), que encolhe ao rolar (título grande → compacto). Com "Reduzir transparência", fica sólido.
+- **Nada depende só de hover:** os retratos ganham cor no hover (mouse) ou ao cruzar o centro da tela (toque).
+- **Scroll:** barra de progresso, hero que recolhe ao rolar, texto que acende por palavra e paralaxe da luz — tudo em CSS (`animation-timeline`), com fallback estático.
+- **Áreas de toque ≥ 44pt**, safe areas (`viewport-fit=cover` + `env(safe-area-inset-*)`), teclado certo e tecla "seguinte" no formulário, campos com 16px (sem zoom automático no iOS).
+- **Reduzir movimento:** transições, faixa, paralaxe e scroll-linked são desligados.

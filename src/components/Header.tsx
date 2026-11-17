@@ -111,8 +111,8 @@ export function Header() {
           id={panelId}
           inert={!isOpen}
           className={cx(
-            "absolute left-1/2 top-full z-50 mt-3 w-[min(34rem,90vw)] -translate-x-1/2 rounded-lg bg-bg-surface p-3 shadow-2xl shadow-black/40 transition-[opacity,transform,visibility] duration-200 ease-out-soft",
-            isOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-1 opacity-0",
+            "absolute left-1/2 top-full z-50 mt-3 w-[min(34rem,90vw)] -translate-x-1/2 rounded-lg bg-bg-surface p-3 shadow-2xl shadow-black/40 transition-[opacity,transform,visibility] duration-300 ease-[var(--ease-spring)]",
+            isOpen ? "visible translate-y-0 scale-100 opacity-100" : "invisible -translate-y-2 scale-[0.98] opacity-0",
           )}
         >
           <ul className={cx("grid gap-1", items.length > 6 && "sm:grid-cols-2")}>
@@ -121,7 +121,7 @@ export function Header() {
                 <Link
                   href={it.href}
                   onClick={closeAll}
-                  className="block rounded-[12px] px-4 py-3 transition-colors duration-150 hover:bg-bg-fill-secondary focus-visible:bg-bg-fill-secondary"
+                  className="pressable block rounded-[12px] px-4 py-3 hover:bg-bg-fill-secondary focus-visible:bg-bg-fill-secondary"
                 >
                   <span className="block text-[0.9375rem] font-medium leading-6 text-text-primary">{it.label}</span>
                   {it.description ? <span className="block text-sm leading-5 text-text-secondary">{it.description}</span> : null}
@@ -144,14 +144,17 @@ export function Header() {
 
   return (
     <header
+      style={{ viewTransitionName: "site-header" }}
       className={cx(
-        "surface-dark sticky top-0 z-40 border-b transition-[background-color,border-color] duration-300",
+        "surface-dark sticky top-0 z-40 border-b transition-[border-color] duration-300",
+        // Material translúcido só com o menu fechado: backdrop-filter prenderia o painel fixo do menu mobile.
+        !mobile && "material-bar",
         // Sem backdrop-filter com o menu aberto: ele criaria um bloco de contenção para o painel fixo.
-        mobile ? "border-border-tertiary" : scrolled ? "border-border-tertiary !bg-[rgb(10_10_11/0.9)] backdrop-blur-md" : "border-transparent",
+        mobile || scrolled ? "border-border-tertiary" : "border-transparent",
       )}
     >
-      <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between gap-6 px-5 sm:px-8 lg:px-10">
-        <Link href="/" onClick={closeAll} className="text-[1.45rem] text-text-primary" aria-label={`${site.name} — página inicial`}>
+      <div className={cx("mx-auto flex max-w-7xl items-center justify-between gap-6 px-5 transition-[height] duration-500 ease-[var(--ease-spring)] sm:px-8 lg:px-10", scrolled && !mobile ? "h-16" : "h-[4.5rem]")}>
+        <Link href="/" onClick={closeAll} className={cx("pressable origin-left text-[1.45rem] text-text-primary transition-transform duration-500", scrolled && !mobile && "scale-90")} aria-label={`${site.name} — página inicial`}>
           <Logo />
         </Link>
 
@@ -196,8 +199,8 @@ export function Header() {
         ref={mobilePanel}
         inert={!mobile}
         className={cx(
-          "surface-dark fixed inset-x-0 bottom-0 top-[4.5rem] overflow-y-auto overscroll-contain transition-[opacity,transform,visibility] duration-250 ease-out-soft lg:hidden",
-          mobile ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0",
+          "surface-dark fixed inset-x-0 bottom-0 top-[4.5rem] overflow-y-auto overscroll-contain transition-[opacity,transform,visibility] duration-500 ease-[var(--ease-spring)] lg:hidden",
+          mobile ? "visible translate-y-0 opacity-100" : "invisible -translate-y-4 opacity-0",
         )}
       >
         <nav aria-label="Menu principal (celular)" className="mx-auto flex min-h-full max-w-xl flex-col px-5 pb-10 pt-4 sm:px-8">

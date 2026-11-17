@@ -38,6 +38,9 @@ const fronts = [
   { n: "03", t: "Converter", d: "Acompanhamento até a venda e otimização pelo que fecha negócio.", items: ["Follow-up estruturado", "Indicadores até a venda", "Otimização contínua"] },
 ];
 
+const STATEMENT =
+  "Marketing, tecnologia e comercial na mesma mesa. De Balneário Camboriú para empresas de todo o Brasil, porque campanha boa é a que vira venda — e venda depende de quem atende.";
+
 const segmentTagline: Record<string, string> = {
   "intermediacao-e-revendas": "Proprietários que querem vender e compradores prontos para visitar.",
   "oficinas-e-funilarias": "Orçamentos que viram serviço no box, sem lotar a agenda com o que não compensa.",
@@ -90,10 +93,12 @@ export default function HomePage() {
       <section className="surface-dark relative isolate flex min-h-[calc(100svh-4.5rem)] items-center overflow-hidden">
         <div aria-hidden className="hero-art">
           <div className="hero-beams" />
-          <div className="hero-glow" />
+          <div className="hero-parallax">
+            <div className="hero-glow" />
+          </div>
           <div className="hero-grain" />
         </div>
-        <Container className="relative flex flex-col items-center pb-48 pt-14 text-center sm:py-28">
+        <Container className="hero-scroll relative flex flex-col items-center pb-48 pt-14 text-center sm:py-28">
           <h1 className="flex flex-col items-center">
             <span className="hero-rise mb-8 inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-bg-fill-secondary px-4 py-2 text-sm font-medium leading-5 text-text-secondary backdrop-blur-sm">
               <span aria-hidden className="flow-node size-2 shrink-0 rounded-full bg-bg-fill-brand" />
@@ -127,6 +132,22 @@ export default function HomePage() {
           </span>
         </a>
       </section>
+
+      {/* FAIXA (decorativa) ------------------------------------------- */}
+      <div aria-hidden className="marquee-wrap surface-dark overflow-hidden border-y border-border-tertiary py-6 sm:py-8">
+        <div className="marquee">
+          {[0, 1].map((k) => (
+            <div key={k} className="flex shrink-0 items-center">
+              {["Google Ads", "Meta Ads", "Criativos", "Landing pages", "Estruturação comercial", "CRM", "Automação", "IA no atendimento"].map((t, i) => (
+                <span key={t} className="flex items-center font-display text-[clamp(2rem,1.2rem+3vw,4rem)] font-semibold leading-none tracking-[-0.03em]">
+                  <span className={i % 2 ? "text-outline" : "text-text-primary"}>{t}</span>
+                  <span className="mx-8 text-[0.5em] text-text-secondary sm:mx-12">✦</span>
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* DORES --------------------------------------------------------- */}
       <Section tone="light" labelledBy="dores-title">
@@ -265,25 +286,22 @@ export default function HomePage() {
         <Container><DevNote>a seção de cases só aparece quando houver um case com <code>published: true</code> em <code>src/content/cases.ts</code>.</DevNote></Container>
       )}
 
-      {/* SOBRE --------------------------------------------------------- */}
+      {/* SOBRE ---------------------------------------------------------- */}
       <Section tone="light" labelledBy="sobre-title">
         <Container>
-          <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
-            <SectionHeader
-              id="sobre-title"
-              index={publishedCases.length ? "07" : "06"}
-              eyebrow="Sobre a DX"
-              title="Marketing, tecnologia e comercial na mesma mesa."
-            />
-            <div className="reveal space-y-5 text-lead text-text-secondary">
-              <p>
-                De Balneário Camboriú para empresas de todo o Brasil, com uma visão prática: campanha boa é a que gera venda — e venda depende de quem atende.
-              </p>
-              <Link href="/sobre" className="group inline-flex items-center gap-2 font-medium text-text-primary underline-offset-4 hover:underline">
-                Conheça a DX <ArrowIcon />
-              </Link>
-            </div>
-          </div>
+          <Eyebrow index={publishedCases.length ? "07" : "06"}>Sobre a DX</Eyebrow>
+          <h2
+            id="sobre-title"
+            className="scroll-words font-display max-w-5xl text-[clamp(1.75rem,1.1rem+2.6vw,3.5rem)] font-medium leading-[1.15] tracking-[-0.03em]"
+            style={{ ["--step" as string]: "1.1%" }}
+          >
+            {STATEMENT.split(" ").map((w, i) => (
+              <span key={i} style={{ ["--i" as string]: i }}>{w} </span>
+            ))}
+          </h2>
+          <Link href="/sobre" className={btn("secondary", "mt-12")}>
+            Conheça a DX e os fundadores <ArrowIcon className="transition-transform duration-200 group-hover:translate-x-0.5" />
+          </Link>
         </Container>
       </Section>
 

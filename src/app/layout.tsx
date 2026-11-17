@@ -58,6 +58,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Pular para o conteúdo
         </a>
+        <div aria-hidden className="scroll-progress" />
         <JsonLd data={graph(organizationNode(), websiteNode(), ...founderNodes())} />
         <Header />
         <main id="conteudo" tabIndex={-1} className="flex-1 focus:outline-none">
