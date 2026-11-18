@@ -30,8 +30,7 @@ export default function PrivacyPage() {
         <p>Ao preencher o formulário de diagnóstico, coletamos:</p>
         <ul>
           <li>nome, empresa e número de WhatsApp;</li>
-          <li>segmento de atuação e principal desafio;</li>
-          <li>de forma opcional: se já investe em anúncios, faixa de investimento mensal em mídia, site ou Instagram e outras informações que você decidir compartilhar.</li>
+          <li>se você quiser complementar a solicitação, segmento, principal desafio, investimento em anúncios, site ou Instagram e informações que decidir compartilhar.</li>
         </ul>
         <p>Pedimos que não envie dados sensíveis (como informações de saúde) no campo de texto livre.</p>
         <h3>Dados coletados automaticamente</h3>
