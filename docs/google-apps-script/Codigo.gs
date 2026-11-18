@@ -40,7 +40,7 @@ const CONFIG = {
   /** Fuso horário da data/hora gravada. */
   TIMEZONE: 'America/Sao_Paulo',
   /** E-mails que recebem aviso a cada novo lead. Deixe [] para não enviar. */
-  NOTIFY_EMAILS: [], // ex.: ['comercial@suaempresa.com.br']
+  NOTIFY_EMAILS: ['agenciadigitalxpert@gmail.com'], // adicione outros separados por vírgula
   /** Quantas linhas recentes conferir para evitar lead duplicado. */
   DEDUPE_LOOKBACK: 300,
   /** Opções da coluna "Status" (lista suspensa). */
