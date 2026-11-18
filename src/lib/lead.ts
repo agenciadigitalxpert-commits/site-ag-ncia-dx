@@ -28,9 +28,9 @@ export type LeadInput = {
   nome: string;
   empresa: string;
   whatsapp: string;
-  // Etapa 2. Todos os campos de contexto são opcionais.
-  segmento?: string;
-  desafio?: string;
+  segmento: string;
+  desafio: string;
+  // etapa 2 (opcional)
   investeAnuncios?: string;
   investimentoMidia?: string;
   siteOuInstagram?: string;
@@ -39,7 +39,7 @@ export type LeadInput = {
 
 export type LeadErrors = Partial<Record<keyof LeadInput, string>>;
 
-export const STEP1_FIELDS = ["nome", "empresa", "whatsapp"] as const;
+export const STEP1_FIELDS = ["nome", "empresa", "whatsapp", "segmento", "desafio"] as const;
 
 export function onlyDigits(v: string) {
   return v.replace(/\D/g, "");
@@ -85,11 +85,14 @@ export function validateLead(input: Partial<LeadInput>, scope: "step1" | "all" =
   if (!(input.whatsapp ?? "").trim()) e.whatsapp = "Informe um WhatsApp para contato.";
   else if (!normalizeBrPhone(input.whatsapp!)) e.whatsapp = "Confira o número: use DDD + número, como (47) 99999-9999.";
 
+  const segmento = (input.segmento ?? "").trim();
+  if (segmento.length < 2) e.segmento = "Informe o segmento da empresa.";
+  else if (segmento.length > 80) e.segmento = "Use no máximo 80 caracteres.";
+
+  if (!input.desafio) e.desafio = "Selecione o principal desafio hoje.";
+  else if (!inList(CHALLENGE_OPTIONS, input.desafio)) e.desafio = "Selecione uma opção da lista.";
+
   if (scope === "all") {
-    const segmento = (input.segmento ?? "").trim();
-    if (segmento && segmento.length < 2) e.segmento = "Informe o segmento ou deixe o campo em branco.";
-    else if (segmento.length > 80) e.segmento = "Use no máximo 80 caracteres.";
-    if (!inList(CHALLENGE_OPTIONS, input.desafio)) e.desafio = "Selecione uma opção da lista.";
     if (!inList(ADS_OPTIONS, input.investeAnuncios)) e.investeAnuncios = "Selecione uma opção da lista.";
     if (!inList(BUDGET_OPTIONS, input.investimentoMidia)) e.investimentoMidia = "Selecione uma opção da lista.";
     if ((input.siteOuInstagram ?? "").length > 200) e.siteOuInstagram = "Use no máximo 200 caracteres.";

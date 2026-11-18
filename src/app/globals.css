@@ -289,7 +289,6 @@ html.js .reveal.is-visible { opacity: 1; transform: none; }
    Hero — gradiente de luz em uma única cor, feixes verticais e granulado.
    Tudo decorativo (aria-hidden); só opacity/transform animam.
    ========================================================================== */
-.home-hero { min-height: min(42rem, calc(100svh - 4.5rem)); }
 .cookie-banner {
   position: fixed;
   z-index: 35;
@@ -300,13 +299,10 @@ html.js .reveal.is-visible { opacity: 1; transform: none; }
   margin-left: auto;
   border-radius: var(--radius-md);
 }
-@media (max-width: 639px) {
-  .home-hero { min-height: min(32rem, calc(100svh - 11rem)); }
-}
-/* Em janelas muito baixas, o aviso entra no fluxo e acompanha a rolagem. */
-@media (max-height: 32rem) {
+/* Em telas baixas, o aviso acompanha a rolagem e deixa os botões da home livres. */
+@media (max-height: 32rem), (max-width: 23rem) and (max-height: 43rem),
+       (max-width: 40rem) and (max-height: 39.5rem) {
   .cookie-banner { position: static; width: 100%; max-width: none; margin: 0; border-radius: 0; }
-  .home-hero { min-height: auto; }
 }
 
 .hero-art { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
@@ -334,6 +330,8 @@ html.js .reveal.is-visible { opacity: 1; transform: none; }
 }
 .hero-fade { position: absolute; inset: auto 0 0; height: 30%; background: linear-gradient(to bottom, transparent, var(--grey-950)); }
 @keyframes glow-breathe { 0%, 100% { opacity: 0.82; transform: scale(1); } 50% { opacity: 1; transform: scale(1.05); } }
+@keyframes scroll-cue { 0% { transform: translateY(-6px); opacity: 0; } 40% { opacity: 1; } 100% { transform: translateY(10px); opacity: 0; } }
+.scroll-cue { animation: scroll-cue 2.2s ease-in-out infinite; }
 @utility text-hero {
   font-size: clamp(3rem, 1.4rem + 7vw, 7.5rem);
   line-height: 0.98;
@@ -341,7 +339,7 @@ html.js .reveal.is-visible { opacity: 1; transform: none; }
   letter-spacing: -0.045em;
   font-weight: 500;
 }
-@media (prefers-reduced-motion: reduce) { .hero-glow { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .hero-glow, .scroll-cue { animation: none; } }
 
 /* ==========================================================================
    Movimento — regras de iOS (HIG): mola, feedback de toque, materiais,
@@ -390,11 +388,13 @@ html.js .reveal.is-visible { opacity: 1; transform: none; }
 }
 @keyframes progress-grow { to { transform: scaleX(1); } }
 
-/* A luz acompanha a rolagem da abertura. */
+/* Hero: o título "recolhe" ao rolar (como o título grande do iOS) e a luz sobe */
 @supports (animation-timeline: view()) {
+  .hero-scroll { animation: hero-out linear both; animation-timeline: view(); animation-range: exit 0% exit 90%; }
   .hero-parallax { animation: glow-rise linear both; animation-timeline: view(); animation-range: exit 0% exit 100%; }
 }
 .hero-parallax { position: absolute; inset: 0; }
+@keyframes hero-out { to { opacity: 0; transform: translateY(-48px) scale(0.94); filter: blur(6px); } }
 @keyframes glow-rise { to { transform: translateY(-18%) scale(1.15); } }
 
 /* Faixa infinita (decorativa, pausa no hover) */
@@ -426,7 +426,7 @@ html.js .reveal.is-visible { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(*), ::view-transition-new(*), ::view-transition-group(*) { animation-duration: 0s !important; animation-delay: 0s !important; }
   .marquee { animation: none; }
-  .hero-parallax { animation: none !important; }
+  .hero-scroll, .hero-parallax { animation: none !important; }
 }
 
 /* ==========================================================================

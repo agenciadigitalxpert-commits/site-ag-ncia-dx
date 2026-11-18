@@ -3,7 +3,7 @@
 Nada abaixo foi inventado no site: enquanto um item não for preenchido, ele simplesmente não aparece (ou aparece como aviso no ambiente de edição).
 
 ## Integração e indexação
-- [ ] Configurar `LEAD_WEBHOOK_URL` para receber os pedidos do formulário próprio no CRM. Até lá, os botões de diagnóstico levam ao formulário oficial da DX no Respondi.
+- [ ] Configurar `LEAD_WEBHOOK_URL` para receber os pedidos do formulário próprio no CRM. Até lá, o formulário permanece no site e seu aviso de configuração inclui um link para o Respondi.
 - [ ] **Domínio** (`NEXT_PUBLIC_SITE_URL`) e `NEXT_PUBLIC_SITE_ENV=production` para liberar a indexação.
 
 ## Identidade

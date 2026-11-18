@@ -13,6 +13,8 @@ import { CtaSection, LinkRows, SectionHeader } from "@/components/sections";
 import { ArrowIcon, Container, Eyebrow, Section, btn } from "@/components/ui";
 import { methodSteps } from "@/content/method";
 
+const HERO_SECONDARY_LABEL = "Conheça nossa estratégia";
+
 const DESCRIPTION =
   "A DX une anúncios no Google e na Meta, páginas de campanha e atendimento comercial. De Balneário Camboriú para empresas de todo o Brasil.";
 
@@ -90,31 +92,47 @@ export default function HomePage() {
         )}
       />
 
-      <section className="home-hero surface-dark relative isolate flex items-center overflow-hidden" aria-labelledby="home-title">
+      <section className="surface-dark relative isolate flex min-h-[calc(100svh-4.5rem)] items-center overflow-hidden">
         <div aria-hidden className="hero-art">
           <div className="hero-beams" />
-          <div className="hero-parallax"><div className="hero-glow" /></div>
+          <div className="hero-parallax">
+            <div className="hero-glow" />
+          </div>
           <div className="hero-grain" />
         </div>
-        <Container className="relative flex flex-col items-center py-10 text-center sm:py-20">
-          <p className="hero-rise mb-4 text-sm font-medium text-text-secondary">
-            Agência de marketing digital<span className="hidden sm:inline"> em {site.location.city}</span>
-          </p>
-          <h1 id="home-title" className="hero-rise text-hero font-display">
-            Do clique à <em className="font-serif font-normal">venda.</em>
+        <Container className="hero-scroll relative flex flex-col items-center pb-48 pt-14 text-center sm:py-28">
+          <h1 className="flex flex-col items-center">
+            <span className="hero-rise mb-8 inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-bg-fill-secondary px-4 py-2 text-sm font-medium leading-5 text-text-secondary backdrop-blur-sm">
+              <span aria-hidden className="flow-node size-2 shrink-0 rounded-full bg-bg-fill-brand" />
+              <span>
+                Agência de marketing digital<span className="hidden sm:inline"> · {site.location.city}</span>
+              </span>
+            </span>
+            <span className="hero-rise font-display text-hero block max-w-5xl" style={{ ["--d" as string]: "80ms" }}>
+              Do clique à <em className="font-serif font-normal tracking-[-0.02em]">venda.</em>
+            </span>
           </h1>
-          <p className="hero-rise text-lead mt-5 max-w-xl text-text-secondary">
-            Conectamos tráfego pago, criativos e atendimento comercial para transformar contatos em oportunidades de venda.
+          <p className="hero-rise text-lead mx-auto mt-8 max-w-xl text-text-secondary" style={{ ["--d" as string]: "180ms" }}>
+            Mais oportunidades de venda e um comercial preparado para aproveitar cada uma.
           </p>
-          <div className="hero-rise mt-7 flex w-full flex-col items-center justify-center gap-1 sm:mt-9 sm:w-auto sm:flex-row-reverse sm:gap-6">
-            <TrackedLink href={CTA_PRIMARY.href} trackLabel={CTA_PRIMARY.label} trackLocation="home_hero" className={btn("primary", "w-full sm:w-auto")}>
-              {CTA_PRIMARY.label} <ArrowIcon />
+          <div className="hero-rise mt-10 flex w-full flex-col-reverse justify-center gap-3 sm:w-auto sm:flex-row" style={{ ["--d" as string]: "260ms" }}>
+            <TrackedLink href={CTA_SECONDARY.href} trackLabel={HERO_SECONDARY_LABEL} trackLocation="home_hero" className={btn("secondary", "backdrop-blur-sm")}>
+              {HERO_SECONDARY_LABEL}
             </TrackedLink>
-            <TrackedLink href="#como-funciona" trackLabel="Como funciona" trackLocation="home_hero" className={btn("ghost")}>
-              Como funciona <ArrowIcon className="rotate-90" />
+            <TrackedLink href={CTA_PRIMARY.href} trackLabel={CTA_PRIMARY.label} trackLocation="home_hero" className={btn("primary")}>
+              {CTA_PRIMARY.label}
+              <ArrowIcon className="transition-transform duration-200 group-hover:translate-x-0.5" />
             </TrackedLink>
           </div>
+          <p className="hero-rise mt-4 text-sm leading-5 text-text-secondary" style={{ ["--d" as string]: "320ms" }}>
+            Formulário de 1 minuto · atendimento feito por pessoas
+          </p>
         </Container>
+        <a href="#como-funciona" aria-label="Rolar para o conteúdo" className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 sm:block">
+          <span aria-hidden className="block h-10 w-6 rounded-full border border-border-secondary">
+            <span className="scroll-cue mx-auto mt-2 block h-2 w-px bg-text-primary" />
+          </span>
+        </a>
       </section>
 
       <Section tone="light" id="como-funciona" labelledBy="frentes-title">

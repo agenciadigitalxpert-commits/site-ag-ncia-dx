@@ -3,9 +3,10 @@ import type { ReactNode } from "react";
 import { CTA_PRIMARY, CTA_SECONDARY } from "@/config/navigation";
 import { Breadcrumbs, type Crumb } from "./Breadcrumbs";
 import { HeroArt, type HeroArtKey } from "./HeroArt";
-import { DiagnosticIntake } from "./DiagnosticIntake";
+import { leadIntegrationReady } from "@/config/env";
+import { LeadForm } from "./LeadForm";
 import { TrackedLink } from "./TrackedLink";
-import { ArrowIcon, Container, Eyebrow, Section, btn, cx } from "./ui";
+import { ArrowIcon, Container, Eyebrow, IconItem, Section, btn, cx } from "./ui";
 
 export function PageHero({
   crumbs,
@@ -129,8 +130,8 @@ export function LinkRows({ items }: { items: { href: string; title: string; text
 }
 
 export function CtaSection({
-  title = "Onde sua empresa quer chegar com os anúncios?",
-  text = "Conte como seus clientes chegam hoje. Vamos olhar as campanhas e o atendimento para identificar juntos o próximo passo.",
+  title = "Quer entender onde estão as oportunidades da sua operação?",
+  text = "Conte um pouco sobre a sua empresa. Vamos analisar o contexto e conversar sobre o que faz sentido priorizar entre mídia, atendimento, processo comercial ou tudo junto.",
   location,
   id = "diagnostico",
 }: {
@@ -147,10 +148,15 @@ export function CtaSection({
             <Eyebrow>Diagnóstico</Eyebrow>
             <h2 id={`${id}-title`} className="text-h2">{title}</h2>
             <p className="text-lead mt-4 text-text-secondary">{text}</p>
+            <ul className="mt-8 space-y-3 text-text-secondary">
+              <IconItem>Leva cerca de um minuto.</IconItem>
+              <IconItem>O contato é feito por pessoas da equipe, pelo WhatsApp informado.</IconItem>
+              <IconItem>Investimento em mídia e honorários da agência são valores diferentes. Falamos dos dois com clareza.</IconItem>
+            </ul>
           </div>
           {/* campos com raio 14 + padding 24/32 → painel 38/46 */}
           <div className="reveal rounded-[38px] bg-bg-surface p-6 sm:rounded-[46px] sm:p-8">
-            <DiagnosticIntake location={location} />
+            <LeadForm integrationReady={leadIntegrationReady} location={location} />
           </div>
         </div>
       </Container>

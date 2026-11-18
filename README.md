@@ -48,7 +48,7 @@ Somente com autorização registrada do cliente e resultados com período e font
 
 1. `NEXT_PUBLIC_SITE_URL` com o domínio real e `NEXT_PUBLIC_SITE_ENV=production`, novo build.
 2. Conferir: `/robots.txt` com `Allow` e `Sitemap`; `<meta name="robots" content="index, follow">` nas páginas; ausência do header `X-Robots-Tag`.
-3. Verificar o destino do diagnóstico. Com `LEAD_WEBHOOK_URL`, confirmar o recebimento de um teste no CRM. Sem essa variável, conferir o link do formulário oficial em `src/config/site.ts`.
+3. Verificar o destino do diagnóstico. Com `LEAD_WEBHOOK_URL`, confirmar o recebimento de um teste no CRM. Sem essa variável, conferir a presença dos campos e o link alternativo no aviso de configuração.
 4. Validar JSON-LD no [Teste de pesquisa aprimorada](https://search.google.com/test/rich-results) e no [Validador Schema.org](https://validator.schema.org/).
 5. Enviar o sitemap no Google Search Console.
 6. Se usar mensuração: IDs configurados, tags conferidas no modo de visualização do GTM e políticas revisadas.
