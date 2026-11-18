@@ -59,6 +59,7 @@ O segmento é digitado livremente e por isso **não** é enviado ao analytics (v
 ```json
 {
   "type": "diagnostico",
+  "id": "1e368412-2615-422b-851a-70a31dbcb242",
   "receivedAt": "2026-11-13T19:39:19.627Z",
   "lead": {
     "nome": "…", "empresa": "…", "whatsapp": "5547999998888",
@@ -71,3 +72,6 @@ O segmento é digitado livremente e por isso **não** é enviado ao analytics (v
 ```
 
 Com `LEAD_WEBHOOK_SECRET`, o header `X-DX-Signature` traz o HMAC SHA-256 (hex) do corpo.
+
+### Google Sheets (Apps Script)
+Código pronto em `docs/google-apps-script/Codigo.gs` (instruções no topo do arquivo). O Apps Script não lê cabeçalhos, então a autenticação vai na URL: `LEAD_WEBHOOK_URL = https://script.google.com/macros/s/<ID>/exec?token=<TOKEN>`. Para URLs do Apps Script, o site só confirma o envio quando a resposta é `{ "ok": true }`. O `id` evita linhas duplicadas.

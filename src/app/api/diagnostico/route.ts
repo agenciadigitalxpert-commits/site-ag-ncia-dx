@@ -9,6 +9,9 @@ import { MIN_FILL_MS, normalizeBrPhone, validateLead, type LeadInput } from "@/l
  *   LEAD_WEBHOOK_SECRET  opcional; enviado no header "X-DX-Signature" (HMAC SHA-256 do corpo)
  *
  * Só responde sucesso (200) quando o webhook confirmou o recebimento com status 2xx.
+ * Google Apps Script: não lê cabeçalhos HTTP, então autentique com ?token=... na
+ * própria LEAD_WEBHOOK_URL. Como ele responde 200 até em caso de erro, para URLs
+ * do Apps Script exigimos o corpo JSON { ok: true }.
  */
 
 const MAX_BODY = 8_000;
@@ -106,8 +109,10 @@ export async function POST(request: Request) {
       .map(([k, v]) => [k, str(v, 200)]),
   );
 
+  const id = crypto.randomUUID();
   const payload = JSON.stringify({
     type: "diagnostico",
+    id,
     receivedAt: new Date().toISOString(),
     lead: { ...input, whatsapp: normalizeBrPhone(input.whatsapp) },
     page: str(body.page, 200),
@@ -117,8 +122,19 @@ export async function POST(request: Request) {
   try {
     const headers: Record<string, string> = { "Content-Type": "application/json" };
     if (process.env.LEAD_WEBHOOK_SECRET) headers["X-DX-Signature"] = await sign(payload, process.env.LEAD_WEBHOOK_SECRET);
-    const res = await fetch(webhook, { method: "POST", headers, body: payload, signal: AbortSignal.timeout(10_000) });
+    const res = await fetch(webhook, { method: "POST", headers, body: payload, redirect: "follow", signal: AbortSignal.timeout(15_000) });
     if (!res.ok) throw new Error(`Webhook respondeu ${res.status}`);
+    // Confirmação explícita: Apps Script precisa devolver { ok: true }; outros
+    // serviços falham só se devolverem JSON com ok === false.
+    const text = await res.text();
+    let body: { ok?: unknown } | null = null;
+    try {
+      body = JSON.parse(text);
+    } catch {}
+    const isAppsScript = /^https:\/\/script\.google(usercontent)?\.com\//.test(webhook);
+    if (isAppsScript ? body?.ok !== true : body?.ok === false) {
+      throw new Error(`Webhook não confirmou o recebimento${isAppsScript ? " (Apps Script)" : ""}`);
+    }
   } catch (err) {
     console.error("[diagnostico] falha ao repassar lead:", err instanceof Error ? err.message : err);
     return NextResponse.json(
@@ -127,5 +143,5 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.json({ ok: true, id: crypto.randomUUID() });
+  return NextResponse.json({ ok: true, id });
 }

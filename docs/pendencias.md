@@ -3,7 +3,7 @@
 Nada abaixo foi inventado no site: enquanto um item não for preenchido, ele simplesmente não aparece (ou aparece como aviso no ambiente de edição).
 
 ## Integração e indexação
-- [ ] Configurar `LEAD_WEBHOOK_URL` para receber os pedidos do formulário próprio no CRM. Até lá, o formulário permanece no site e seu aviso de configuração inclui um link para o Respondi.
+- [ ] **Integração do formulário** — Apps Script pronto para a planilha "LEADS GOOGLE AGÊNCIA" (`docs/google-apps-script/Codigo.gs`): falta implantar e cadastrar `LEAD_WEBHOOK_URL` (URL /exec + `?token=`) na Vercel e fazer Redeploy. Até lá, o formulário permanece no site e seu aviso de configuração inclui um link para o Respondi.
 - [ ] **Domínio** (`NEXT_PUBLIC_SITE_URL`) e `NEXT_PUBLIC_SITE_ENV=production` para liberar a indexação.
 
 ## Identidade
