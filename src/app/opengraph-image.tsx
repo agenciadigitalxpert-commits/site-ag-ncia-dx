@@ -26,8 +26,8 @@ export default async function OgImage() {
       >
         <img src={logoSrc} width={300} height={93} alt="" />
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: 58, lineHeight: 1.08, fontWeight: 400, letterSpacing: -2, maxWidth: 1000 }}>
-            Tráfego pago que vira venda: Google Ads, Meta Ads e atendimento preparado para fechar.
+          <div style={{ fontSize: 66, lineHeight: 1.06, fontWeight: 400, letterSpacing: -2, maxWidth: 1000 }}>
+            Agência de tráfego pago que gera vendas de verdade.
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 36, fontSize: 26, color: "#b9b9b6" }}>
             <div style={{ width: 12, height: 12, borderRadius: 12, background: "#f1f1ee" }} />

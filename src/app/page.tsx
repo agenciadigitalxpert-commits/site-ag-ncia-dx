@@ -20,7 +20,7 @@ const DESCRIPTION =
   "Agência de marketing digital para empresas de diversos segmentos: tráfego pago no Google Ads e Meta Ads, páginas que convertem e atendimento organizado. De Balneário Camboriú para todo o Brasil.";
 
 export const metadata = pageMetadata({
-  title: "Agência de marketing digital em Balneário Camboriú | Digital Xpert",
+  title: "Agência de tráfego pago em Balneário Camboriú | Digital Xpert",
   absoluteTitle: true,
   description: DESCRIPTION,
   path: "/",
@@ -108,14 +108,14 @@ export default function HomePage() {
                 <svg viewBox="0 0 20 20" width="18" height="18" fill="none"><path d="M6 6l8 8m0 0V7.5M14 14H7.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
               </span>
               <span>
-                Agência de marketing digital<span className="hidden sm:inline"> · {site.location.city}</span>
+                Marketing digital para diversos segmentos
               </span>
             </p>
-            <h1 className="hero-rise text-hero mt-8 !text-[clamp(2.75rem,1.3rem+4.8vw,5.25rem)]" style={{ ["--d" as string]: "80ms" }}>
-              <span className="text-chrome text-chrome-lines">Tráfego pago <br className="hidden sm:block" />que vira venda.</span>
+            <h1 className="hero-rise text-hero mt-8 max-w-[15ch] !text-[clamp(2.5rem,1.2rem+4vw,4.5rem)] !leading-[1.04]" style={{ ["--d" as string]: "80ms" }}>
+              <span className="text-chrome text-chrome-lines">Agência de tráfego pago que gera vendas de verdade.</span>
             </h1>
             <p className="hero-rise text-lead mt-7 max-w-md text-text-secondary" style={{ ["--d" as string]: "160ms" }}>
-              Somos uma agência de marketing digital que gera contatos e vendas para empresas de diversos segmentos, com Google Ads, Meta Ads e um atendimento preparado para fechar.
+              Geramos contatos e vendas para empresas de diversos segmentos, com Google Ads, Meta Ads e um atendimento preparado para fechar.
             </p>
             <div className="hero-rise mt-9 flex flex-col gap-3 sm:flex-row" style={{ ["--d" as string]: "240ms" }}>
               <TrackedLink href={CTA_PRIMARY.href} trackLabel={CTA_PRIMARY.label} trackLocation="home_hero" className={btn("primary")}>
