@@ -19,7 +19,7 @@ export default async function OgImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "radial-gradient(circle at 85% 30%, #2a2a2e 0%, #000 55%)",
+          background: "#000",
           color: "#fff",
           padding: "64px 80px",
         }}
