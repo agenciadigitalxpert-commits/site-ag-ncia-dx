@@ -24,7 +24,7 @@ export const hasProductionDomain = Boolean(rawSiteUrl);
 /** Base usada para canonicals, sitemap e @id. Fallback local fora de produção. */
 export const siteUrl = rawSiteUrl ?? "http://localhost:3000";
 
-/** Indexação liberada somente em produção com domínio definido. */
+/** Indexação liberada somente em produção com domínio definido. Mantenha igual a next.config.ts (X-Robots-Tag). */
 export const isIndexable = siteEnv === "production" && hasProductionDomain;
 
 /** Ambiente de edição local: exibe rascunhos e notas de pendência. */

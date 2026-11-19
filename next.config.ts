@@ -1,6 +1,12 @@
 import type { NextConfig } from "next";
 
-const isProductionSite = process.env.NEXT_PUBLIC_SITE_ENV === "production" && Boolean(process.env.NEXT_PUBLIC_SITE_URL);
+/**
+ * Mesma regra de src/config/env.ts (isIndexable): produção explícita com domínio,
+ * ou deploy de produção da Vercel (que usa o domínio oficial). Previews seguem bloqueados.
+ */
+const isVercelProduction = process.env.VERCEL_ENV === "production" && process.env.NEXT_PUBLIC_SITE_ENV !== "preview";
+const isProductionSite =
+  (process.env.NEXT_PUBLIC_SITE_ENV === "production" && Boolean(process.env.NEXT_PUBLIC_SITE_URL)) || isVercelProduction;
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
