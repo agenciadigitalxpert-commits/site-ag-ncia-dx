@@ -24,7 +24,7 @@ export function organizationNode() {
     name: site.name,
     alternateName: site.alternateName,
     url: absoluteUrl("/"),
-    logo: { "@type": "ImageObject", url: absoluteUrl("/brand/logo-dx.png"), width: 953, height: 340 },
+    logo: { "@type": "ImageObject", url: absoluteUrl("/brand/logo-dx-escura.png"), width: 891, height: 277 },
     description: site.description,
     address: {
       "@type": "PostalAddress",

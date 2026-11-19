@@ -24,9 +24,9 @@ export default async function OgImage() {
           padding: "64px 80px",
         }}
       >
-        <img src={logoSrc} width={300} height={107} alt="" style={{ marginLeft: -12 }} />
+        <img src={logoSrc} width={300} height={93} alt="" />
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: 68, lineHeight: 1.06, fontWeight: 400, letterSpacing: -2, maxWidth: 1000 }}>
+          <div style={{ fontSize: 58, lineHeight: 1.08, fontWeight: 400, letterSpacing: -2, maxWidth: 1000 }}>
             Tráfego pago que vira venda: Google Ads, Meta Ads e atendimento preparado para fechar.
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 36, fontSize: 26, color: "#b9b9b6" }}>

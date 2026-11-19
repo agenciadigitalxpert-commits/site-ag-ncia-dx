@@ -4,7 +4,7 @@ import { cx } from "./ui";
  * Logotipo oficial da Agência Digital Xpert recriado em HTML (nítido em qualquer tamanho).
  * "digital" e "pert" em Oswald leve; o "X" em Oswald bold, maior, subindo até a linha do
  * "agência", que fica espaçado entre dois fios. O tamanho segue o font-size do elemento.
- * Referência: public/brand/logo-dx.png (arquivo oficial).
+ * Referência: public/brand/logo-dx.png (oficial, branca, fundo transparente) e logo-dx-escura.png.
  */
 export function Logo({ className }: { className?: string }) {
   return (
