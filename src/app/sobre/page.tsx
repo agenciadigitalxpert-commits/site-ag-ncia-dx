@@ -63,39 +63,42 @@ export default function AboutPage() {
       <Section tone="paper2" labelledBy="fundadores">
         <Container>
           <SectionHeader id="fundadores" index="02" eyebrow="Fundadores" title="Quem está à frente da DX." />
-          <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:max-w-5xl lg:gap-8">
+          <ul className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
             {site.founders.map((f, i) => (
-              <li key={f.id} className="reveal" style={{ ["--reveal-delay" as string]: `${i * 100}ms` }}>
+              <li key={f.id} className="reveal flex flex-col" style={{ ["--reveal-delay" as string]: `${i * 100}ms` }}>
                 <figure className="portrait group relative isolate overflow-hidden rounded-lg bg-bg-fill-inverse">
                   <Image
                     src={f.photo}
                     alt={`${f.name}, ${f.role.toLowerCase()} da Agência Digital Xpert`}
                     width={900}
                     height={1200}
-                    sizes="(min-width: 1024px) 32rem, (min-width: 640px) 45vw, 100vw"
+                    sizes="(min-width: 1024px) 26rem, (min-width: 640px) 45vw, 100vw"
                     className="aspect-[3/4] h-auto w-full object-cover"
                   />
                   {/* degradê para o texto sobre a foto passar no contraste */}
-                  <div aria-hidden className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
-                  <figcaption className="surface-dark absolute inset-x-0 bottom-0 !bg-transparent p-6 sm:p-8">
-                    <span aria-hidden className="portrait-bar mb-4 block h-0.5 w-12 rounded-full bg-bg-fill-brand" />
-                    <p className="font-display text-[clamp(1.5rem,1.2rem+1vw,2rem)] font-semibold leading-tight tracking-[-0.02em]">{f.name}</p>
-                    <p className="mt-1 text-sm leading-5 text-text-secondary">{f.role} · {f.bio}</p>
+                  <div aria-hidden className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/90 via-black/45 to-transparent" />
+                  <figcaption className="surface-dark absolute inset-x-0 bottom-0 !bg-transparent p-6">
+                    <span aria-hidden className="portrait-bar mb-3 block h-0.5 w-12 rounded-full bg-bg-fill-brand" />
+                    <p className="font-display text-[clamp(1.5rem,1.2rem+1vw,1.875rem)] font-medium leading-tight tracking-[-0.02em]">{f.name}</p>
+                    <p className="mt-1 text-sm leading-5 text-text-secondary">{f.role} da Digital Xpert</p>
                   </figcaption>
-                  <a
-                    href={f.instagram}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Instagram de ${f.name} (abre em nova aba)`}
-                    className="pressable material-bar absolute right-4 top-4 grid size-11 place-items-center rounded-full text-white"
-                  >
-                    <svg aria-hidden viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.7">
-                      <rect x="3" y="3" width="18" height="18" rx="5" />
-                      <circle cx="12" cy="12" r="4" />
-                      <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none" />
-                    </svg>
-                  </a>
+                  {f.instagram ? (
+                    <a
+                      href={f.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Instagram de ${f.name} (abre em nova aba)`}
+                      className="pressable material-bar absolute right-4 top-4 grid size-11 place-items-center rounded-full text-white"
+                    >
+                      <svg aria-hidden viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.7">
+                        <rect x="3" y="3" width="18" height="18" rx="5" />
+                        <circle cx="12" cy="12" r="4" />
+                        <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none" />
+                      </svg>
+                    </a>
+                  ) : null}
                 </figure>
+                <p className="mt-5 text-[0.9375rem] leading-6 text-text-secondary">{f.bio}</p>
               </li>
             ))}
           </ul>

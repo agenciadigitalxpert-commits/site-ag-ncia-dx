@@ -421,15 +421,16 @@ html.js .reveal.is-visible { opacity: 1; transform: none; }
 }
 @media (hover: hover) { .row-sweep:hover::before { transform: scaleX(1); } }
 
-/* Retrato P&B → cor. Com mouse: no hover. Sem mouse (iOS): ao passar pelo centro da tela. */
-.portrait img { filter: grayscale(1) contrast(1.06); transform: scale(1.0); transition: filter 900ms var(--ease-out-soft), transform 900ms var(--ease-spring); }
+/* Retratos: com mouse, aproximam no hover; sem mouse (iOS), ao passar pelo centro da tela. */
+/* Retratos sempre em P&B (identidade monocromática); hover/centro da tela só aproxima. */
+.portrait img { filter: grayscale(1); transform: scale(1.0); transition: transform 900ms var(--ease-spring); }
 .portrait .portrait-bar { transform: scaleX(0); transform-origin: 0 50%; transition: transform 600ms var(--ease-spring) 120ms; }
 @media (hover: hover) {
-  .portrait:hover img, .portrait:focus-within img { filter: grayscale(0) contrast(1); transform: scale(1.04); }
+  .portrait:hover img, .portrait:focus-within img { transform: scale(1.04); }
   .portrait:hover .portrait-bar, .portrait:focus-within .portrait-bar { transform: scaleX(1); }
 }
 @media (hover: none) {
-  .portrait.in-view img { filter: grayscale(0) contrast(1); transform: scale(1.03); }
+  .portrait.in-view img { transform: scale(1.03); }
   .portrait.in-view .portrait-bar { transform: scaleX(1); }
 }
 

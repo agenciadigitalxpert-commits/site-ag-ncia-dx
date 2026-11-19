@@ -38,20 +38,29 @@ export const site = {
   /** Fundadores (fotos em /public/equipe, 3:4). */
   founders: [
     {
-      id: "elizandro-uebel",
-      name: "Elizandro Uebel",
-      role: "Sócio-fundador",
-      bio: "Empreendedor à frente de empresas em diferentes mercados.",
-      photo: "/equipe/elizandro-uebel.webp",
-      instagram: "https://www.instagram.com/elizandrouebel/",
-    },
-    {
       id: "diego-viana",
       name: "Diego Viana",
-      role: "Sócio-fundador",
-      bio: "Empresário e fundador da Agência Digital Xpert.",
+      role: "Cofundador",
+      bio: "Empresário e estrategista digital, atua no marketing desde 2016. Une experiência em marketing, funis de vendas e vendas para ajudar empresas a atrair clientes, melhorar seus resultados e crescer.",
       photo: "/equipe/diego-viana.webp",
-      instagram: "https://www.instagram.com/diegouviana/",
+      instagram: "https://www.instagram.com/diegouviana/" as string | null,
+    },
+    {
+      id: "liandra-silva",
+      name: "Liandra Silva",
+      role: "Cofundadora",
+      bio: "Empresária e especialista em posicionamento digital, atua desde 2019 e já impactou mais de 20 mil alunos. Desenvolve estratégias de conteúdo e autoridade para fortalecer marcas e gerar oportunidades de venda.",
+      photo: "/equipe/liandra-silva.webp",
+      /** PENDÊNCIA: perfil do Instagram (o botão aparece quando houver). */
+      instagram: null as string | null,
+    },
+    {
+      id: "elizandro-uebel",
+      name: "Elizandro Uebel",
+      role: "Cofundador",
+      bio: "Empresário com experiência nos setores automotivo, de alimentação e de estética, entre outros, e mais de 16 CNPJs ativos. Traz sua vivência em gestão, operação e vendas para conectar as estratégias de marketing aos desafios reais de quem empreende.",
+      photo: "/equipe/elizandro-uebel.webp",
+      instagram: "https://www.instagram.com/elizandrouebel/" as string | null,
     },
   ],
   /** PENDÊNCIA: razão social e CNPJ para as políticas. */

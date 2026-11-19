@@ -46,6 +46,41 @@ const stepCopy: Record<string, string> = {
   otimizacao: "Ajustes contínuos em campanhas, mensagens e páginas para escalar o que dá resultado.",
 };
 
+/** Diferencial da DX: atendimento próximo, humano e ágil (sem prometer prazos em minutos). */
+const diferenciais = [
+  {
+    title: "Gente de verdade",
+    text: "Você fala com pessoas da equipe, que conhecem a sua empresa pelo nome, não com robô ou central de chamados.",
+    icon: (
+      <>
+        <circle cx="12" cy="8" r="3.5" />
+        <path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5" />
+      </>
+    ),
+  },
+  {
+    title: "Resposta rápida",
+    text: "Dúvidas, ajustes e novas ideias não ficam parados em fila. A gente responde e age com agilidade.",
+    icon: <path d="M13 3 5 13.5h6L10 21l8-10.5h-6L13 3Z" />,
+  },
+  {
+    title: "Conversa clara",
+    text: "Números e próximos passos explicados em linguagem simples, sem jargão e sem relatório que ninguém entende.",
+    icon: <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v9a1.5 1.5 0 0 1-1.5 1.5H10l-4.5 4v-4h0A1.5 1.5 0 0 1 4 14.5v-9Z" />,
+  },
+  {
+    title: "Perto da operação",
+    text: "Acompanhamos o que acontece no seu atendimento para ajustar campanhas com base no que vira venda.",
+    icon: (
+      <>
+        <path d="M4 19h16" />
+        <path d="M7 15l3.5-4 3 2.5L18 8" />
+        <path d="M14.5 8H18v3.5" />
+      </>
+    ),
+  },
+];
+
 const faqs: FAQ[] = [
   {
     q: "O que é tráfego pago?",
@@ -278,6 +313,47 @@ export default function HomePage() {
               {CTA_SECONDARY.label}
               <ArrowIcon />
             </TrackedLink>
+          </div>
+        </Container>
+      </Section>
+
+      {/* DIFERENCIAL: atendimento humanizado e rápido ---------------- */}
+      <Section tone="dark" labelledBy="diferencial-title" className="relative isolate overflow-hidden bg-[#000]">
+        <div aria-hidden className="hero-art">
+          <div className="absolute left-[-10%] top-1/2 size-[44rem] -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgb(255_255_255/0.09),transparent_65%)]" />
+        </div>
+        <Container>
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-center lg:gap-20">
+            <div className="reveal">
+              <Eyebrow>Nosso diferencial</Eyebrow>
+              <h2 id="diferencial-title" className="text-h1">
+                <span className="text-chrome text-chrome-lines">Atendimento humanizado e rápido.</span>
+              </h2>
+              <p className="text-lead mt-6 max-w-md text-text-secondary">
+                Aqui você não abre chamado nem fala com robô. Fala com pessoas que conhecem o seu negócio e respondem com agilidade.
+              </p>
+              <TrackedLink href={CTA_PRIMARY.href} trackLabel={CTA_PRIMARY.label} trackLocation="home_diferencial" className={btn("primary", "mt-9")}>
+                {CTA_PRIMARY.label}
+                <ArrowIcon className="transition-transform duration-200 group-hover:translate-x-0.5" />
+              </TrackedLink>
+            </div>
+            <ul className="grid gap-4 sm:grid-cols-2">
+              {diferenciais.map((d, i) => (
+                <li
+                  key={d.title}
+                  className="reveal rounded-[28px] border border-border-tertiary bg-[rgb(255_255_255/0.03)] p-6 backdrop-blur-sm"
+                  style={{ ["--reveal-delay" as string]: `${i * 70}ms` }}
+                >
+                  <span aria-hidden className="grid size-12 place-items-center rounded-full border border-border-tertiary bg-[var(--grey-900)] text-text-primary">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                      {d.icon}
+                    </svg>
+                  </span>
+                  <h3 className="text-h3 mt-5">{d.title}</h3>
+                  <p className="mt-2 text-[0.9375rem] leading-6 text-text-secondary">{d.text}</p>
+                </li>
+              ))}
+            </ul>
           </div>
         </Container>
       </Section>

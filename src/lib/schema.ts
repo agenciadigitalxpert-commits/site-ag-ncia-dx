@@ -59,10 +59,11 @@ export function founderNodes() {
     "@type": "Person",
     "@id": ids.person(f.id),
     name: f.name,
-    jobTitle: f.role,
+    jobTitle: `${f.role} da ${site.name}`,
+    description: f.bio,
     image: absoluteUrl(f.photo),
     worksFor: { "@id": ids.org },
-    sameAs: [f.instagram],
+    ...(f.instagram ? { sameAs: [f.instagram] } : {}),
   }));
 }
 
