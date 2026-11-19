@@ -135,22 +135,6 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      <Section tone="paper2" labelledBy="onde">
-        <Container>
-          <div className="grid gap-10 lg:grid-cols-2 lg:gap-20">
-            <SectionHeader id="onde" index="05" eyebrow="Onde estamos" title="Base em Balneário Camboriú. Clientes em todo o Brasil." />
-            <div className="reveal space-y-5 text-lead text-text-secondary">
-              <p>
-                Nossa base fica em {site.location.city}, {site.location.stateName}. O atendimento é feito de forma remota, o que permite acompanhar empresas de diferentes cidades e estados com a mesma proximidade.
-              </p>
-              <p>
-                Conhecemos de perto mercados como <Link className="underline underline-offset-2" href="/segmentos/intermediacao-e-revendas">intermediação de veículos</Link>, <Link className="underline underline-offset-2" href="/segmentos/oficinas-e-funilarias">oficinas e funilarias</Link>, <Link className="underline underline-offset-2" href="/segmentos/clinicas-de-estetica">clínicas</Link> e <Link className="underline underline-offset-2" href="/segmentos/delivery">delivery</Link>.
-              </p>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
       <CtaSection location="about_final" />
     </>
   );
