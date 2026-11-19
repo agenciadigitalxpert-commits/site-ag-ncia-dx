@@ -61,7 +61,7 @@ export function HeroArrow({ className = "" }: { className?: string }) {
             <rect x="-80" y="0" width="720" height="640" fill="url(#dx-tail-fade)" />
           </mask>
           <radialGradient id="dx-halo">
-            <stop offset="0" stopColor="#ffffff" stopOpacity="0.16" />
+            <stop offset="0" stopColor="#ffffff" stopOpacity="0.08" />
             <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
           </radialGradient>
         </defs>

@@ -21,7 +21,7 @@ const DESCRIPTION =
   "Agência de tráfego pago e performance comercial: Google Ads, Meta Ads, páginas que convertem e atendimento organizado. De Balneário Camboriú para empresas de todo o Brasil.";
 
 export const metadata = pageMetadata({
-  title: "Agência de marketing digital em Balneário Camboriú | Digital Xpert",
+  title: "Agência de tráfego pago em Balneário Camboriú | Digital Xpert",
   absoluteTitle: true,
   description: DESCRIPTION,
   path: "/",
@@ -29,16 +29,29 @@ export const metadata = pageMetadata({
 
 /** Cards de serviço: texto de venda curto (estilo direto), ilustração própria de cada página. */
 const serviceCopy: Record<string, string> = {
-  "/servicos/trafego-pago": "Estratégia de mídia para investir onde existe demanda e saber quanto cada canal traz de volta.",
-  "/servicos/google-ads": "Apareça para quem já está buscando o que você vende, no momento da decisão.",
-  "/servicos/meta-ads": "Instagram e Facebook para gerar procura, lembrar quem já conhece e trazer novos contatos.",
-  "/servicos/criativos-e-roteiros": "Anúncios e vídeos que explicam a oferta em segundos e chamam a pessoa certa.",
-  "/servicos/landing-pages": "Páginas rápidas e claras, feitas para transformar visita em pedido de orçamento.",
-  "/servicos/estruturacao-comercial": "Processo, roteiros e rotina para a equipe responder bem e conduzir cada conversa até a venda.",
-  "/servicos/crm-automacao-ia": "Cada contato registrado, acompanhado e retomado na hora certa, com menos trabalho manual.",
+  "/servicos/trafego-pago": "Campanhas pagas focadas em contatos e vendas, com o investimento nos canais que mais trazem retorno.",
+  "/servicos/google-ads": "Anúncios na pesquisa do Google para aparecer na hora em que o cliente procura o que você vende.",
+  "/servicos/meta-ads": "Anúncios no Instagram e no Facebook para gerar contatos, conversas no WhatsApp e vendas.",
+  "/servicos/criativos-e-roteiros": "Roteiros, vídeos e peças que prendem a atenção e explicam sua oferta em poucos segundos.",
+  "/servicos/landing-pages": "Páginas de alta conversão, rápidas e objetivas, feitas para transformar clique em contato.",
+  "/servicos/estruturacao-comercial": "Processo, roteiros e rotina para sua equipe atender bem e conduzir cada contato até o fechamento.",
+  "/servicos/crm-automacao-ia": "CRM, automações e IA no atendimento para registrar, qualificar e retomar cada contato.",
+};
+
+/** Etapas da home em versão curta (a página /metodologia tem o detalhamento). */
+const stepCopy: Record<string, string> = {
+  diagnostico: "Analisamos seu negócio, mercado, concorrentes, canais atuais e como os contatos são atendidos hoje.",
+  planejamento: "Plano sob medida com canais, investimento, metas por etapa e a forma de medir cada uma.",
+  implementacao: "Campanhas, criativos, páginas e mensuração no ar, conectados ao seu atendimento.",
+  acompanhamento: "Cruzamos os dados dos anúncios com o que vira conversa, orçamento e venda.",
+  otimizacao: "Ajustes contínuos em campanhas, mensagens e páginas para escalar o que dá resultado.",
 };
 
 const faqs: FAQ[] = [
+  {
+    q: "O que é tráfego pago?",
+    a: "Tráfego pago é atrair visitantes e contatos com anúncios pagos em plataformas como Google, Instagram e Facebook. Diferente do alcance orgânico, você escolhe quem vê o anúncio e começa a receber visitas assim que a campanha entra no ar. Na DX, o objetivo não é só o clique: é o contato qualificado que vira venda.",
+  },
   {
     q: "O que a Agência Digital Xpert faz?",
     a: "A DX ajuda empresas a gerar oportunidades de venda e a aproveitá-las melhor. Unimos tráfego pago no Google Ads e Meta Ads, criativos, landing pages, estruturação comercial, CRM e automação de atendimento em uma mesma estratégia, acompanhada do anúncio até a venda.",
@@ -87,7 +100,6 @@ export default function HomePage() {
       <section className="surface-dark relative isolate overflow-hidden bg-[#000]">
         <div aria-hidden className="hero-art">
           <div className="hero-curtain" />
-          <div className="hero-grain" />
         </div>
         <Container className="hero-scroll relative grid items-center gap-6 pb-16 pt-10 sm:pb-20 lg:min-h-[calc(100svh-4.5rem)] lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-4 lg:py-16">
           <div className="relative z-10">
@@ -96,14 +108,14 @@ export default function HomePage() {
                 <svg viewBox="0 0 20 20" width="18" height="18" fill="none"><path d="M6 6l8 8m0 0V7.5M14 14H7.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
               </span>
               <span>
-                Agência de marketing digital<span className="hidden sm:inline"> · {site.location.city}</span>
+                Agência de tráfego pago<span className="hidden sm:inline"> · {site.location.city}</span>
               </span>
             </p>
-            <h1 className="hero-rise text-hero mt-8 max-w-[12ch]" style={{ ["--d" as string]: "80ms" }}>
-              <span className="text-chrome text-chrome-lines">Do clique à venda.</span>
+            <h1 className="hero-rise text-hero mt-8 !text-[clamp(2.75rem,1.3rem+4.8vw,5.25rem)]" style={{ ["--d" as string]: "80ms" }}>
+              <span className="text-chrome text-chrome-lines">Tráfego pago <br className="hidden sm:block" />que vira venda.</span>
             </h1>
             <p className="hero-rise text-lead mt-7 max-w-md text-text-secondary" style={{ ["--d" as string]: "160ms" }}>
-              Anúncios, páginas e atendimento trabalhando juntos para transformar presença digital em vendas reais.
+              Somos uma agência focada em gerar contatos e vendas com Google Ads e Meta Ads, e em preparar seu atendimento para fechar cada oportunidade.
             </p>
             <div className="hero-rise mt-9 flex flex-col gap-3 sm:flex-row" style={{ ["--d" as string]: "240ms" }}>
               <TrackedLink href={CTA_PRIMARY.href} trackLabel={CTA_PRIMARY.label} trackLocation="home_hero" className={btn("primary")}>
@@ -123,7 +135,7 @@ export default function HomePage() {
                   <path d="M19 19c0 1.5-2 2.5-5 2.5" />
                 </svg>
               </span>
-              <span>Atendimento feito por pessoas · De {site.location.city} para todo o Brasil</span>
+              <span>Atendimento feito por pessoas · Empresas de todo o Brasil</span>
             </p>
           </div>
           <HeroArrow className="mx-auto w-full max-w-[24rem] sm:max-w-[30rem] lg:max-w-none lg:translate-x-[6%]" />
@@ -158,9 +170,9 @@ export default function HomePage() {
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <SectionHeader
               id="servicos-title"
-              eyebrow="Serviços"
-              title="Tudo o que sua empresa precisa para vender no digital."
-              intro="Mídia, criativos, páginas e processo comercial em um só time, olhando para o mesmo número: vendas."
+              eyebrow="Nossos serviços"
+              title="Soluções completas para sua empresa vender mais no digital."
+              intro="Do anúncio ao fechamento: mídia, criativos, páginas e processo comercial em um só time."
             />
             <Link href="/servicos" className={btn("secondary", "reveal self-start lg:self-auto")}>
               Ver todos os serviços
@@ -198,7 +210,7 @@ export default function HomePage() {
               <div className="surface-light flex h-full flex-col rounded-[28px] bg-bg-surface p-6 text-text-primary">
                 <p className="text-h3">Não sabe por onde começar?</p>
                 <p className="mb-6 mt-2 text-[0.9375rem] leading-6 text-text-secondary">
-                  No diagnóstico, olhamos sua operação e dizemos o que priorizar primeiro.
+                  Fale com um especialista da DX. No diagnóstico, mostramos o que priorizar primeiro.
                 </p>
                 <TrackedLink href={CTA_PRIMARY.href} trackLabel={CTA_PRIMARY.label} trackLocation="home_services" className={btn("primary", "mt-auto self-start")}>
                   {CTA_PRIMARY.label}
@@ -232,15 +244,15 @@ export default function HomePage() {
           <SectionHeader
             id="metodo-title"
             eyebrow="Como trabalhamos"
-            title="Sem achismo. Cada decisão parte dos dados."
-            intro="Cinco etapas, do primeiro diagnóstico às otimizações contínuas, cruzando anúncios com o que acontece no atendimento."
+            title="Um processo claro, do diagnóstico ao crescimento."
+            intro="Sem achismo: cada etapa é guiada pelos dados dos anúncios e do atendimento."
           />
           <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-5">
             {methodSteps.map((s, i) => (
               <li key={s.title} className="reveal flex flex-col rounded-[28px] bg-bg-surface p-6" style={{ ["--reveal-delay" as string]: `${i * 60}ms` }}>
                 <span className="font-display text-[2.5rem] font-light leading-none tracking-[-0.03em] text-text-secondary tabular-nums">{String(i + 1).padStart(2, "0")}</span>
                 <h3 className="mt-8 font-display text-[clamp(1.125rem,1rem+0.4vw,1.375rem)] font-medium leading-7 tracking-[-0.01em]">{s.title}</h3>
-                <p className="mt-2 text-[0.9375rem] leading-6 text-text-secondary">{s.short}</p>
+                <p className="mt-2 text-[0.9375rem] leading-6 text-text-secondary">{stepCopy[s.slug] ?? s.short}</p>
               </li>
             ))}
           </ol>
@@ -259,9 +271,9 @@ export default function HomePage() {
           <div className="grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
             <SectionHeader
               id="segmentos-title"
-              eyebrow="Segmentos"
-              title="Para negócios que vendem todos os dias."
-              intro="Cada mercado tem seu jeito de comprar. Adaptamos campanhas, páginas e atendimento à realidade do seu."
+              eyebrow="Segmentos que atendemos"
+              title="Estratégias pensadas para o seu mercado."
+              intro="Cada segmento compra de um jeito. Adaptamos campanhas, páginas e atendimento à realidade do seu negócio."
             />
             <div className="reveal lg:pt-10">
               <ul className="flex flex-wrap gap-3">
@@ -292,7 +304,7 @@ export default function HomePage() {
       <Section tone="paper2" labelledBy="cases-title">
         <Container>
           <div className="mb-10 flex flex-wrap items-end justify-between gap-5">
-            <SectionHeader id="cases-title" eyebrow="Resultados reais" title="Quem trabalha com a DX conta." />
+            <SectionHeader id="cases-title" eyebrow="Depoimentos" title="Resultados reais de quem confia na DX." />
             <Link href="/cases" className={btn("secondary")}>Ver cases <ArrowIcon /></Link>
           </div>
           <TestimonialCards />
@@ -305,7 +317,7 @@ export default function HomePage() {
           <div className="grid gap-12 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-20">
             <div className="reveal">
               <Eyebrow>Perguntas frequentes</Eyebrow>
-              <h2 id="faq-title" className="text-h2">Antes de começar, as dúvidas mais comuns.</h2>
+              <h2 id="faq-title" className="text-h2">Tire suas dúvidas sobre tráfego pago.</h2>
               <p className="mt-5 text-text-secondary">
                 Ficou alguma? <Link href="/sobre" className="text-text-primary underline underline-offset-4 hover:no-underline">Conheça a DX e os fundadores</Link>.
               </p>
@@ -317,8 +329,8 @@ export default function HomePage() {
 
       <CtaSection
         location="home_final"
-        title="Pronto para transformar cliques em vendas?"
-        text="Conte um pouco sobre a sua empresa. Analisamos o contexto e conversamos sobre o que priorizar entre mídia, páginas e atendimento."
+        title="Pronto para vender mais com tráfego pago?"
+        text="Solicite seu diagnóstico e converse com um especialista da DX sobre os próximos passos para a sua empresa."
       />
     </>
   );
