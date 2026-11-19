@@ -3,18 +3,20 @@
 Nada abaixo foi inventado no site: enquanto um item não for preenchido, ele simplesmente não aparece (ou aparece como aviso no ambiente de edição).
 
 ## Integração e indexação
-- [ ] **Integração do formulário** — Apps Script pronto para a planilha "LEADS GOOGLE AGÊNCIA" (`docs/google-apps-script/Codigo.gs`): falta implantar e cadastrar `LEAD_WEBHOOK_URL` (URL /exec + `?token=`) na Vercel e fazer Redeploy. Até lá, o formulário permanece no site e seu aviso de configuração inclui um link para o Respondi.
-- [ ] **Domínio** (`NEXT_PUBLIC_SITE_URL`) e `NEXT_PUBLIC_SITE_ENV=production` para liberar a indexação.
+- [x] **Integração do formulário** — Apps Script + planilha "LEADS GOOGLE AGÊNCIA" funcionando em produção (lead de teste confirmado), com aviso por e-mail.
+- [x] **Domínio** — produção da Vercel usa `https://www.agenciadigitalxpert.com.br` automaticamente (indexação liberada; previews seguem com noindex). Search Console verificado e sitemap enviado.
 
 ## Identidade
-- [ ] **Logo oficial em vetor (SVG)** — o cabeçalho usa um wordmark recriado em HTML a partir da imagem enviada (150×150 px). `public/brand/logo-dx.png` (a imagem enviada) é usada no schema.
-- [ ] **Cor institucional** — o verde-lima é provisório (`--accent` em `src/app/globals.css`).
+- [x] **Logo oficial** — PNG transparente em `public/brand/` (branca e escura) e wordmark recriado em código. (Opcional: arquivo vetorial SVG, se existir.)
+- [x] **Cor institucional** — branding monocromático (preto, grafite e prata).
 - [x] Fotos e nomes dos fundadores (Elizandro Uebel e Diego Viana) na página Sobre.
+- [x] Fotos dos fundadores (Diego, Liandra, Elizandro) em /sobre.
+- [ ] Instagram da Liandra Silva (o botão aparece quando houver).
 - [ ] Fotos reais do escritório/equipe (opcional).
 - [ ] Definir se os artigos terão autoria de um dos fundadores (hoje a autoria é da agência).
 
 ## Contato e dados institucionais (`src/config/site.ts`)
-- [ ] Telefone e **WhatsApp** (`NEXT_PUBLIC_WHATSAPP_NUMBER`) — o botão só aparece com número real.
+- [ ] Telefone e **WhatsApp** — o botão e o evento `whatsapp_click` só aparecem com número real (passar o número para incluir no código).
 - [ ] E-mail comercial.
 - [ ] Endereço completo (somente se for público).
 - [x] Instagram e YouTube oficiais da agência.
@@ -27,8 +29,8 @@ Nada abaixo foi inventado no site: enquanto um item não for preenchido, ele sim
 ## Mensuração
 - [x] GTM `GTM-NL8SVB3Z` instalado no `<head>` de todas as páginas, com Consent Mode v2 (tudo negado até o aceite).
 - [ ] No GTM: Meta Pixel e outras tags que não são do Google com "Exigir consentimento adicional: ad_storage".
-- [ ] Configurar dentro do GTM: tag do Google/GA4, Google Ads e Meta Pixel (passo a passo em `docs/mensuracao.md`).
-- [ ] Configurar conversões (GA4/Google Ads/Meta) no evento `generate_lead` — ver `docs/mensuracao.md`.
+- [x] GTM configurado: GA4 (G-9YDVMPBV00), Google Ads (AW-18584501439) e eventos do site.
+- [x] Conversão `generate_lead` no GA4 e no Google Ads. (Meta Pixel pausado no GTM.)
 
 ## Validação de conteúdo
 - [ ] **Políticas de privacidade e de cookies** são minutas (a de cookies já lista as ferramentas do GTM automaticamente): revisar com jurídico e então marcar `policiesValidated: true` em `src/config/site.ts` (remove o aviso de minuta).
