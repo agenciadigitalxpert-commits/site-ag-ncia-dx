@@ -100,6 +100,7 @@ export default function HomePage() {
       <section className="surface-dark relative isolate overflow-hidden bg-[#000]">
         <div aria-hidden className="hero-art">
           <div className="hero-curtain" />
+          <div className="hero-beams hero-beams--home" />
         </div>
         <Container className="hero-scroll relative grid items-center gap-6 pb-16 pt-10 sm:pb-20 lg:min-h-[calc(100svh-4.5rem)] lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-4 lg:py-16">
           <div className="relative z-10">

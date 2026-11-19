@@ -497,7 +497,10 @@ html.js .reveal.is-visible { opacity: 1; transform: none; }
     radial-gradient(50% 40% at 0% 0%, rgb(255 255 255 / 0.05), transparent 70%),
     #000;
 }
+/* Linhas finas da primeira versão, acesas só em volta da luz da seta */
+.hero-beams--home { mask-image: radial-gradient(55% 70% at 74% 50%, black 0%, rgb(0 0 0 / 0.5) 45%, transparent 80%); }
 @media (max-width: 1023px) {
+  .hero-beams--home { mask-image: radial-gradient(80% 45% at 50% 85%, black 0%, transparent 80%); }
   .hero-curtain {
     background:
       radial-gradient(70% 40% at 50% 82%, rgb(255 255 255 / 0.13) 0%, rgb(255 255 255 / 0.04) 50%, transparent 78%),
