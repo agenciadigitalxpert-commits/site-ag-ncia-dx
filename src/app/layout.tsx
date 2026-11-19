@@ -26,6 +26,8 @@ export const metadata: Metadata = {
   openGraph: { type: "website", locale: "pt_BR", siteName: site.name },
   twitter: { card: "summary_large_image" },
   formatDetection: { telephone: false, email: false, address: false },
+  /** Verificação de propriedade no Google Search Console (token público). */
+  verification: { google: "huelF5TK-bKun9KzjgO-xScoQRn8GLPLiyGFH1Xu8Z8" },
 };
 
 const CONSENT_BOOTSTRAP = `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;
