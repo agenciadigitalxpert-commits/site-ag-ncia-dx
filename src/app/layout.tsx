@@ -32,6 +32,10 @@ const CONSENT_BOOTSTRAP = `window.dataLayer=window.dataLayer||[];function gtag()
 gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});
 try{var c=JSON.parse(localStorage.getItem('dx-consent')||'null');if(c&&c.v===1){gtag('consent','update',{analytics_storage:c.analytics?'granted':'denied',ad_storage:c.ads?'granted':'denied',ad_user_data:c.ads?'granted':'denied',ad_personalization:c.ads?'granted':'denied'});}}catch(e){}`;
 
+/** Snippet oficial do GTM (carrega em todas as páginas; as tags respeitam o Consent Mode acima). */
+const gtmLoader = (id: string) =>
+  `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${id}');window.__dxGtm=true;`;
+
 export const viewport: Viewport = {
   themeColor: "#0a0a0b",
   width: "device-width",
@@ -46,11 +50,23 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* Marca que o JS está ativo: só então elementos .reveal começam ocultos. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         {hasOptionalTracking ? (
-          /* dataLayer + Consent Mode v2: tudo negado por padrão; reaplica a escolha salva. O GTM só carrega após consentimento. */
+          /* dataLayer + Consent Mode v2: tudo negado por padrão; reaplica a escolha salva (antes do GTM). */
           <script dangerouslySetInnerHTML={{ __html: CONSENT_BOOTSTRAP }} />
         ) : null}
+        {tracking.gtmId ? <script dangerouslySetInnerHTML={{ __html: gtmLoader(tracking.gtmId) }} /> : null}
       </head>
       <body className="flex min-h-dvh flex-col">
+        {tracking.gtmId ? (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${tracking.gtmId}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+              title="Google Tag Manager"
+            />
+          </noscript>
+        ) : null}
         <a
           href="#conteudo"
           className="fixed left-3 top-3 z-[100] -translate-y-20 rounded-full bg-bg-fill-brand px-5 py-3 font-medium text-text-on-brand transition-transform focus:translate-y-0"

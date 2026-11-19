@@ -7,7 +7,6 @@ import { faqNode, graph, webPageNode } from "@/lib/schema";
 import { segments } from "@/lib/content";
 import { TestimonialCards } from "@/components/TestimonialCards";
 import { HeroArrow } from "@/components/HeroArrow";
-import { testimonials } from "@/content/testimonials";
 import { heroImages } from "@/config/illustrations";
 import type { FAQ } from "@/content/types";
 import { JsonLd } from "@/components/JsonLd";
@@ -18,10 +17,10 @@ import { ArrowIcon, Container, Eyebrow, Section, btn } from "@/components/ui";
 import { methodSteps } from "@/content/method";
 
 const DESCRIPTION =
-  "Agência de tráfego pago e performance comercial: Google Ads, Meta Ads, páginas que convertem e atendimento organizado. De Balneário Camboriú para empresas de todo o Brasil.";
+  "Agência de marketing digital para empresas de diversos segmentos: tráfego pago no Google Ads e Meta Ads, páginas que convertem e atendimento organizado. De Balneário Camboriú para todo o Brasil.";
 
 export const metadata = pageMetadata({
-  title: "Agência de tráfego pago em Balneário Camboriú | Digital Xpert",
+  title: "Agência de marketing digital em Balneário Camboriú | Digital Xpert",
   absoluteTitle: true,
   description: DESCRIPTION,
   path: "/",
@@ -109,14 +108,14 @@ export default function HomePage() {
                 <svg viewBox="0 0 20 20" width="18" height="18" fill="none"><path d="M6 6l8 8m0 0V7.5M14 14H7.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
               </span>
               <span>
-                Agência de tráfego pago<span className="hidden sm:inline"> · {site.location.city}</span>
+                Agência de marketing digital<span className="hidden sm:inline"> · {site.location.city}</span>
               </span>
             </p>
             <h1 className="hero-rise text-hero mt-8 !text-[clamp(2.75rem,1.3rem+4.8vw,5.25rem)]" style={{ ["--d" as string]: "80ms" }}>
               <span className="text-chrome text-chrome-lines">Tráfego pago <br className="hidden sm:block" />que vira venda.</span>
             </h1>
             <p className="hero-rise text-lead mt-7 max-w-md text-text-secondary" style={{ ["--d" as string]: "160ms" }}>
-              Somos uma agência focada em gerar contatos e vendas com Google Ads e Meta Ads, e em preparar seu atendimento para fechar cada oportunidade.
+              Somos uma agência de marketing digital que gera contatos e vendas para empresas de diversos segmentos, com Google Ads, Meta Ads e um atendimento preparado para fechar.
             </p>
             <div className="hero-rise mt-9 flex flex-col gap-3 sm:flex-row" style={{ ["--d" as string]: "240ms" }}>
               <TrackedLink href={CTA_PRIMARY.href} trackLabel={CTA_PRIMARY.label} trackLocation="home_hero" className={btn("primary")}>
@@ -143,24 +142,41 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* PROVA: relatos de clientes ------------------------------------ */}
-      <section aria-labelledby="prova-title" className="surface-dark border-y border-border-tertiary bg-[#000]">
-        <Container className="py-10 sm:py-12">
-          <h2 id="prova-title" className="sr-only">Resultados relatados por clientes</h2>
-          <ul className="grid gap-8 sm:grid-cols-3 sm:gap-6">
-            {testimonials.map((t, i) => (
-              <li key={t.href} className="reveal flex flex-col gap-1 sm:border-l sm:border-border-tertiary sm:pl-6 first:sm:border-l-0 first:sm:pl-0" style={{ ["--reveal-delay" as string]: `${i * 80}ms` }}>
-                <span className="proof-value text-chrome font-display text-[clamp(2.5rem,1.8rem+2.4vw,3.5rem)] font-light leading-none tracking-[-0.03em]">{t.highlight.value}</span>
-                <span className="mt-2 max-w-[16rem] text-[0.9375rem] leading-6 text-text-primary">{t.highlight.label}</span>
-                <a href={t.href} target="_blank" rel="noopener noreferrer" className="mt-1 inline-flex min-h-11 items-center gap-1.5 self-start text-sm leading-5 text-text-secondary underline-offset-4 hover:text-text-primary hover:underline">
-                  {t.client}, no Instagram <ArrowIcon className="size-4 -rotate-45" />
-                  <span className="sr-only">(abre em nova aba)</span>
-                </a>
-              </li>
-            ))}
+      {/* SEGMENTOS: diversos nichos, logo abaixo do hero ------------- */}
+      <section aria-labelledby="segmentos-title" className="surface-dark border-y border-border-tertiary bg-[#000]">
+        <Container className="py-12 sm:py-14">
+          <div className="reveal flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-[0.8125rem] font-medium uppercase leading-5 tracking-[0.14em] text-text-secondary">Segmentos que atendemos</p>
+              <h2 id="segmentos-title" className="mt-2 font-display text-[clamp(1.5rem,1.2rem+1.2vw,2.125rem)] font-normal leading-tight tracking-[-0.02em]">
+                Estratégias para diversos mercados.
+              </h2>
+            </div>
+            <Link href="/segmentos" className="group inline-flex min-h-11 items-center gap-2 text-[0.9375rem] font-medium leading-6 text-text-secondary hover:text-text-primary">
+              Ver todos os segmentos <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+          </div>
+          <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            {segments.map((s, i) => {
+              const img = heroImages[s.slug];
+              return (
+                <li key={s.slug} className="reveal" style={{ ["--reveal-delay" as string]: `${i * 50}ms` }}>
+                  <Link
+                    href={`/segmentos/${s.slug}`}
+                    className="pressable group flex h-full flex-col items-start gap-3 rounded-[22px] border border-border-tertiary bg-[var(--grey-950)] p-4 transition-[border-color,background-color,transform] hover:border-border-secondary hover:bg-bg-fill-secondary"
+                  >
+                    {img ? (
+                      <Image src={img} alt="" width={400} height={400} unoptimized className="-ml-1 size-14 transition-transform duration-700 ease-[var(--ease-spring)] group-hover:scale-110" />
+                    ) : null}
+                    <span className="text-[0.9375rem] font-medium leading-5">{s.navLabel}</span>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
-          <p className="mt-6 text-xs leading-5 text-text-secondary">
-            Números contados pelos próprios clientes nos relatos publicados. Resultados variam conforme oferta, mercado, investimento e atendimento.
+          <p className="mt-6 text-sm leading-5 text-text-secondary">
+            Seu segmento não está na lista?{" "}
+            <Link href={CTA_PRIMARY.href} className="text-text-primary underline underline-offset-4 hover:no-underline">Conte no diagnóstico</Link>: adaptamos a estratégia ao seu negócio.
           </p>
         </Container>
       </section>
@@ -262,41 +278,6 @@ export default function HomePage() {
               {CTA_SECONDARY.label}
               <ArrowIcon />
             </TrackedLink>
-          </div>
-        </Container>
-      </Section>
-
-      {/* SEGMENTOS ----------------------------------------------------- */}
-      <Section tone="dark" labelledBy="segmentos-title" className="bg-[#000]">
-        <Container>
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
-            <SectionHeader
-              id="segmentos-title"
-              eyebrow="Segmentos que atendemos"
-              title="Estratégias pensadas para o seu mercado."
-              intro="Cada segmento compra de um jeito. Adaptamos campanhas, páginas e atendimento à realidade do seu negócio."
-            />
-            <div className="reveal lg:pt-10">
-              <ul className="flex flex-wrap gap-3">
-                {segments.map((s) => (
-                  <li key={s.slug}>
-                    <Link
-                      href={`/segmentos/${s.slug}`}
-                      className="pressable group inline-flex min-h-12 items-center gap-3 rounded-full border border-border-secondary py-2 pl-5 pr-2 text-[0.9375rem] leading-6 hover:border-text-primary hover:bg-bg-fill-secondary"
-                    >
-                      {s.navLabel}
-                      <span aria-hidden className="grid size-8 place-items-center rounded-full bg-bg-fill-secondary transition-[transform,background-color,color] duration-500 ease-[var(--ease-spring)] group-hover:-rotate-45 group-hover:bg-bg-fill-inverse group-hover:text-text-on-inverse">
-                        <ArrowIcon className="size-4" />
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-8 text-text-secondary">
-                Seu segmento não está na lista?{" "}
-                <Link href={CTA_PRIMARY.href} className="text-text-primary underline underline-offset-4 hover:no-underline">Conte no diagnóstico</Link>.
-              </p>
-            </div>
           </div>
         </Container>
       </Section>

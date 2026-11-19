@@ -7,13 +7,13 @@ Todos os eventos passam por `src/lib/analytics.ts` (`track()`), que:
 - envia ao Meta Pixel somente `generate_lead` (como `Lead`) e `whatsapp_click` (como `WhatsAppClick`, evento personalizado);
 - **descarta** parâmetros com nomes que indiquem dados pessoais (nome, e-mail, telefone etc.).
 
-**Container GTM:** `GTM-MLGX6B67` (definido em `src/config/env.ts`; a variável `NEXT_PUBLIC_GTM_ID` sobrescreve).
+**Container GTM:** `GTM-NL8SVB3Z` (definido em `src/config/env.ts`; a variável `NEXT_PUBLIC_GTM_ID` sobrescreve).
 
 ### Como o carregamento funciona
 1. No `<head>`, antes de tudo, o site cria `window.dataLayer`, a função `gtag` e envia **Consent Mode v2 com tudo negado** (`consent default`). Se o visitante já escolheu antes, a escolha salva é reaplicada (`consent update`) na mesma hora.
-2. Eventos do site (`page_view`, `cta_click`...) vão para o dataLayer desde o início.
-3. O GTM (`gtm.js`) só é carregado **depois do consentimento** (medição ou publicidade). Ao carregar, ele processa os eventos que já estavam na fila, na ordem.
-4. Se o visitante recusar, o GTM não carrega.
+2. Logo em seguida, o snippet oficial do GTM carrega o `gtm.js` em **todas as páginas** (há também o `<noscript>` no início do `<body>`).
+3. Enquanto o visitante não aceita, as tags do Google funcionam no modo avançado do Consent Mode (sem cookies). Ao aceitar ou recusar no aviso, o site envia `consent update` e o evento `consent_update` para o dataLayer.
+4. **Importante (LGPD):** tags que não são do Google (ex.: Meta Pixel) precisam, no GTM, de **Configurações de consentimento → Exigir consentimento adicional → `ad_storage`**. Assim elas só disparam depois do aceite.
 
 ## Eventos
 

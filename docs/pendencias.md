@@ -25,7 +25,8 @@ Nada abaixo foi inventado no site: enquanto um item não for preenchido, ele sim
 - [ ] Estudos de caso detalhados, com período, fonte e autorização. Cada estudo aparece em Cases quando recebe `published: true`.
 
 ## Mensuração
-- [x] GTM `GTM-MLGX6B67` instalado (carrega após consentimento, com Consent Mode v2).
+- [x] GTM `GTM-NL8SVB3Z` instalado no `<head>` de todas as páginas, com Consent Mode v2 (tudo negado até o aceite).
+- [ ] No GTM: Meta Pixel e outras tags que não são do Google com "Exigir consentimento adicional: ad_storage".
 - [ ] Configurar dentro do GTM: tag do Google/GA4, Google Ads e Meta Pixel (passo a passo em `docs/mensuracao.md`).
 - [ ] Configurar conversões (GA4/Google Ads/Meta) no evento `generate_lead` — ver `docs/mensuracao.md`.
 

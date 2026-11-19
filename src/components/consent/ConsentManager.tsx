@@ -26,10 +26,10 @@ function snapshot() {
 type Ids = { gtmId: string | null; ga4Id: string | null; metaPixelId: string | null };
 
 /**
- * Gerencia consentimento e carrega scripts opcionais SOMENTE após a escolha.
+ * Gerencia o consentimento (LGPD) e atualiza o Consent Mode v2.
  * Regras para evitar disparos duplicados:
- *  - Com GTM configurado, GA4 e Meta Pixel devem ser configurados DENTRO do GTM;
- *    este componente carrega apenas o GTM (com Consent Mode v2).
+ *  - Com GTM configurado (carregado no <head>, tudo negado por padrão), GA4 e Meta Pixel
+ *    ficam DENTRO do GTM; tags que não são do Google precisam exigir consentimento lá.
  *  - Sem GTM, GA4 e Meta Pixel são carregados diretamente, cada um conforme sua categoria.
  */
 export function ConsentManager({ ids }: { ids: Ids }) {
@@ -60,16 +60,9 @@ export function ConsentManager({ ids }: { ids: Ids }) {
       };
 
       if (ids.gtmId) {
-        if (!loaded.current.gtm && (c.analytics || c.ads)) {
-          // O "consent default" (negado) já foi definido no <head> antes de qualquer evento.
-          w.gtag("consent", "update", consentState);
-          w.dataLayer.push({ "gtm.start": Date.now(), event: "gtm.js" });
-          inject(`https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(ids.gtmId)}`);
-          w.__dxGtm = true;
-          loaded.current.gtm = true;
-        } else if (loaded.current.gtm) {
-          w.gtag("consent", "update", consentState);
-        }
+        // O GTM já carrega no <head> com tudo negado; aqui só atualizamos o consentimento.
+        w.gtag("consent", "update", consentState);
+        w.dataLayer.push({ event: "consent_update", analytics_consent: consentState.analytics_storage, ads_consent: consentState.ad_storage });
         return;
       }
 

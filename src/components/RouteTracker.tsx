@@ -33,9 +33,10 @@ export function RouteTracker() {
   useEffect(() => {
     if (!pathname || last.current === pathname) return;
     const referrer = last.current ? window.location.origin + last.current : document.referrer || undefined;
-    last.current = pathname;
-    // Aguarda o <title> da nova página ser aplicado.
+    // Aguarda o <title> da nova página ser aplicado. A página só conta como registrada quando o
+    // evento sai (se o efeito for cancelado antes, ex.: Strict Mode, ele roda de novo).
     const t = window.setTimeout(() => {
+      last.current = pathname;
       track("page_view", {
         page_location: window.location.href,
         page_path: pathname,

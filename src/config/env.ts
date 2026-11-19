@@ -24,10 +24,11 @@ export const isEditing = process.env.NODE_ENV === "development";
 export const absoluteUrl = (path = "/") => `${siteUrl}${path === "/" ? "" : path}` || siteUrl;
 
 /** Container oficial do Google Tag Manager (ID público, não é segredo). A variável de ambiente sobrescreve. */
-const DEFAULT_GTM_ID = "GTM-MLGX6B67";
+const DEFAULT_GTM_ID = "GTM-NL8SVB3Z";
 
 export const tracking = {
-  gtmId: process.env.NEXT_PUBLIC_GTM_ID?.trim() || DEFAULT_GTM_ID,
+  // Só aceita o formato de ID do GTM (vai para dentro de um script inline).
+  gtmId: /^GTM-[A-Z0-9]+$/.test(process.env.NEXT_PUBLIC_GTM_ID?.trim() ?? "") ? process.env.NEXT_PUBLIC_GTM_ID!.trim() : DEFAULT_GTM_ID,
   ga4Id: process.env.NEXT_PUBLIC_GA4_ID?.trim() || null,
   metaPixelId: process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim() || null,
 };
