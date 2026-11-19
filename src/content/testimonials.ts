@@ -1,4 +1,7 @@
-/** Relatos publicados pela DX. Cada capa e síntese corresponde ao post indicado. */
+/**
+ * Relatos publicados pela DX. Cada capa, síntese e destaque corresponde ao post indicado.
+ * "highlight" resume o número dito pelo próprio cliente no relato (não é média da agência).
+ */
 export const testimonials = [
   {
     client: "Vaapty Petrópolis",
@@ -6,6 +9,7 @@ export const testimonials = [
     image: "/depoimentos/vaapty-petropolis.webp",
     imagePosition: "50% 40%",
     href: "https://www.instagram.com/p/DVhPm2vj8z7/",
+    highlight: { value: "55", label: "carros vendidos no melhor mês (antes, de 3 a 7)" },
   },
   {
     client: "Vaapty Cachoeirinha",
@@ -13,6 +17,7 @@ export const testimonials = [
     image: "/depoimentos/vaapty-cachoeirinha.webp",
     imagePosition: "50% 40%",
     href: "https://www.instagram.com/p/Dcl5Bn_ONME/",
+    highlight: { value: "1º mês", label: "meta da unidade atingida já no início da operação" },
   },
   {
     client: "Roberto, da Vaapty",
@@ -20,5 +25,6 @@ export const testimonials = [
     image: "/depoimentos/roberto-vaapty.webp",
     imagePosition: "50% 0%",
     href: "https://www.instagram.com/p/DVPCMgdkouR/",
+    highlight: { value: "130+", label: "carros vendidos por mês (antes, cerca de 35)" },
   },
 ];

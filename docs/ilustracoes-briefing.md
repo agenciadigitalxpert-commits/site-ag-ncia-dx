@@ -1,5 +1,7 @@
 # Briefing — ilustrações dos heroes (Agência Digital Xpert)
 
+> **Atualização de branding:** o site passou a ser monocromático (preto, grafite e prata). Onde este briefing diz verde-lima `#C8F53C`, use prata `#EEEEEB`. O script `scripts/animate-illustrations.py` já faz essa troca automaticamente.
+
 Cada página interna do site tem uma imagem própria à direita do título (no celular, pequena, acima do título). Hoje são ilustrações em SVG feitas em código (veja `ilustracoes-svg/` e `folha-atual.png`). Este briefing serve para gerar uma versão mais refinada numa IA de imagem (ex.: ChatGPT).
 
 ## Direção de arte recomendada

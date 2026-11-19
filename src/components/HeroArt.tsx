@@ -11,8 +11,8 @@ import { cx } from "./ui";
 
 const L = { stroke: "currentColor", strokeOpacity: 0.6, strokeWidth: 1.5, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
 const F = { stroke: "currentColor", strokeOpacity: 0.16, strokeWidth: 1 };
-const A = { stroke: "var(--lime-400)", strokeWidth: 2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
-const lime = "var(--lime-400)";
+const A = { stroke: "var(--silver-300)", strokeWidth: 2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+const silver = "var(--silver-300)";
 
 const arts: Record<string, ReactNode> = {
   /* ---------- Serviços ---------- */
@@ -23,7 +23,7 @@ const arts: Record<string, ReactNode> = {
       <g className="art-spin" style={{ transformOrigin: "200px 200px" }}>
         <path d="M200 200 L200 40 A160 160 0 0 1 313 87 Z" fill="url(#sweep)" />
       </g>
-      <circle cx="262" cy="128" r="6" fill={lime} className="art-pulse" />
+      <circle cx="262" cy="128" r="6" fill={silver} className="art-pulse" />
       <circle cx="132" cy="250" r="4" fill="currentColor" fillOpacity="0.6" className="art-pulse" style={{ animationDelay: "1.2s" }} />
       <circle cx="250" cy="290" r="4" fill="currentColor" fillOpacity="0.6" className="art-pulse" style={{ animationDelay: "2.1s" }} />
       <circle cx="200" cy="200" r="5" fill="currentColor" />
@@ -38,7 +38,7 @@ const arts: Record<string, ReactNode> = {
       <path d="M244 146v24" {...A} className="art-blink" />
       {[225, 265, 305].map((y, i) => (
         <g key={y} opacity={i === 0 ? 1 : 0.6}>
-          {i === 0 ? <rect x="60" y={y - 7} width="34" height="14" rx="7" fill={lime} /> : null}
+          {i === 0 ? <rect x="60" y={y - 7} width="34" height="14" rx="7" fill={silver} /> : null}
           <rect x={i === 0 ? 102 : 60} y={y - 4} width={i === 0 ? 170 : 210} height="8" rx="4" fill="currentColor" fillOpacity="0.35" />
           <rect x="60" y={y + 12} width="250" height="5" rx="2.5" fill="currentColor" fillOpacity="0.15" />
         </g>
@@ -55,7 +55,7 @@ const arts: Record<string, ReactNode> = {
         <rect x="155" y="92" width="60" height="7" rx="3.5" fill="currentColor" fillOpacity="0.4" />
         <rect x="128" y="118" width="144" height="120" rx="10" fill="currentColor" fillOpacity="0.07" />
         <path d="M168 196l22-26 20 20 14-12 22 18" {...L} strokeOpacity={0.4} />
-        <path d="M144 266c0-6 5-10 10-10 4 0 6 2 7 4 1-2 3-4 7-4 5 0 10 4 10 10 0 9-17 18-17 18s-17-9-17-18Z" fill={lime} className="art-pulse" />
+        <path d="M144 266c0-6 5-10 10-10 4 0 6 2 7 4 1-2 3-4 7-4 5 0 10 4 10 10 0 9-17 18-17 18s-17-9-17-18Z" fill={silver} className="art-pulse" />
         <rect x="190" y="262" width="70" height="6" rx="3" fill="currentColor" fillOpacity="0.35" />
         <rect x="190" y="276" width="46" height="6" rx="3" fill="currentColor" fillOpacity="0.2" />
       </g>
@@ -69,7 +69,7 @@ const arts: Record<string, ReactNode> = {
       <g className="art-float">
         <rect x="140" y="60" width="160" height="290" rx="30" fill="var(--grey-950)" {...L} strokeOpacity={0.8} />
         <rect x="188" y="74" width="64" height="8" rx="4" fill="currentColor" fillOpacity="0.25" />
-        <path d="M206 180v50l40-25-40-25Z" fill={lime} />
+        <path d="M206 180v50l40-25-40-25Z" fill={silver} />
         <rect x="160" y="300" width="120" height="4" rx="2" fill="currentColor" fillOpacity="0.2" />
         <path d="M160 302h120" {...A} className="art-progress" />
       </g>
@@ -84,7 +84,7 @@ const arts: Record<string, ReactNode> = {
         {[72, 88, 104].map((x) => <circle key={x} cx={x} cy="98" r="4" fill="currentColor" fillOpacity="0.35" />)}
         <rect x="80" y="146" width="170" height="14" rx="7" fill="currentColor" fillOpacity="0.55" />
         <rect x="80" y="172" width="130" height="8" rx="4" fill="currentColor" fillOpacity="0.25" />
-        <rect x="80" y="210" width="96" height="30" rx="15" fill={lime} />
+        <rect x="80" y="210" width="96" height="30" rx="15" fill={silver} />
         <rect x="80" y="266" width="70" height="30" rx="8" {...F} strokeOpacity={0.3} />
         <rect x="165" y="266" width="70" height="30" rx="8" {...F} strokeOpacity={0.3} />
         <rect x="250" y="266" width="70" height="30" rx="8" {...F} strokeOpacity={0.3} />
@@ -105,7 +105,7 @@ const arts: Record<string, ReactNode> = {
       {[0, 1, 2].map((i) => (
         <circle key={i} cx={170 + i * 30} cy="70" r="5" fill="currentColor" fillOpacity="0.7" className="art-drop" style={{ animationDelay: `${i * 0.9}s` }} />
       ))}
-      <circle cx="200" cy="340" r="9" fill={lime} className="art-pulse" />
+      <circle cx="200" cy="340" r="9" fill={silver} className="art-pulse" />
     </>
   ),
   "crm-automacao-ia": (
@@ -126,7 +126,7 @@ const arts: Record<string, ReactNode> = {
       ].map(([x, y], i) => (
         <rect key={i} x={x} y={y} width="52" height="38" rx="8" fill="currentColor" fillOpacity="0.08" {...F} strokeOpacity={0.3} />
       ))}
-      <rect x="74" y="230" width="52" height="38" rx="8" fill={lime} className="art-move" />
+      <rect x="74" y="230" width="52" height="38" rx="8" fill={silver} className="art-move" />
       <path d="M330 52l6 14 14 6-14 6-6 14-6-14-14-6 14-6 6-14Z" fill="currentColor" fillOpacity="0.8" className="art-twinkle" />
     </>
   ),
@@ -174,7 +174,7 @@ const arts: Record<string, ReactNode> = {
         <path
           key={i}
           d={`M${x} ${(y as number) - (r as number)}c${(r as number) * 0.18} ${(r as number) * 0.6} ${(r as number) * 0.22} ${(r as number) * 0.78} ${r} ${r}c-${(r as number) * 0.78} ${(r as number) * 0.22}-${(r as number) * 0.82} ${(r as number) * 0.4}-${r} ${r}c-${(r as number) * 0.18}-${(r as number) * 0.6}-${(r as number) * 0.22}-${(r as number) * 0.78}-${r}-${r}c${(r as number) * 0.78}-${(r as number) * 0.22} ${(r as number) * 0.82}-${(r as number) * 0.4} ${r}-${r}Z`}
-          fill={accent ? lime : "currentColor"}
+          fill={accent ? silver : "currentColor"}
           fillOpacity={accent ? 1 : 0.7}
           className="art-twinkle"
           style={{ animationDelay: `${i * 0.6}s` }}
@@ -220,7 +220,7 @@ const arts: Record<string, ReactNode> = {
       <path d="M60 330 C 110 300, 120 260, 170 250" {...L} strokeOpacity={0.5} strokeDasharray="4 8" className="art-route" />
       <g className="art-float">
         <path d="M200 90c-30 0-52 22-52 50 0 38 52 80 52 80s52-42 52-80c0-28-22-50-52-50Z" fill="var(--grey-950)" {...L} strokeOpacity={0.9} />
-        <circle cx="200" cy="140" r="16" fill={lime} />
+        <circle cx="200" cy="140" r="16" fill={silver} />
       </g>
       {/* caixa de entrega */}
       <g className="art-float" style={{ animationDelay: "1.5s" }}>
@@ -248,7 +248,7 @@ const arts: Record<string, ReactNode> = {
           );
         })}
       </g>
-      <circle cx="200" cy="200" r="26" fill={lime} className="art-pulse" />
+      <circle cx="200" cy="200" r="26" fill={silver} className="art-pulse" />
     </>
   ),
   segmentos: (
@@ -271,7 +271,7 @@ const arts: Record<string, ReactNode> = {
           })
           .join(" ");
         return center ? (
-          <polygon key={i} points={pts} fill={lime} className="art-pulse" />
+          <polygon key={i} points={pts} fill={silver} className="art-pulse" />
         ) : (
           <polygon key={i} points={pts} {...L} strokeOpacity={0.5} className="art-twinkle" style={{ animationDelay: `${i * 0.5}s` }} />
         );
@@ -281,7 +281,7 @@ const arts: Record<string, ReactNode> = {
   sobre: (
     <>
       <path d="M78 66h66l56 84 56-84h66l-89 134 89 134h-66l-56-84-56 84H78l89-134L78 66Z" {...L} strokeOpacity={0.7} className="art-draw" pathLength={1} />
-      <path d="M78 66h66l56 84 56-84h66l-89 134 89 134h-66l-56-84-56 84H78l89-134L78 66Z" stroke="var(--lime-400)" strokeWidth="2" className="art-trace" pathLength={1} />
+      <path d="M78 66h66l56 84 56-84h66l-89 134 89 134h-66l-56-84-56 84H78l89-134L78 66Z" stroke="var(--silver-300)" strokeWidth="2" className="art-trace" pathLength={1} />
     </>
   ),
   metodologia: (
@@ -301,7 +301,7 @@ const arts: Record<string, ReactNode> = {
           </text>
         </g>
       ))}
-      <circle r="7" fill={lime} className="art-path" style={{ offsetPath: "path('M50 290 C 110 100, 290 100, 350 290')" }} />
+      <circle r="7" fill={silver} className="art-path" style={{ offsetPath: "path('M50 290 C 110 100, 290 100, 350 290')" }} />
     </>
   ),
   conteudos: (
@@ -313,7 +313,7 @@ const arts: Record<string, ReactNode> = {
         {[140, 158, 176, 194, 212, 230, 248].map((y, i) => (
           <rect key={y} x="142" y={y} width={i % 3 === 2 ? 80 : 126} height="5" rx="2.5" fill="currentColor" fillOpacity="0.2" />
         ))}
-        <path d="M262 80v46l-12-9-12 9V80" fill={lime} />
+        <path d="M262 80v46l-12-9-12 9V80" fill={silver} />
       </g>
     </>
   ),
@@ -322,7 +322,7 @@ const arts: Record<string, ReactNode> = {
       {[0, 1, 2, 3].map((i) => (
         <rect key={i} x={80 + i * 64} y={260 - i * 44} width="44" height={70 + i * 44} rx="8" {...L} strokeOpacity={0.3 + i * 0.12} />
       ))}
-      <rect x="272" y="128" width="44" height="202" rx="8" fill={lime} className="art-pulse" />
+      <rect x="272" y="128" width="44" height="202" rx="8" fill={silver} className="art-pulse" />
       <path d="M70 330h270" {...F} strokeOpacity={0.4} />
     </>
   ),
@@ -340,7 +340,7 @@ const arts: Record<string, ReactNode> = {
       <g className="art-float">
         <path d="M70 110h190a20 20 0 0 1 20 20v80a20 20 0 0 1-20 20H130l-40 30v-30H70a20 20 0 0 1-20-20v-80a20 20 0 0 1 20-20Z" fill="var(--grey-950)" {...L} strokeOpacity={0.8} />
         {[120, 160, 200].map((x, i) => (
-          <circle key={x} cx={x} cy="170" r="8" fill={i === 1 ? lime : "currentColor"} fillOpacity={i === 1 ? 1 : 0.6} className="art-typing" style={{ animationDelay: `${i * 0.18}s` }} />
+          <circle key={x} cx={x} cy="170" r="8" fill={i === 1 ? silver : "currentColor"} fillOpacity={i === 1 ? 1 : 0.6} className="art-typing" style={{ animationDelay: `${i * 0.18}s` }} />
         ))}
       </g>
       <path d="M190 250h140a20 20 0 0 1 20 20v50a20 20 0 0 1-20 20h-10v24l-30-24H190a20 20 0 0 1-20-20v-50a20 20 0 0 1 20-20Z" {...L} strokeOpacity={0.35} />
@@ -350,7 +350,7 @@ const arts: Record<string, ReactNode> = {
     <>
       <path d="M50 300 C 120 300, 120 160, 190 160" {...L} strokeOpacity={0.6} strokeDasharray="6 10" />
       <path d="M230 160 C 300 160, 300 90, 350 90" {...L} strokeOpacity={0.3} strokeDasharray="6 10" />
-      <circle cx="210" cy="160" r="10" fill={lime} className="art-pulse" />
+      <circle cx="210" cy="160" r="10" fill={silver} className="art-pulse" />
     </>
   ),
 };
@@ -365,7 +365,7 @@ export function HeroArt({ variant, className }: { variant: HeroArtKey; className
   if (image) {
     return (
       <div aria-hidden className={cx("hero-illustration pointer-events-none relative aspect-square w-full", className)}>
-        <div className="absolute inset-[14%] rounded-full opacity-60 blur-3xl" style={{ background: "radial-gradient(circle, hsl(76 90% 50% / 0.35), transparent 70%)" }} />
+        <div className="absolute inset-[14%] rounded-full opacity-60 blur-3xl" style={{ background: "radial-gradient(circle, rgb(255 255 255 / 0.14), transparent 70%)" }} />
         {image.endsWith(".svg") ? (
           // SVG vetorial com animação própria (CSS interno; respeita "reduzir movimento")
           // eslint-disable-next-line @next/next/no-img-element
@@ -380,12 +380,12 @@ export function HeroArt({ variant, className }: { variant: HeroArtKey; className
   if (!art) return null;
   return (
     <div aria-hidden className={cx("hero-illustration pointer-events-none relative aspect-square w-full text-white", className)}>
-      <div className="absolute inset-[14%] rounded-full opacity-60 blur-3xl" style={{ background: "radial-gradient(circle, hsl(76 90% 50% / 0.35), transparent 70%)" }} />
+      <div className="absolute inset-[14%] rounded-full opacity-60 blur-3xl" style={{ background: "radial-gradient(circle, rgb(255 255 255 / 0.14), transparent 70%)" }} />
       <svg viewBox="0 0 400 400" fill="none" className="relative h-full w-full overflow-visible">
         <defs>
           <radialGradient id="sweep" cx="200" cy="200" r="160" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stopColor="var(--lime-400)" stopOpacity="0" />
-            <stop offset="1" stopColor="var(--lime-400)" stopOpacity="0.45" />
+            <stop offset="0" stopColor="var(--silver-300)" stopOpacity="0" />
+            <stop offset="1" stopColor="var(--silver-300)" stopOpacity="0.45" />
           </radialGradient>
         </defs>
         {art}

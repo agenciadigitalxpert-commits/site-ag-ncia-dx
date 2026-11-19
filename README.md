@@ -28,7 +28,7 @@ npm run build && npm start   # build de produção
 | Dados institucionais, contatos, redes, CNPJ | `src/config/site.ts` |
 | Domínio, ambiente, IDs de mensuração, WhatsApp, webhook | variáveis de ambiente (`.env.example`) |
 | Menus e CTAs | `src/config/navigation.ts` |
-| Tokens de design (cor, raio, tipografia) | `src/app/globals.css` — primitivos (`--grey-*`, `--lime-*`) → semânticos `color-{elemento}-{prioridade}-{estado}`, remapeados por superfície (`.surface-dark`, `.surface-light`…). A cor da marca é **provisória**: troque só `--lime-*`. |
+| Tokens de design (cor, raio, tipografia) | `src/app/globals.css` — primitivos (`--grey-*`, `--silver-*`, `--chrome`) → semânticos `color-{elemento}-{prioridade}-{estado}`, remapeados por superfície (`.surface-dark`, `.surface-light`…). Branding monocromático (preto, grafite e prata): DM Sans no texto e Oswald só no logotipo (`src/components/Logo.tsx`, recriado do arquivo oficial `public/brand/logo-dx.png`). |
 | Serviços | `src/content/services.ts` |
 | Segmentos | `src/content/segments.ts` |
 | Artigos e categorias | `src/content/articles.ts` |

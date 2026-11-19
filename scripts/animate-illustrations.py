@@ -380,5 +380,7 @@ for f in sorted(os.listdir(src)):
         css = ""
     s = finish(s, css)
     s = occlude(s)
+    # Branding monocromático: o destaque das fontes do GPT (verde-lima) vira prata.
+    s = s.replace("#C8F53C", "#EEEEEB")
     open(os.path.join(out, f), "w").write(s)
     print("ok", key, len(s))

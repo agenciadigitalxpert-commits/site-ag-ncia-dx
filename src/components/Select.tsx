@@ -194,7 +194,7 @@ export function Select({ id, name, value, options, placeholder, onChange, onFocu
             >
               <span>{o || placeholder}</span>
               {selected ? (
-                <svg aria-hidden viewBox="0 0 20 20" width="20" height="20" fill="none" className="shrink-0 text-[var(--lime-400)]">
+                <svg aria-hidden viewBox="0 0 20 20" width="20" height="20" fill="none" className="shrink-0 text-[var(--silver-300)]">
                   <path d="m4.5 10.5 3.5 3.5 7.5-8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               ) : null}
