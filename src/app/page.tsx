@@ -275,14 +275,14 @@ export default function HomePage() {
       </Section>
 
       {/* FAIXA (decorativa) ------------------------------------------- */}
-      <div aria-hidden className="marquee-wrap surface-dark overflow-hidden border-y border-border-tertiary bg-[#000] py-6 sm:py-8">
+      <div aria-hidden className="marquee-wrap surface-dark overflow-hidden border-y border-border-tertiary bg-[#000] py-5 sm:py-6">
         <div className="marquee">
           {[0, 1].map((k) => (
             <div key={k} className="flex shrink-0 items-center">
               {["Google Ads", "Meta Ads", "Criativos", "Landing pages", "Estruturação comercial", "CRM", "Automação", "IA no atendimento"].map((t, i) => (
-                <span key={t} className="flex items-center font-display text-[clamp(2rem,1.2rem+3vw,4rem)] font-light leading-none tracking-[-0.03em]">
+                <span key={t} className="flex items-center font-display text-[clamp(1.25rem,1rem+1.2vw,2rem)] font-light leading-none tracking-[-0.02em]">
                   <span className={i % 2 ? "text-text-secondary" : "text-chrome"}>{t}</span>
-                  <span className="mx-8 text-[0.5em] text-text-secondary sm:mx-12">✦</span>
+                  <span className="mx-6 size-1.5 shrink-0 rounded-full bg-text-secondary sm:mx-9" />
                 </span>
               ))}
             </div>
