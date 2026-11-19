@@ -42,7 +42,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="pt-BR" className={`${body.variable} ${display.variable} ${serif.variable}`} suppressHydrationWarning>
+    <html lang="pt-BR" data-scroll-behavior="smooth" className={`${body.variable} ${display.variable} ${serif.variable}`} suppressHydrationWarning>
       <head>
         {/* Marca que o JS está ativo: só então elementos .reveal começam ocultos. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
