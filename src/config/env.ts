@@ -3,11 +3,20 @@
  * lidas no build. Veja `.env.example`.
  */
 
-const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/+$/, "") || null;
+/** Domínio oficial. Usado automaticamente no deploy de produção da Vercel. */
+const OFFICIAL_SITE_URL = "https://www.agenciadigitalxpert.com.br";
 
-/** "production" só quando explicitamente definido. Qualquer outro valor = preview. */
+/** Deploy de produção na Vercel (previews de branch ficam como "preview"). */
+const isVercelProduction = process.env.VERCEL_ENV === "production";
+
+const rawSiteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/+$/, "") || (isVercelProduction ? OFFICIAL_SITE_URL : null);
+
+/** "production" quando definido explicitamente ou no deploy de produção da Vercel. Qualquer outro caso = preview. */
 export const siteEnv: "production" | "preview" =
-  process.env.NEXT_PUBLIC_SITE_ENV === "production" ? "production" : "preview";
+  process.env.NEXT_PUBLIC_SITE_ENV === "production" || (isVercelProduction && process.env.NEXT_PUBLIC_SITE_ENV !== "preview")
+    ? "production"
+    : "preview";
 
 /** Domínio real configurado? Sem ele, nenhuma URL absoluta de produção é gerada. */
 export const hasProductionDomain = Boolean(rawSiteUrl);
