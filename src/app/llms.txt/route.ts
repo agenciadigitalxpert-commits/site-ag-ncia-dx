@@ -37,8 +37,8 @@ export function GET() {
     "## Perguntas frequentes (respostas diretas)",
     ...answers.map((a) => `- [${a.question}](${absoluteUrl(`/respostas/${a.slug}`)}): ${stripRich(a.shortAnswer)}`),
     "",
-    "## Materiais para download (sem cadastro)",
-    ...materials.map((m) => `- [${m.title}](${absoluteUrl(m.file)}) (${m.format}): ${m.description}`),
+    `## Materiais para empresários (${absoluteUrl("/materiais")})`,
+    ...materials.map((m) => `- ${m.title} (${m.format}): ${m.description}`),
     "",
   ];
   return new Response(lines.join("\n"), { headers: { "Content-Type": "text/plain; charset=utf-8" } });

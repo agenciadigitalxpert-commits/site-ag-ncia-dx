@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { MIN_FILL_MS, normalizeBrPhone, validateLead, type LeadInput } from "@/lib/lead";
+import { cleanAttribution, clientIp, deliver, rateLimited } from "@/lib/webhook";
 
 /**
  * Recebe o formulário de diagnóstico e repassa para o CRM/webhook.
@@ -15,25 +16,6 @@ import { MIN_FILL_MS, normalizeBrPhone, validateLead, type LeadInput } from "@/l
  */
 
 const MAX_BODY = 8_000;
-const RATE_WINDOW_MS = 10 * 60 * 1000;
-const RATE_MAX = 5;
-const hits = new Map<string, number[]>();
-
-function rateLimited(ip: string) {
-  const now = Date.now();
-  const list = (hits.get(ip) ?? []).filter((t) => now - t < RATE_WINDOW_MS);
-  list.push(now);
-  hits.set(ip, list);
-  if (hits.size > 5000) hits.clear();
-  return list.length > RATE_MAX;
-}
-
-async function sign(body: string, secret: string) {
-  const enc = new TextEncoder();
-  const key = await crypto.subtle.importKey("raw", enc.encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
-  const sig = await crypto.subtle.sign("HMAC", key, enc.encode(body));
-  return Array.from(new Uint8Array(sig), (b) => b.toString(16).padStart(2, "0")).join("");
-}
 
 const str = (v: unknown, max = 1000) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 
@@ -61,8 +43,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const ip = (request.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || "local";
-  if (rateLimited(ip)) {
+  if (rateLimited(clientIp(request), "diagnostico")) {
     return NextResponse.json(
       { ok: false, code: "rate_limited", message: "Muitas tentativas em pouco tempo. Aguarde alguns minutos." },
       { status: 429 },
@@ -102,41 +83,20 @@ export async function POST(request: Request) {
     );
   }
 
-  const attr = (typeof body.attribution === "object" && body.attribution) || {};
-  const attribution = Object.fromEntries(
-    Object.entries(attr as Record<string, unknown>)
-      .filter(([k]) => /^(utm_(source|medium|campaign|term|content)|landing_page|referrer_host|gclid|gbraid|wbraid|click_at)$/.test(k))
-      .map(([k, v]) => [k, str(v, 200)])
-      // Identificadores de clique: só caracteres válidos (vão para a planilha e para o Google Ads).
-      .filter(([k, v]) => !/^(gclid|gbraid|wbraid)$/.test(k) || /^[\w-]{10,200}$/.test(v)),
-  );
+  const attribution = cleanAttribution(body.attribution, str);
 
   const id = crypto.randomUUID();
-  const payload = JSON.stringify({
+  const payload = {
     type: "diagnostico",
     id,
     receivedAt: new Date().toISOString(),
     lead: { ...input, whatsapp: normalizeBrPhone(input.whatsapp) },
     page: str(body.page, 200),
     attribution,
-  });
+  };
 
   try {
-    const headers: Record<string, string> = { "Content-Type": "application/json" };
-    if (process.env.LEAD_WEBHOOK_SECRET) headers["X-DX-Signature"] = await sign(payload, process.env.LEAD_WEBHOOK_SECRET);
-    const res = await fetch(webhook, { method: "POST", headers, body: payload, redirect: "follow", signal: AbortSignal.timeout(15_000) });
-    if (!res.ok) throw new Error(`Webhook respondeu ${res.status}`);
-    // Confirmação explícita: Apps Script precisa devolver { ok: true }; outros
-    // serviços falham só se devolverem JSON com ok === false.
-    const text = await res.text();
-    let body: { ok?: unknown } | null = null;
-    try {
-      body = JSON.parse(text);
-    } catch {}
-    const isAppsScript = /^https:\/\/script\.google(usercontent)?\.com\//.test(webhook);
-    if (isAppsScript ? body?.ok !== true : body?.ok === false) {
-      throw new Error(`Webhook não confirmou o recebimento${isAppsScript ? " (Apps Script)" : ""}`);
-    }
+    await deliver(payload);
   } catch (err) {
     console.error("[diagnostico] falha ao repassar lead:", err instanceof Error ? err.message : err);
     return NextResponse.json(

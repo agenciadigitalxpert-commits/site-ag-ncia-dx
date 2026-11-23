@@ -15,7 +15,8 @@ export type AnalyticsEvent =
   | "generate_lead"
   | "form_error"
   | "page_view"
-  | "material_download";
+  | "material_download"
+  | "material_lead";
 
 type Params = Record<string, string | number | boolean | undefined>;
 

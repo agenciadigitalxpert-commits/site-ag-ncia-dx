@@ -313,7 +313,7 @@ export const artigosBlog: Article[] = [
       },
       {
         type: "callout",
-        text: "Para não começar do zero, baixe a lista de palavras-chave negativas em CSV na página de [materiais](/materiais). Ela vem organizada por grupos e deve ser revisada antes de importar, porque alguns termos podem fazer sentido para o seu negócio.",
+        text: "Para não começar do zero, use os grupos acima como ponto de partida e revise cada termo antes de adicionar, porque alguns podem descrever justamente o que você vende. Se preferir que alguém cuide disso, veja como funciona a [gestão de Google Ads](/servicos/google-ads).",
       },
       { type: "h2", id: "resumo-e-proximo-passo", text: "Resumo e próximo passo" },
       {

@@ -56,5 +56,6 @@ Nada abaixo foi inventado no site: enquanto um item não for preenchido, ele sim
 - [x] 10 páginas de resposta em /respostas e 7 materiais em /materiais (arquivos gerados por `scripts/materiais/`).
 - [ ] Revisar com os responsáveis técnicos os blocos de "comunicação responsável" de advocacia (Provimento OAB 205/2021), médicos (CFM), nutricionistas (CFN), psicólogos (CFP) e fisioterapeutas (COFFITO).
 - [ ] Ilustrações próprias para os novos segmentos (hoje reaproveitam as mais próximas).
-- [ ] Apps Script: colar a nova versão, rodar `setup` uma vez e publicar nova versão da implantação (mesma URL).
-- [ ] Google Ads: criar as ações "Lead qualificado" e "Cliente fechado" (importação) e a programação diária lendo a aba "Conversões Google Ads".
+- [ ] Apps Script (versão com Leads frios e planilha de conversões separada): colar, rodar `setup`, autorizar e publicar nova versão da implantação (mesma URL).
+- [ ] Google Ads: criar as ações "Lead qualificado" e "Cliente fechado" (importação) e a programação diária lendo a planilha "DX — Conversões Google Ads".
+- [x] Materiais liberados por formulário (aba "Leads frios"), focados no empresário.

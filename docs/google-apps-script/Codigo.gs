@@ -29,8 +29,11 @@
  *   - mostrarToken()      mostra o token atual
  *   - gerarNovoToken()    troca o token (atualize a URL na Vercel depois!)
  *   - testarRecebimento() grava um lead de teste para conferir a planilha
- *   - exportarConversoesPendentes() envia à aba "Conversões Google Ads" os leads
- *                         qualificados/ganhos que ainda não foram enviados
+ *   - exportarConversoesPendentes() envia à planilha "DX — Conversões Google Ads"
+ *                         os leads qualificados/ganhos que ainda não foram enviados
+ *   - mostrarPlanilhaDeConversoes() mostra o link da planilha usada pelo Google Ads
+ *
+ *  ABAS: "Leads" (diagnóstico, leads quentes) e "Leads frios" (quem baixou materiais).
  * ============================================================================
  */
 
@@ -47,8 +50,13 @@ const CONFIG = {
   DEDUPE_LOOKBACK: 300,
   /** Opções da coluna "Status" (lista suspensa). */
   STATUS_OPTIONS: ['Novo', 'Em contato', 'Qualificado', 'Diagnóstico agendado', 'Proposta enviada', 'Ganho', 'Perdido', 'Sem perfil'],
-  /** Aba lida pelo Google Ads (importação programada de conversões offline). */
-  CONVERSIONS_SHEET_NAME: 'Conversões Google Ads',
+  /** Planilha separada lida pelo Google Ads (criada pelo setup; só GCLID, sem dados pessoais). */
+  CONVERSIONS_SPREADSHEET_NAME: 'DX — Conversões Google Ads',
+  /** Aba dos contatos que baixaram materiais (leads frios). */
+  COLD_SHEET_NAME: 'Leads frios',
+  COLD_STATUS_OPTIONS: ['Novo', 'Em contato', 'Virou lead quente', 'Sem perfil'],
+  /** Avisar por e-mail a cada lead frio (true/false). */
+  NOTIFY_COLD_LEADS: true,
   /**
    * Status → nome da ação de conversão no Google Ads. O nome precisa ser IDÊNTICO
    * ao criado em Metas → Conversões → Nova ação → Importar. Cada lead gera cada
@@ -95,6 +103,25 @@ const COLUMNS = [
   { key: 'conv_sent', title: 'Enviado ao Google Ads', width: 240 },
 ];
 
+/** Colunas da aba "Leads frios" (o ID fica sempre na última coluna). */
+const COLD_COLUMNS = [
+  { key: 'receivedAt', title: 'Data/hora', width: 140 },
+  { key: 'status', title: 'Status', width: 150 },
+  { key: 'nome', title: 'Nome', width: 160 },
+  { key: 'empresa', title: 'Empresa', width: 170 },
+  { key: 'whatsapp', title: 'WhatsApp', width: 160 },
+  { key: 'material', title: 'Material baixado', width: 260 },
+  { key: 'observacoes', title: 'Observações internas', width: 240 },
+  { key: 'page', title: 'Página', width: 140 },
+  { key: 'utm_source', title: 'utm_source', width: 110 },
+  { key: 'utm_medium', title: 'utm_medium', width: 110 },
+  { key: 'utm_campaign', title: 'utm_campaign', width: 160 },
+  { key: 'landing_page', title: 'Página de entrada', width: 180 },
+  { key: 'referrer_host', title: 'Origem (referrer)', width: 150 },
+  { key: 'gclid', title: 'GCLID', width: 200 },
+  { key: 'id', title: 'ID', width: 280 },
+];
+
 /* ------------------------------------------------------------------------- */
 /*  Web App                                                                  */
 /* ------------------------------------------------------------------------- */
@@ -115,6 +142,9 @@ function doPost(e) {
     } catch (err) {
       return json_({ ok: false, error: 'invalid_json' });
     }
+
+    // Formulário dos materiais → aba "Leads frios"
+    if (body.type === 'material') return gravarLeadFrio_(body);
 
     const lead = body.lead || {};
     const attribution = body.attribution || {};
@@ -255,15 +285,23 @@ function setup() {
     }
   });
 
-  // Aba lida pelo Google Ads (conversões offline)
-  getConversionsSheet_();
+  // Leads frios (materiais)
+  formatColdSheet_(getColdSheet_());
+
+  // Conversões offline: planilha separada + gatilho de edição
+  const convUrl = getConversionsSheet_().getParent().getUrl();
+  instalarGatilhoDeEdicao_();
+  // Remove a aba antiga "Conversões Google Ads" desta planilha, se estiver vazia
+  const old = ss.getSheetByName('Conversões Google Ads');
+  if (old && old.getLastRow() <= 2) ss.deleteSheet(old);
+  console.log('Planilha de conversões (use na programação do Google Ads): ' + convUrl);
 
   const token = getOrCreateToken_();
   console.log('Configuração concluída.');
   console.log('TOKEN: ' + token);
   console.log('Use na Vercel: LEAD_WEBHOOK_URL = <URL do App da Web>/exec?token=' + token);
   try {
-    SpreadsheetApp.getUi().alert('Planilha configurada.\n\nTOKEN:\n' + token + '\n\nUse na Vercel:\nLEAD_WEBHOOK_URL = <URL do App da Web>/exec?token=' + token);
+    SpreadsheetApp.getUi().alert('Planilha configurada.\n\nPlanilha de conversões (use na programação do Google Ads):\n' + convUrl + '\n\nTOKEN (não precisa mudar na Vercel se já estava configurado):\n' + token);
   } catch (err) {
     // Sem interface (executado pelo editor): o token está no registro de execução.
   }
@@ -280,6 +318,7 @@ function onOpen() {
     .addItem('Gravar lead de teste', 'testarRecebimento')
     .addSeparator()
     .addItem('Enviar conversões pendentes ao Google Ads', 'exportarConversoesPendentes')
+    .addItem('Mostrar planilha de conversões', 'mostrarPlanilhaDeConversoes')
     .addToUi();
 }
 
@@ -290,16 +329,16 @@ function onOpen() {
  *  Como funciona:
  *   1. O site grava o GCLID (identificador do clique no anúncio) junto com o lead.
  *   2. Quando a equipe muda o Status para "Qualificado", "Diagnóstico agendado",
- *      "Proposta enviada" ou "Ganho", este script escreve uma linha na aba
- *      "Conversões Google Ads", no formato que o Google Ads importa.
- *   3. No Google Ads, uma importação programada lê essa aba todo dia e atribui a
+ *      "Proposta enviada" ou "Ganho", este script escreve uma linha na planilha
+ *      separada "DX — Conversões Google Ads", no formato que o Google Ads importa.
+ *   3. No Google Ads, uma importação programada lê essa planilha todo dia e atribui a
  *      conversão à campanha, ao grupo e à palavra-chave do clique original.
  *  Lead sem GCLID (não veio de anúncio do Google, ou o visitante recusou cookies
  *  e voltou outro dia) não gera conversão: a coluna "Enviado ao Google Ads" diz o motivo.
  */
 
-/** Gatilho simples: roda sozinho quando alguém edita a planilha. */
-function onEdit(e) {
+/** Gatilho instalável (criado pelo setup): roda sozinho quando alguém edita a planilha. */
+function aoEditar(e) {
   try {
     if (!e || !e.range) return;
     const sheet = e.range.getSheet();
@@ -322,7 +361,7 @@ function exportarConversoesPendentes() {
   const sheet = getLeadsSheet_();
   let total = 0;
   for (let r = 2; r <= sheet.getLastRow(); r++) total += registrarConversoes_(sheet, r);
-  const msg = total + ' conversão(ões) adicionada(s) na aba "' + CONFIG.CONVERSIONS_SHEET_NAME + '".';
+  const msg = total + ' conversão(ões) adicionada(s) na planilha "' + CONFIG.CONVERSIONS_SPREADSHEET_NAME + '".';
   console.log(msg);
   try { SpreadsheetApp.getUi().alert(msg); } catch (err) {}
 }
@@ -359,12 +398,23 @@ function registrarConversoes_(sheet, row) {
   return pending.length;
 }
 
-/** Aba no formato de importação do Google Ads (fuso na 1ª linha, cabeçalho na 2ª). */
+/**
+ * Planilha SEPARADA lida pelo Google Ads (fuso na 1ª linha, cabeçalho na 2ª).
+ * Separada de propósito: o Google Ads pede para compartilhar a planilha com uma conta
+ * dele, e assim ele só enxerga GCLID + nome da conversão, nunca nome e telefone dos leads.
+ */
 function getConversionsSheet_() {
-  const ss = SpreadsheetApp.getActive();
-  let sh = ss.getSheetByName(CONFIG.CONVERSIONS_SHEET_NAME);
-  if (!sh) {
-    sh = ss.insertSheet(CONFIG.CONVERSIONS_SHEET_NAME);
+  const props = PropertiesService.getScriptProperties();
+  let ss = null;
+  const id = props.getProperty('DX_CONV_SHEET_ID');
+  if (id) {
+    try { ss = SpreadsheetApp.openById(id); } catch (err) { ss = null; }
+  }
+  if (!ss) {
+    ss = SpreadsheetApp.create(CONFIG.CONVERSIONS_SPREADSHEET_NAME);
+    props.setProperty('DX_CONV_SHEET_ID', ss.getId());
+    const sh = ss.getSheets()[0];
+    sh.setName('Conversões');
     // Texto puro: o Google Ads precisa ler a data exatamente neste formato.
     sh.getRange('A:E').setNumberFormat('@');
     sh.getRange(1, 1).setValue('Parameters:TimeZone=' + CONFIG.TIMEZONE);
@@ -376,7 +426,121 @@ function getConversionsSheet_() {
     sh.setColumnWidth(2, 170);
     sh.setColumnWidth(3, 170);
   }
+  return ss.getSheets()[0];
+}
+
+/** Endereço da planilha de conversões (para configurar a programação no Google Ads). */
+function mostrarPlanilhaDeConversoes() {
+  const url = getConversionsSheet_().getParent().getUrl();
+  console.log('Planilha de conversões: ' + url);
+  try { SpreadsheetApp.getUi().alert('Use esta planilha na programação do Google Ads:\n\n' + url); } catch (err) {}
+}
+
+/** Gatilho instalável de edição (necessário para escrever na planilha de conversões). */
+function instalarGatilhoDeEdicao_() {
+  const ss = SpreadsheetApp.getActive();
+  const exists = ScriptApp.getProjectTriggers().some((t) => t.getHandlerFunction() === 'aoEditar');
+  if (!exists) ScriptApp.newTrigger('aoEditar').forSpreadsheet(ss).onEdit().create();
+}
+
+/* ------------------------------------------------------------------------- */
+/*  Leads frios (formulário dos materiais)                                   */
+/* ------------------------------------------------------------------------- */
+
+/** Grava quem baixou um material na aba "Leads frios". */
+function gravarLeadFrio_(body) {
+  const lead = body.lead || {};
+  const attribution = body.attribution || {};
+  const material = body.material || {};
+  const missing = ['nome', 'empresa', 'whatsapp'].filter((k) => !String(lead[k] || '').trim());
+  if (missing.length) return json_({ ok: false, error: 'missing_fields', fields: missing });
+
+  const id = String(body.id || Utilities.getUuid()).slice(0, 64);
+  const lock = LockService.getScriptLock();
+  lock.waitLock(20000);
+  try {
+    const sheet = getColdSheet_();
+    const last = sheet.getLastRow();
+    if (last > 1) {
+      const n = Math.min(CONFIG.DEDUPE_LOOKBACK, last - 1);
+      const ids = sheet.getRange(last - n + 1, COLD_COLUMNS.length, n, 1).getValues();
+      if (ids.some((r) => String(r[0]) === id)) return json_({ ok: true, id: id, duplicate: true });
+    }
+    const receivedAt = body.receivedAt ? new Date(body.receivedAt) : new Date();
+    const values = {
+      receivedAt: isNaN(receivedAt.getTime()) ? new Date() : receivedAt,
+      status: 'Novo',
+      nome: lead.nome,
+      empresa: lead.empresa,
+      whatsapp: lead.whatsapp,
+      material: material.title || material.slug || '',
+      observacoes: '',
+      page: body.page || '',
+      utm_source: attribution.utm_source || '',
+      utm_medium: attribution.utm_medium || '',
+      utm_campaign: attribution.utm_campaign || '',
+      landing_page: attribution.landing_page || '',
+      referrer_host: attribution.referrer_host || '',
+      gclid: attribution.gclid || '',
+      id: id,
+    };
+    sheet.appendRow(COLD_COLUMNS.map((c) => (c.key === 'receivedAt' ? values[c.key] : safeText_(values[c.key]))));
+    const row = sheet.getLastRow();
+    const digits = String(values.whatsapp || '').replace(/\D/g, '');
+    if (digits) {
+      const link = 'https://wa.me/' + (digits.startsWith('55') ? digits : '55' + digits);
+      const local = digits.startsWith('55') ? digits.slice(2) : digits;
+      const pretty = local.length === 11 ? '(' + local.slice(0, 2) + ') ' + local.slice(2, 7) + '-' + local.slice(7) : local;
+      sheet.getRange(row, COLD_COLUMNS.findIndex((c) => c.key === 'whatsapp') + 1)
+        .setRichTextValue(SpreadsheetApp.newRichTextValue().setText(pretty).setLinkUrl(link).build());
+    }
+    sheet.getRange(row, 1).setNumberFormat('dd/MM/yyyy HH:mm');
+    SpreadsheetApp.flush();
+  } finally {
+    lock.releaseLock();
+  }
+
+  if (CONFIG.NOTIFY_COLD_LEADS && CONFIG.NOTIFY_EMAILS.length) {
+    try {
+      MailApp.sendEmail({
+        to: CONFIG.NOTIFY_EMAILS.join(','),
+        subject: 'Lead frio (material): ' + lead.nome + ' — ' + lead.empresa,
+        htmlBody: '<div style="font-family:Arial,sans-serif;font-size:14px">' +
+          '<p><strong>' + escHtml_(lead.nome) + '</strong> (' + escHtml_(lead.empresa) + ') baixou: <strong>' + escHtml_(material.title || '') + '</strong></p>' +
+          '<p><a href="' + SpreadsheetApp.getActive().getUrl() + '">Abrir planilha (aba Leads frios)</a></p></div>',
+        name: 'Site Agência Digital Xpert',
+      });
+    } catch (err) {
+      logError_(err, null);
+    }
+  }
+  return json_({ ok: true, id: id });
+}
+
+function escHtml_(v) {
+  return String(v === null || v === undefined ? '' : v).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+}
+
+function getColdSheet_() {
+  const ss = SpreadsheetApp.getActive();
+  let sh = ss.getSheetByName(CONFIG.COLD_SHEET_NAME);
+  if (!sh) {
+    sh = ss.insertSheet(CONFIG.COLD_SHEET_NAME);
+    formatColdSheet_(sh);
+  }
   return sh;
+}
+
+function formatColdSheet_(sh) {
+  sh.getRange(1, 1, 1, COLD_COLUMNS.length).setValues([COLD_COLUMNS.map((c) => c.title)])
+    .setFontWeight('bold').setFontColor('#ffffff').setBackground('#0a0a0b').setVerticalAlignment('middle').setWrap(true);
+  sh.setRowHeight(1, 36);
+  sh.setFrozenRows(1);
+  sh.setFrozenColumns(3);
+  COLD_COLUMNS.forEach((c, i) => sh.setColumnWidth(i + 1, c.width));
+  sh.getRange(2, 2, sh.getMaxRows() - 1, 1).setDataValidation(
+    SpreadsheetApp.newDataValidation().requireValueInList(CONFIG.COLD_STATUS_OPTIONS, true).setAllowInvalid(false).build()
+  );
 }
 
 function mostrarToken() {

@@ -33,6 +33,11 @@ const nextConfig: NextConfig = {
         // Preview/homologação: reforça o bloqueio de indexação também no cabeçalho HTTP.
         headers: isProductionSite ? security : [...security, { key: "X-Robots-Tag", value: "noindex, nofollow" }],
       },
+      {
+        // Arquivos dos materiais: liberados só depois do formulário; fora do índice de busca.
+        source: "/materiais/arquivos/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
     ];
   },
   async redirects() {

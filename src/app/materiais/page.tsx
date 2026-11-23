@@ -7,13 +7,13 @@ import { absoluteUrl } from "@/config/env";
 import { site } from "@/config/site";
 import { getArticle, materials } from "@/lib/content";
 import { JsonLd } from "@/components/JsonLd";
-import { MaterialDownload } from "@/components/MaterialDownload";
+import { MaterialForm } from "@/components/MaterialForm";
 import { CtaSection, PageHero, SectionHeader } from "@/components/sections";
 import { Container, IconItem, Section } from "@/components/ui";
 
-const TITLE = "Materiais de marketing para baixar";
+const TITLE = "Materiais para empresários venderem mais";
 const DESC =
-  "Checklists, planilhas e roteiros para Google Ads, landing page, atendimento no WhatsApp e controle de leads. Baixe sem cadastro e adapte ao seu negócio.";
+  "Planilhas, roteiros e guias para organizar o atendimento, definir metas e investir melhor em anúncios. Preencha um formulário rápido e baixe na hora.";
 const crumbs = [
   { name: "Início", href: "/" },
   { name: "Materiais", href: "/materiais" },
@@ -42,7 +42,6 @@ export default function MaterialsPage() {
         "@type": "DigitalDocument",
         name: m.title,
         description: m.description,
-        url: absoluteUrl(m.file),
         encodingFormat: m.format === "PDF" ? "application/pdf" : m.format === "CSV" ? "text/csv" : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         inLanguage: "pt-BR",
         isAccessibleForFree: true,
@@ -57,8 +56,8 @@ export default function MaterialsPage() {
         art="materiais"
         crumbs={crumbs}
         eyebrow="Materiais"
-        title="Materiais práticos para vender mais com o digital"
-        lead="Checklists, planilhas e roteiros que usamos como base no dia a dia. Baixe sem cadastro e adapte à sua operação."
+        title="Materiais práticos para vender mais"
+        lead="Planilhas, roteiros e guias para organizar o atendimento, definir metas e investir com mais segurança. Preencha um formulário rápido e baixe na hora."
         ctaLocation="materials_hero"
       />
       <Section tone="light" labelledBy="lista-materiais">
@@ -80,7 +79,7 @@ export default function MaterialsPage() {
                       {m.contents.map((c) => <IconItem key={c}>{c}</IconItem>)}
                     </ul>
                     <p className="mb-6 text-sm leading-5 text-text-secondary"><span className="font-medium text-text-primary">Para quem:</span> {m.forWhom}</p>
-                    <MaterialDownload slug={m.slug} file={m.file} format={m.format} title={m.title} />
+                    <MaterialForm slug={m.slug} title={m.title} format={m.format} />
                     {related.length ? (
                       <p className="mt-5 text-sm leading-5 text-text-secondary">
                         Leia também: <Link href={`/conteudos/${related[0].slug}`} className="underline underline-offset-2 hover:text-text-primary">{related[0].title}</Link>

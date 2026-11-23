@@ -492,7 +492,7 @@ export const artigosComparativos: Article[] = [
       },
       {
         type: "p",
-        text: "Antes de publicar uma página de campanha, vale revisar os pontos básicos com o checklist de landing page disponível em [materiais](/materiais). Se a campanha for no Meta Ads, compare também com outra opção em [formulário instantâneo ou landing page](/conteudos/formulario-instantaneo-ou-landing-page).",
+        text: "Antes de publicar uma página de campanha, vale revisar os pontos básicos com o checklist “Seu site está pronto para receber anúncios?”, disponível em [materiais](/materiais). Se a campanha for no Meta Ads, compare também com outra opção em [formulário instantâneo ou landing page](/conteudos/formulario-instantaneo-ou-landing-page).",
       },
     ],
     relatedServices: ["landing-pages", "google-ads", "meta-ads"],

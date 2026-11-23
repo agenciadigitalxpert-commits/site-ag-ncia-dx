@@ -1,79 +1,83 @@
 import type { Material } from "./types";
 
 /**
- * Materiais para download (/materiais). Os arquivos ficam em public/materiais e são
- * gerados por scripts/materiais/ (rode `node scripts/materiais/gerar-pdfs.mjs` e
- * `python3 scripts/materiais/gerar-planilhas.py` depois de editar o conteúdo).
+ * Materiais para download (/materiais), pensados para o EMPRESÁRIO (não para gestores de tráfego).
+ * São liberados depois de um formulário curto (o contato vai para a aba "Leads frios" da planilha).
+ *
+ * `file` NÃO aparece no HTML: a API /api/material só devolve o caminho depois do envio confirmado.
+ * Os nomes têm um sufixo aleatório e a pasta /materiais/arquivos fica fora do índice de busca.
+ * Para gerar os arquivos: `node scripts/materiais/gerar-pdfs.mjs` e
+ * `python3 scripts/materiais/gerar-planilhas.py` (os nomes estão em scripts/materiais/arquivos.json).
  */
 export const materials: Material[] = [
   {
-    slug: "checklist-campanha-google-ads",
-    title: "Checklist de campanha no Google Ads",
-    description: "Tudo o que conferir antes de subir uma campanha de pesquisa e o que acompanhar na primeira semana, para não pagar por clique de quem não vai comprar.",
-    file: "/materiais/checklist-campanha-google-ads.pdf",
-    format: "PDF",
-    contents: ["Mensuração e conversões", "Estrutura de campanhas e grupos", "Palavras-chave e negativas", "Anúncios e recursos", "Rotina da primeira semana"],
-    forWhom: "Quem vai criar ou revisar uma campanha de pesquisa no Google Ads.",
-    related: { services: ["google-ads", "trafego-pago"], articles: ["palavras-chave-negativas-google-ads", "leads-ruins-no-google-ads"] },
-  },
-  {
-    slug: "palavras-chave-negativas-google-ads",
-    title: "Lista de palavras-chave negativas para quem vende serviços",
-    description: "Lista pronta para colar no Google Ads, separada por grupo: emprego e estudo, faça você mesmo, ferramentas e login, seguidores e engajamento.",
-    file: "/materiais/palavras-chave-negativas-google-ads.csv",
-    format: "CSV",
-    contents: ["Mais de 80 termos negativos", "Tipo de correspondência de cada um", "Grupo e motivo do bloqueio", "Pronto para colar no Google Ads"],
-    forWhom: "Empresas de serviço que anunciam no Google e recebem muitos cliques de curiosos.",
-    related: { services: ["google-ads"], articles: ["palavras-chave-negativas-google-ads", "leads-ruins-no-google-ads"] },
-  },
-  {
     slug: "planilha-controle-de-leads",
     title: "Planilha de controle de leads",
-    description: "Planilha para registrar cada contato, a origem, o status no funil e o próximo passo, com resumo automático de qualificação e fechamento.",
-    file: "/materiais/planilha-controle-de-leads.xlsx",
+    description: "Registre cada contato, de onde ele veio, em que etapa está e qual é o próximo passo. O resumo mostra quantos viraram cliente.",
+    file: "/materiais/arquivos/planilha-controle-de-leads-35e0f16e.xlsx",
     format: "XLSX",
-    contents: ["Aba de leads com status em lista", "Origem e campanha de cada contato", "Próximo passo e data do retorno", "Resumo automático do funil"],
-    forWhom: "Equipes que ainda não usam CRM e querem parar de perder contato no WhatsApp.",
+    contents: ["Uma linha por contato, com status em lista", "Origem de cada contato", "Próximo passo e data do retorno", "Resumo automático do funil"],
+    forWhom: "Empresas que atendem pelo WhatsApp e não querem mais perder contato no meio do caminho.",
     related: { services: ["crm-automacao-ia", "estruturacao-comercial"], articles: ["crm-ou-planilha-para-leads", "qualificacao-de-leads-antes-da-reuniao"] },
   },
   {
     slug: "roteiro-atendimento-whatsapp",
     title: "Roteiro de atendimento no WhatsApp",
-    description: "Mensagens-modelo para a primeira resposta, perguntas de qualificação, agendamento, objeção de preço e follow-up, para adaptar ao seu negócio.",
-    file: "/materiais/roteiro-atendimento-whatsapp.pdf",
+    description: "Mensagens prontas para responder, entender o que o cliente precisa, marcar o próximo passo e retomar quem parou de responder.",
+    file: "/materiais/arquivos/roteiro-atendimento-whatsapp-313c3ba7.pdf",
     format: "PDF",
-    contents: ["Primeira resposta", "Perguntas de qualificação", "Proposta de próximo passo", "Resposta para “qual o valor?”", "Sequência de follow-up"],
-    forWhom: "Quem atende os leads que chegam dos anúncios pelo WhatsApp.",
+    contents: ["Primeira resposta", "Perguntas para entender o cliente", "Como propor o próximo passo", "Resposta para “qual o valor?”", "Mensagens de retomada"],
+    forWhom: "Donos e equipes que atendem os pedidos de orçamento pelo WhatsApp.",
     related: { services: ["estruturacao-comercial", "crm-automacao-ia"], articles: ["roteiro-de-atendimento-no-whatsapp", "trafego-pago-e-processo-comercial"] },
   },
   {
-    slug: "checklist-landing-page",
-    title: "Checklist de landing page que converte",
-    description: "Os pontos que uma página de campanha precisa ter para transformar clique em contato: promessa, prova, formulário, velocidade e mensuração.",
-    file: "/materiais/checklist-landing-page.pdf",
+    slug: "site-pronto-para-anuncios",
+    title: "Seu site está pronto para receber anúncios?",
+    description: "Checklist simples para conferir se a página que vai receber os anúncios convence o cliente e facilita o contato, antes de investir.",
+    file: "/materiais/arquivos/site-pronto-para-anuncios-9d00b86a.pdf",
     format: "PDF",
-    contents: ["Topo da página e promessa", "Provas e objeções", "Formulário e WhatsApp", "Celular e velocidade", "Mensuração e LGPD"],
-    forWhom: "Quem vai criar ou revisar a página de destino de uma campanha.",
+    contents: ["O que o cliente precisa ver primeiro", "Provas que geram confiança", "Contato fácil no celular", "Erros que fazem o cliente desistir"],
+    forWhom: "Empresas que vão começar a anunciar ou que recebem visitas no site, mas poucos contatos.",
     related: { services: ["landing-pages"], articles: ["landing-page-ou-site-institucional", "formulario-instantaneo-ou-landing-page"] },
   },
   {
-    slug: "briefing-de-campanha",
-    title: "Modelo de briefing de campanha",
-    description: "As perguntas que precisam estar respondidas antes de investir em anúncios: oferta, público, região, capacidade de atendimento, metas e restrições.",
-    file: "/materiais/briefing-de-campanha.pdf",
+    slug: "guia-para-contratar-agencia",
+    title: "Guia para contratar uma agência de marketing",
+    description: "As perguntas para fazer antes de fechar, os sinais de alerta e o que você deve receber da agência nos primeiros meses.",
+    file: "/materiais/arquivos/guia-para-contratar-agencia-3c0c8360.pdf",
     format: "PDF",
-    contents: ["Empresa, oferta e diferenciais", "Público e região", "Atendimento e capacidade", "Metas e investimento", "Materiais e restrições"],
-    forWhom: "Empresas que vão começar a anunciar ou trocar de agência.",
+    contents: ["Perguntas para a primeira reunião", "Sinais de alerta", "O que deve estar no contrato", "O que acompanhar todo mês"],
+    forWhom: "Empresários que vão contratar a primeira agência ou estão pensando em trocar.",
+    related: { services: ["trafego-pago"], articles: ["como-escolher-agencia-de-trafego-pago", "agencia-ou-gestor-de-trafego-freelancer"] },
+  },
+  {
+    slug: "briefing-de-campanha",
+    title: "Prepare sua empresa para anunciar",
+    description: "As perguntas que você precisa responder antes de investir em anúncios: oferta, cliente ideal, região, atendimento e metas.",
+    file: "/materiais/arquivos/briefing-de-campanha-0b954084.pdf",
+    format: "PDF",
+    contents: ["Oferta e diferenciais", "Cliente ideal e região", "Quem atende e como", "Metas e investimento", "Materiais e restrições"],
+    forWhom: "Empresas que vão começar a anunciar ou contratar uma agência.",
     related: { services: ["trafego-pago", "criativos-e-roteiros"], articles: ["como-escolher-agencia-de-trafego-pago"] },
   },
   {
-    slug: "calculadora-orcamento-de-midia",
-    title: "Calculadora de orçamento de mídia",
-    description: "Planilha que calcula quanto investir por mês a partir dos leads que você quer, do CPC do seu mercado e da taxa de conversão da página.",
-    file: "/materiais/calculadora-orcamento-de-midia.xlsx",
+    slug: "planilha-meta-de-vendas",
+    title: "Planilha de meta de vendas",
+    description: "Coloque a meta de faturamento e descubra quantas vendas, oportunidades e contatos você precisa por mês para chegar lá.",
+    file: "/materiais/arquivos/planilha-meta-de-vendas-329d72d2.xlsx",
     format: "XLSX",
-    contents: ["Cliques necessários", "Orçamento mensal e diário", "Custo por lead e por lead qualificado", "Custo de mídia por cliente"],
-    forWhom: "Quem quer definir o investimento em Google Ads ou Meta Ads com conta, não no chute.",
+    contents: ["Meta de faturamento e ticket médio", "Vendas necessárias", "Oportunidades e contatos por mês", "Quanto cada etapa precisa melhorar"],
+    forWhom: "Empresários que querem transformar a meta do mês em números do dia a dia.",
+    related: { services: ["estruturacao-comercial"], articles: ["como-medir-resultado-do-trafego-pago"] },
+  },
+  {
+    slug: "calculadora-investimento-em-anuncios",
+    title: "Calculadora de investimento em anúncios",
+    description: "Descubra quanto investir por mês a partir de quantos contatos você quer receber e de quanto vale para você conquistar um cliente.",
+    file: "/materiais/arquivos/calculadora-investimento-em-anuncios-84244a35.xlsx",
+    format: "XLSX",
+    contents: ["Investimento mensal e diário", "Custo por contato", "Custo por cliente", "Exemplo preenchido para entender"],
+    forWhom: "Quem quer decidir o investimento em anúncios com conta, não no chute.",
     related: { services: ["trafego-pago", "google-ads"], articles: ["como-medir-resultado-do-trafego-pago"] },
   },
 ];

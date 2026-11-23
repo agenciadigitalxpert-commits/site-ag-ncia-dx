@@ -2,7 +2,7 @@
 
 Uso (na raiz do projeto): python3 scripts/materiais/gerar-planilhas.py
 """
-import csv
+import json
 from pathlib import Path
 
 from openpyxl import Workbook
@@ -11,7 +11,8 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
 
-OUT = Path(__file__).resolve().parents[2] / "public" / "materiais"
+OUT = Path(__file__).resolve().parents[2] / "public" / "materiais" / "arquivos"
+NAMES = json.loads((Path(__file__).parent / "arquivos.json").read_text())
 OUT.mkdir(parents=True, exist_ok=True)
 
 INK = "0A0A0B"
@@ -30,55 +31,6 @@ def header(ws, row, titles, widths):
         ws.column_dimensions[get_column_letter(i)].width = w
     ws.row_dimensions[row].height = 30
 
-
-# ---------------------------------------------------------------------------
-# 1. Palavras-chave negativas (CSV)
-# ---------------------------------------------------------------------------
-NEG = {
-    "Emprego e estudo": (
-        "Quem quer estudar ou trabalhar com marketing, não contratar",
-        ["curso", "cursos", "faculdade", "graduação", "pós", "mba", "certificação", "certificado", "apostila", "pdf",
-         "livro", "ebook", "tcc", "monografia", "vaga", "vagas", "emprego", "estágio", "salário", '"quanto ganha"',
-         '"trabalhe conosco"', '"como ser"', '"como se tornar"', '"como virar"', "aprender", "aula", "mentoria",
-         "formação", '"home office"'],
-    ),
-    "Faça você mesmo": (
-        "Pesquisa de quem quer fazer sozinho ou só entender o assunto",
-        ['"o que é"', '"o que faz"', "significado", "definição", "conceito", "exemplos", "modelo", "template",
-         "tutorial", '"passo a passo"', "sozinho", '"como fazer"', '"como colocar"', '"como anunciar"',
-         '"como funciona"', '"como usar"', '"como divulgar"', '"como impulsionar"', "gratuitamente", "grátis",
-         "gratuito", '"de graça"', "free"],
-    ),
-    "Ferramentas e login": (
-        "Quem procura a ferramenta da plataforma, o login ou o suporte",
-        ["gerenciador", '"gestor de anúncios"', '"meta business"', '"business center"', '"business suite"', "login",
-         "entrar", "senha", "suporte", '"telefone google"', '"conta suspensa"', "reembolso", "cupom", "skillshop",
-         "app", "aplicativo", "ferramenta"],
-    ),
-    "Seguidores e engajamento": (
-        "Venda de seguidores, curtidas e painéis de redes sociais",
-        ["seguidores", "curtidas", "engajamento", "ugc", "smm", '"painel smm"', "turbina", '"impulsiona perfil"',
-         "visualizações", "comprar"],
-    ),
-    "Outras agências": (
-        "Outros tipos de agência que aparecem na mesma busca",
-        ['"agência de viagem"', '"agência de viagens"', '"agência bancária"', '"agência caixa"',
-         '"agência de emprego"', '"agência de modelos"', "intercâmbio"],
-    ),
-}
-
-with open(OUT / "palavras-chave-negativas-google-ads.csv", "w", newline="", encoding="utf-8-sig") as f:
-    w = csv.writer(f)
-    w.writerow(["Palavra-chave negativa (cole no Google Ads)", "Tipo de correspondência", "Grupo", "O que bloqueia"])
-    total = 0
-    for group, (why, words) in NEG.items():
-        for word in words:
-            tipo = "Frase" if word.startswith('"') else "Ampla"
-            w.writerow([word, tipo, group, why])
-            total += 1
-    w.writerow([])
-    w.writerow(["Revise antes de usar: tire da lista qualquer termo que descreva o que você vende (ex.: se você vende cursos, não negative \"curso\")."])
-print("negativas:", total)
 
 # ---------------------------------------------------------------------------
 # 2. Planilha de controle de leads (XLSX)
@@ -131,53 +83,94 @@ rs["B15"].number_format = rs["B16"].number_format = "0%"
 rs["B17"].number_format = '"R$" #,##0.00'
 rs["A19"] = "Dica: registre a origem de cada lead. É isso que mostra quais campanhas trazem clientes, e não só contatos."
 rs["A19"].font = Font(italic=True, color="55565B")
-wb.save(OUT / "planilha-controle-de-leads.xlsx")
+wb.save(OUT / NAMES["planilha-controle-de-leads"])
 print("planilha de leads ok")
 
 # ---------------------------------------------------------------------------
-# 3. Calculadora de orçamento de mídia (XLSX)
+# 3. Calculadora de investimento em anúncios (XLSX)
 # ---------------------------------------------------------------------------
 wb = Workbook()
 ws = wb.active
 ws.title = "Calculadora"
-ws.column_dimensions["A"].width = 52
-ws.column_dimensions["B"].width = 18
-ws.column_dimensions["C"].width = 60
-ws["A1"] = "Calculadora de orçamento de mídia"
+ws["A1"] = "Calculadora de investimento em anúncios"
 ws["A1"].font = Font(bold=True, size=14)
-ws["A2"] = "Preencha só as células cinza. Os valores abaixo são exemplos: troque pelos números do seu negócio."
+ws["A2"] = "Preencha só as células cinza. Os valores abaixo são um exemplo: troque pelos números do seu negócio."
 ws["A2"].font = Font(italic=True, color="55565B")
-header(ws, 4, ["Dado de entrada", "Valor", "Onde encontrar"], [52, 18, 60])
+header(ws, 4, ["O que você sabe (ou estima)", "Valor", "Dica"], [52, 18, 64])
 inputs = [
-    ("Leads que você quer por mês", 40, "0", "Quantos contatos sua equipe consegue atender bem"),
-    ("CPC médio estimado (R$)", 5.0, '"R$" #,##0.00', "Planejador de palavras-chave do Google Ads ou histórico da conta"),
-    ("Taxa de conversão da página (visita → lead)", 0.08, "0.0%", "Analytics ou relatório de conversões; sem histórico, comece conservador"),
-    ("Leads qualificados (% dos leads)", 0.5, "0%", "Planilha de leads: qualificados ÷ total"),
-    ("Taxa de fechamento (% dos qualificados)", 0.2, "0%", "Ganhos ÷ qualificados no seu comercial"),
+    ("Contatos que você quer receber por mês", 40, "0", "Quantos pedidos sua equipe consegue atender bem"),
+    ("Custo por clique estimado (R$)", 5.0, '"R$" #,##0.00', "Pergunte à sua agência; ela consulta no Google Ads"),
+    ("De cada 100 visitas, quantas viram contato (%)", 0.08, "0.0%", "Sem histórico, use um número conservador"),
+    ("De cada 100 contatos, quantos têm perfil (%)", 0.5, "0%", "Veja na sua planilha de leads"),
+    ("De cada 100 com perfil, quantos fecham (%)", 0.2, "0%", "Sua taxa de fechamento no comercial"),
 ]
 for i, (label, val, fmt, where) in enumerate(inputs, start=5):
     ws.cell(row=i, column=1, value=label)
     c = ws.cell(row=i, column=2, value=val)
     c.fill, c.number_format, c.border = INPUT, fmt, BOX
     ws.cell(row=i, column=3, value=where).font = Font(color="55565B")
-header(ws, 11, ["Resultado", "Valor", "Como é calculado"], [52, 18, 60])
+header(ws, 11, ["Resultado", "Valor", "Como é calculado"], [52, 18, 64])
 outs = [
-    ("Cliques necessários por mês", "=IFERROR(B5/B7,0)", "#,##0", "Leads ÷ taxa de conversão da página"),
-    ("Orçamento mensal de mídia (R$)", "=B12*B6", '"R$" #,##0.00', "Cliques × CPC"),
-    ("Orçamento diário (R$)", "=B13/30.4", '"R$" #,##0.00', "Mensal ÷ 30,4 dias"),
-    ("Custo por lead (R$)", "=IFERROR(B13/B5,0)", '"R$" #,##0.00', "Orçamento ÷ leads"),
-    ("Leads qualificados por mês", "=B5*B8", "#,##0", "Leads × % qualificados"),
-    ("Custo por lead qualificado (R$)", "=IFERROR(B13/B16,0)", '"R$" #,##0.00', "Orçamento ÷ leads qualificados"),
-    ("Clientes por mês (estimativa)", "=B16*B9", "#,##0.0", "Qualificados × taxa de fechamento"),
-    ("Custo de mídia por cliente (R$)", "=IFERROR(B13/B18,0)", '"R$" #,##0.00', "Orçamento ÷ clientes (não inclui honorários)"),
+    ("Visitas necessárias por mês", "=IFERROR(B5/B7,0)", "#,##0", "Contatos ÷ % de visitas que viram contato"),
+    ("Investimento mensal em anúncios (R$)", "=B12*B6", '"R$" #,##0.00', "Visitas × custo por clique"),
+    ("Investimento por dia (R$)", "=B13/30.4", '"R$" #,##0.00', "Mensal ÷ 30,4 dias"),
+    ("Custo por contato (R$)", "=IFERROR(B13/B5,0)", '"R$" #,##0.00', "Investimento ÷ contatos"),
+    ("Contatos com perfil por mês", "=B5*B8", "#,##0", "Contatos × % com perfil"),
+    ("Clientes por mês (estimativa)", "=B16*B9", "#,##0.0", "Com perfil × % que fecham"),
+    ("Investimento em anúncios por cliente (R$)", "=IFERROR(B13/B17,0)", '"R$" #,##0.00', "Investimento ÷ clientes (sem honorários da agência)"),
 ]
 for i, (label, formula, fmt, how) in enumerate(outs, start=12):
     ws.cell(row=i, column=1, value=label)
     c = ws.cell(row=i, column=2, value=formula)
     c.number_format, c.font = fmt, Font(bold=True)
     ws.cell(row=i, column=3, value=how).font = Font(color="55565B")
-ws["A21"] = "Regra prática: cada campanha precisa de orçamento diário de pelo menos 10 vezes o CPC médio para aprender."
-ws["A22"] = "Estimativa, não promessa: CPC e conversão mudam com o mercado, a oferta, a página e o atendimento."
-ws["A21"].font = ws["A22"].font = Font(italic=True, color="55565B")
-wb.save(OUT / "calculadora-orcamento-de-midia.xlsx")
+ws["A20"] = "Pergunta que vale fazer: quanto você pode pagar para conquistar um cliente e ainda ter lucro?"
+ws["A21"] = "Isto é uma estimativa, não uma promessa: o resultado muda com o mercado, a oferta, o site e o atendimento."
+ws["A20"].font = ws["A21"].font = Font(italic=True, color="55565B")
+wb.save(OUT / NAMES["calculadora-investimento-em-anuncios"])
 print("calculadora ok")
+
+# ---------------------------------------------------------------------------
+# 4. Planilha de meta de vendas (funil reverso)
+# ---------------------------------------------------------------------------
+wb = Workbook()
+ws = wb.active
+ws.title = "Meta de vendas"
+ws["A1"] = "Planilha de meta de vendas"
+ws["A1"].font = Font(bold=True, size=14)
+ws["A2"] = "Comece pela meta e volte etapa por etapa. Preencha as células cinza (os valores são um exemplo)."
+ws["A2"].font = Font(italic=True, color="55565B")
+header(ws, 4, ["Sua meta e seus números", "Valor", "Dica"], [52, 18, 64])
+inputs = [
+    ("Meta de faturamento no mês (R$)", 50000, '"R$" #,##0.00', "O valor que você quer vender no mês"),
+    ("Ticket médio por venda (R$)", 2500, '"R$" #,##0.00', "Faturamento ÷ número de vendas de um mês normal"),
+    ("De cada 100 propostas, quantas fecham (%)", 0.25, "0%", "Propostas ganhas ÷ propostas enviadas"),
+    ("De cada 100 contatos, quantos viram proposta (%)", 0.4, "0%", "Propostas enviadas ÷ contatos recebidos"),
+    ("Dias de trabalho no mês", 22, "0", "Para ver a meta de cada dia"),
+]
+for i, (label, val, fmt, where) in enumerate(inputs, start=5):
+    ws.cell(row=i, column=1, value=label)
+    c = ws.cell(row=i, column=2, value=val)
+    c.fill, c.number_format, c.border = INPUT, fmt, BOX
+    ws.cell(row=i, column=3, value=where).font = Font(color="55565B")
+header(ws, 11, ["O que você precisa", "Por mês", "Como é calculado"], [52, 18, 64])
+outs = [
+    ("Vendas", "=IFERROR(ROUNDUP(B5/B6,0),0)", "#,##0", "Meta ÷ ticket médio"),
+    ("Propostas enviadas", "=IFERROR(ROUNDUP(B12/B7,0),0)", "#,##0", "Vendas ÷ % de fechamento"),
+    ("Contatos recebidos", "=IFERROR(ROUNDUP(B13/B8,0),0)", "#,##0", "Propostas ÷ % de contatos que viram proposta"),
+    ("Contatos por dia de trabalho", "=IFERROR(B14/B9,0)", "#,##0.0", "Contatos ÷ dias de trabalho"),
+]
+for i, (label, formula, fmt, how) in enumerate(outs, start=12):
+    ws.cell(row=i, column=1, value=label)
+    c = ws.cell(row=i, column=2, value=formula)
+    c.number_format, c.font = fmt, Font(bold=True)
+    ws.cell(row=i, column=3, value=how).font = Font(color="55565B")
+header(ws, 17, ["E se você melhorar o fechamento?", "Contatos/mês", ""], [52, 18, 64])
+for k, extra in enumerate([0.05, 0.10], start=18):
+    ws.cell(row=k, column=1, value=f"Fechamento {int(extra*100)} pontos maior")
+    c = ws.cell(row=k, column=2, value=f"=IFERROR(ROUNDUP(ROUNDUP(B12/(B7+{extra}),0)/B8,0),0)")
+    c.number_format, c.font = "#,##0", Font(bold=True)
+ws["A21"] = "Muitas vezes é mais barato melhorar o atendimento do que comprar mais contatos."
+ws["A21"].font = Font(italic=True, color="55565B")
+wb.save(OUT / NAMES["planilha-meta-de-vendas"])
+print("meta de vendas ok")
