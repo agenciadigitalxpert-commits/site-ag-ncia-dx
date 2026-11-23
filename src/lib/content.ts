@@ -5,6 +5,10 @@ import { siteEnv } from "@/config/env";
 import type { Article } from "@/content/types";
 
 export { services, segments, categories };
+export { answers } from "@/content/novos/respostas";
+export { materials } from "@/content/materials";
+import { answers as allAnswers } from "@/content/novos/respostas";
+export const getAnswer = (slug: string) => allAnswers.find((a) => a.slug === slug);
 
 export const getService = (slug: string) => services.find((s) => s.slug === slug);
 export const getSegment = (slug: string) => segments.find((s) => s.slug === slug);

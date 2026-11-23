@@ -16,7 +16,9 @@ export function Footer() {
     { href: "/sobre", label: "Sobre a DX" },
     { href: "/metodologia", label: "Metodologia" },
     { href: "/cases", label: "Cases e depoimentos" },
-    { href: "/conteudos", label: "Conteúdos" },
+    { href: "/conteudos", label: "Blog e comparativos" },
+    { href: "/respostas", label: "Perguntas frequentes" },
+    { href: "/materiais", label: "Materiais gratuitos" },
     { href: "/contato", label: "Contato" },
   ];
   return (
@@ -48,7 +50,7 @@ export function Footer() {
           </div>
 
           <FooterCol title="Serviços" links={serviceNav.map(({ href, label }) => ({ href, label }))} />
-          <FooterCol title="Segmentos" links={segmentNav} />
+          <FooterCol title="Segmentos" links={[...segmentNav.slice(0, 8), { href: "/segmentos", label: "Ver todos os segmentos" }]} />
           <FooterCol title="Empresa" links={company} />
         </div>
 

@@ -8,7 +8,7 @@ import { ArrowIcon, Container, Section } from "@/components/ui";
 
 const TITLE = "Marketing e vendas por segmento";
 const DESC =
-  "Estratégias de tráfego pago e estrutura comercial para revendas de veículos, oficinas, clínicas de estética, dermatologistas, clínicas odontológicas e delivery.";
+  "Tráfego pago por segmento: estética automotiva, revendas, clínicas, saúde, advocacia, imobiliárias, construtoras, climatização, fretes e delivery.";
 const crumbs = [
   { name: "Início", href: "/" },
   { name: "Segmentos", href: "/segmentos" },

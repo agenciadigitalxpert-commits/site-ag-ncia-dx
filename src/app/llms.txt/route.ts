@@ -1,6 +1,7 @@
 import { site } from "@/config/site";
 import { absoluteUrl } from "@/config/env";
-import { isPublished, segments, services, visibleArticles } from "@/lib/content";
+import { answers, isPublished, materials, segments, services, visibleArticles } from "@/lib/content";
+import { stripRich } from "@/lib/rich";
 
 /**
  * llms.txt — recurso EXPERIMENTAL de documentação para sistemas de IA.
@@ -32,6 +33,12 @@ export function GET() {
     ...(published.length
       ? ["", "## Conteúdos", ...published.map((a) => `- [${a.title}](${absoluteUrl(`/conteudos/${a.slug}`)}): ${a.excerpt}`)]
       : []),
+    "",
+    "## Perguntas frequentes (respostas diretas)",
+    ...answers.map((a) => `- [${a.question}](${absoluteUrl(`/respostas/${a.slug}`)}): ${stripRich(a.shortAnswer)}`),
+    "",
+    "## Materiais para download (sem cadastro)",
+    ...materials.map((m) => `- [${m.title}](${absoluteUrl(m.file)}) (${m.format}): ${m.description}`),
     "",
   ];
   return new Response(lines.join("\n"), { headers: { "Content-Type": "text/plain; charset=utf-8" } });

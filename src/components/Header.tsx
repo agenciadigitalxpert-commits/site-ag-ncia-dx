@@ -131,17 +131,18 @@ export function Header() {
           id={panelId}
           inert={!isOpen}
           className={cx(
-            "absolute left-1/2 top-full z-50 mt-3 w-[min(34rem,90vw)] -translate-x-1/2 rounded-lg bg-bg-surface p-3 shadow-2xl shadow-black/40 transition-[opacity,transform,visibility] duration-300 ease-[var(--ease-spring)]",
+            "absolute left-1/2 top-full z-50 mt-3 -translate-x-1/2 rounded-lg bg-bg-surface p-3 shadow-2xl shadow-black/40 transition-[opacity,transform,visibility] duration-300 ease-[var(--ease-spring)]",
+            items.length > 12 ? "w-[min(46rem,92vw)]" : "w-[min(34rem,90vw)]",
             isOpen ? "visible translate-y-0 scale-100 opacity-100" : "invisible -translate-y-2 scale-[0.98] opacity-0",
           )}
         >
-          <ul className={cx("grid gap-1", items.length > 6 && "sm:grid-cols-2")}>
+          <ul className={cx("grid gap-1", items.length > 12 ? "sm:grid-cols-3" : items.length > 6 && "sm:grid-cols-2")}>
             {items.map((it) => (
               <li key={it.href}>
                 <Link
                   href={it.href}
                   onClick={closeAll}
-                  className="pressable block rounded-[12px] px-4 py-3 hover:bg-bg-fill-secondary focus-visible:bg-bg-fill-secondary"
+                  className={cx("pressable block rounded-[12px] px-4 hover:bg-bg-fill-secondary focus-visible:bg-bg-fill-secondary", items.length > 12 ? "py-2.5" : "py-3")}
                 >
                   <span className="block text-[0.9375rem] font-medium leading-6 text-text-primary">{it.label}</span>
                   {it.description ? <span className="block text-sm leading-5 text-text-secondary">{it.description}</span> : null}

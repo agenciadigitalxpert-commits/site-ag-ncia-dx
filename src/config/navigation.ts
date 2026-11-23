@@ -11,11 +11,21 @@ export const serviceNav: NavLink[] = [
 ];
 
 export const segmentNav: NavLink[] = [
+  { href: "/segmentos/estetica-automotiva", label: "Estética automotiva" },
   { href: "/segmentos/intermediacao-e-revendas", label: "Intermediação e revendas" },
   { href: "/segmentos/oficinas-e-funilarias", label: "Oficinas e funilarias" },
   { href: "/segmentos/clinicas-de-estetica", label: "Clínicas de estética" },
-  { href: "/segmentos/dermatologistas", label: "Dermatologistas" },
   { href: "/segmentos/clinicas-odontologicas", label: "Clínicas odontológicas" },
+  { href: "/segmentos/medicos-e-consultorios", label: "Médicos e consultórios" },
+  { href: "/segmentos/dermatologistas", label: "Dermatologistas" },
+  { href: "/segmentos/nutricionistas", label: "Nutricionistas" },
+  { href: "/segmentos/psicologos", label: "Psicólogos" },
+  { href: "/segmentos/fisioterapeutas", label: "Fisioterapeutas" },
+  { href: "/segmentos/advocacia", label: "Advocacia" },
+  { href: "/segmentos/imobiliarias-e-corretores", label: "Imobiliárias e corretores" },
+  { href: "/segmentos/construtoras", label: "Construtoras" },
+  { href: "/segmentos/climatizacao-e-refrigeracao", label: "Climatização e refrigeração" },
+  { href: "/segmentos/transportes-e-fretes", label: "Transportes e fretes" },
   { href: "/segmentos/delivery", label: "Delivery e alimentação" },
 ];
 

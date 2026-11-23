@@ -34,7 +34,7 @@ Nada abaixo foi inventado no site: enquanto um item não for preenchido, ele sim
 
 ## Validação de conteúdo
 - [ ] **Políticas de privacidade e de cookies** são minutas (a de cookies já lista as ferramentas do GTM automaticamente): revisar com jurídico e então marcar `policiesValidated: true` em `src/config/site.ts` (remove o aviso de minuta).
-- [ ] **Artigos** (3) estão com `status: "review"`: revisão editorial, definir datas reais e publicar. Pontos a conferir:
+- [x] **Artigos** publicados em 23/11/2026 (14 no total, incluindo 5 comparativos). Antigos pontos de revisão (referência): revisão editorial, definir datas reais e publicar. Pontos a conferir:
   - descrições gerais de recursos das plataformas (conversões offline, formulários instantâneos, palavras-chave negativas, públicos por lista);
   - orientação de rastrear origem no WhatsApp com parâmetros/mensagens iniciais por campanha.
 - [ ] **Saúde** (estética, dermatologia, odontologia): validar os blocos de "comunicação responsável" com o responsável técnico — citação da Resolução CFM nº 2.336/2023 (sem detalhar o conteúdo), menções genéricas ao CFO e aos conselhos de cada profissão; FAQ sobre divulgação de preço em odontologia deixada em aberto de propósito.
@@ -50,3 +50,11 @@ Nada abaixo foi inventado no site: enquanto um item não for preenchido, ele sim
 - [ ] Validar JSON-LD no Teste de pesquisa aprimorada e no Validador Schema.org (a sintaxe foi validada localmente; elegibilidade depende da ferramenta do Google).
 - [ ] Medir Core Web Vitals em campo (Search Console / CrUX) após a publicação. Metas: LCP ≤ 2,5 s, INP ≤ 200 ms, CLS ≤ 0,1.
 - [ ] Limitação de taxa do formulário é em memória (por instância). Em hospedagem serverless com várias instâncias, considerar Turnstile/reCAPTCHA ou limitação no provedor.
+
+## Novos conteúdos (23/11/2026)
+- [x] 10 novos segmentos: estética automotiva, climatização, transportes e fretes, advocacia, imobiliárias, construtoras, médicos, nutricionistas, psicólogos, fisioterapeutas.
+- [x] 10 páginas de resposta em /respostas e 7 materiais em /materiais (arquivos gerados por `scripts/materiais/`).
+- [ ] Revisar com os responsáveis técnicos os blocos de "comunicação responsável" de advocacia (Provimento OAB 205/2021), médicos (CFM), nutricionistas (CFN), psicólogos (CFP) e fisioterapeutas (COFFITO).
+- [ ] Ilustrações próprias para os novos segmentos (hoje reaproveitam as mais próximas).
+- [ ] Apps Script: colar a nova versão, rodar `setup` uma vez e publicar nova versão da implantação (mesma URL).
+- [ ] Google Ads: criar as ações "Lead qualificado" e "Cliente fechado" (importação) e a programação diária lendo a aba "Conversões Google Ads".

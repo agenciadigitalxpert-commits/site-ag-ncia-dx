@@ -147,3 +147,42 @@ export type CaseStudy = {
   services: string[];
   publishedAt?: string;
 };
+
+/**
+ * Página de resposta (/respostas/<slug>): uma pergunta, respondida de forma direta,
+ * pensada para buscas em formato de pergunta e para respostas de IA (AIO/GEO).
+ */
+export type Answer = {
+  slug: string;
+  /** A pergunta exatamente como as pessoas pesquisam. Vira o H1. */
+  question: string;
+  /** Até ~60 caracteres. Não incluir "| DX". */
+  metaTitle: string;
+  /** 140–160 caracteres. */
+  metaDescription: string;
+  /** Resposta autossuficiente de 40 a 70 palavras: a primeira frase já responde. RichText. */
+  shortAnswer: RichText;
+  /** 3 a 6 pontos-chave, uma frase cada. RichText. */
+  keyPoints: RichText[];
+  /** 2 a 4 seções de aprofundamento. */
+  sections: { title: string; paragraphs: RichText[]; list?: RichText[] }[];
+  faqs: FAQ[];
+  related: { services: string[]; articles: string[]; answers: string[] };
+  /** AAAA-MM-DD */
+  updatedAt: string;
+};
+
+/** Material para download (/materiais). */
+export type Material = {
+  slug: string;
+  title: string;
+  description: string;
+  /** Caminho público do arquivo (ex.: /materiais/checklist.pdf). */
+  file: string;
+  format: "PDF" | "XLSX" | "CSV";
+  /** O que tem dentro, em itens curtos. */
+  contents: string[];
+  /** Para quem é útil. */
+  forWhom: string;
+  related: { services: string[]; articles: string[] };
+};

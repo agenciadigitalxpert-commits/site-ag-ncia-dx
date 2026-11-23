@@ -25,6 +25,7 @@ Todos os eventos passam por `src/lib/analytics.ts` (`track()`), que:
 | `form_start` | Primeiro foco em qualquer campo do formulário (1x por carregamento) | `form_location` | Funil do formulário. |
 | `form_step_complete` | Etapa 1 validada no navegador | `form_location`, `step` | Funil do formulário. |
 | `form_error` | Envio recusado ou com falha (validação, integração, rede) | `form_location`, `error_code` (`validation`, `not_configured`, `delivery_failed`, `rate_limited`, `network`...) | Diagnóstico de problemas no formulário. |
+| `material_download` | Clique em "Baixar" na página /materiais | `material`, `file_format` | Interesse em conteúdo (não é lead). |
 | `generate_lead` | **Somente** após o servidor confirmar que o webhook recebeu o lead (HTTP 2xx) | `form_location`, `invests_in_ads`, `lead_id` | **Conversão principal** (GA4 key event / Google Ads / Meta `Lead`). |
 
 O segmento é digitado livremente e por isso **não** é enviado ao analytics (vai só para o CRM). A página de origem do envio fica em `form_location` (ex.: `segment_delivery_final`, `contact_page`).
@@ -75,3 +76,12 @@ Com `LEAD_WEBHOOK_SECRET`, o header `X-DX-Signature` traz o HMAC SHA-256 (hex) d
 
 ### Google Sheets (Apps Script)
 Código pronto em `docs/google-apps-script/Codigo.gs` (instruções no topo do arquivo). O Apps Script não lê cabeçalhos, então a autenticação vai na URL: `LEAD_WEBHOOK_URL = https://script.google.com/macros/s/<ID>/exec?token=<TOKEN>`. Para URLs do Apps Script, o site só confirma o envio quando a resposta é `{ "ok": true }`. O `id` evita linhas duplicadas.
+
+
+## GCLID e conversões offline (Google Ads)
+
+1. **Site** (`src/lib/utm.ts`): quando a visita chega com `gclid` (ou `gbraid`/`wbraid`) na URL, o identificador fica guardado na sessão. Com consentimento de publicidade, fica também por 90 dias no navegador (para quem volta outro dia). Ele vai junto com o lead, em `attribution.gclid` e `attribution.click_at`.
+2. **Planilha** (`docs/google-apps-script/Codigo.gs`): grava as colunas "GCLID (clique no anúncio)", "GBRAID/WBRAID", "Data do clique" e "Enviado ao Google Ads".
+3. **Status → conversão**: ao mudar o Status para Qualificado, Diagnóstico agendado ou Proposta enviada, o script escreve "Lead qualificado" na aba "Conversões Google Ads". Em "Ganho", escreve também "Cliente fechado". Cada conversão sai uma vez por lead.
+4. **Google Ads**: Metas → Conversões → Nova ação de conversão → Importar → "Outras fontes de dados ou CRMs" → "Rastrear conversões de cliques". Criar "Lead qualificado" e "Cliente fechado" (nomes idênticos aos do script). Depois: Ferramentas → Uploads → Programações → Google Planilhas, apontando para a aba "Conversões Google Ads", frequência diária.
+5. Lead sem GCLID (não veio de anúncio do Google, ou recusou cookies e voltou outro dia) não vira conversão offline; a coluna "Enviado ao Google Ads" explica o motivo.

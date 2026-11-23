@@ -1,6 +1,10 @@
 import type { Segment } from "./types";
+import { segmentNav } from "@/config/navigation";
+import { segmentosServicosLocais } from "./novos/segmentos-servicos-locais";
+import { segmentosImoveisJuridico } from "./novos/segmentos-imoveis-juridico";
+import { segmentosSaude } from "./novos/segmentos-saude";
 
-export const segments: Segment[] = [
+const segmentosBase: Segment[] = [
   // ---------------------------------------------------------------------------
   // 1. Intermediação de veículos e revendas
   // ---------------------------------------------------------------------------
@@ -1005,3 +1009,12 @@ export const segments: Segment[] = [
     },
   },
 ];
+
+/** Todos os segmentos, na mesma ordem do menu (src/config/navigation.ts). */
+const order = (slug: string) => {
+  const i = segmentNav.findIndex((n) => n.href === `/segmentos/${slug}`);
+  return i === -1 ? 999 : i;
+};
+export const segments: Segment[] = [...segmentosBase, ...segmentosServicosLocais, ...segmentosImoveisJuridico, ...segmentosSaude].sort(
+  (a, b) => order(a.slug) - order(b.slug),
+);

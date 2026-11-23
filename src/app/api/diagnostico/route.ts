@@ -105,8 +105,10 @@ export async function POST(request: Request) {
   const attr = (typeof body.attribution === "object" && body.attribution) || {};
   const attribution = Object.fromEntries(
     Object.entries(attr as Record<string, unknown>)
-      .filter(([k]) => /^(utm_(source|medium|campaign|term|content)|landing_page|referrer_host)$/.test(k))
-      .map(([k, v]) => [k, str(v, 200)]),
+      .filter(([k]) => /^(utm_(source|medium|campaign|term|content)|landing_page|referrer_host|gclid|gbraid|wbraid|click_at)$/.test(k))
+      .map(([k, v]) => [k, str(v, 200)])
+      // Identificadores de clique: só caracteres válidos (vão para a planilha e para o Google Ads).
+      .filter(([k, v]) => !/^(gclid|gbraid|wbraid)$/.test(k) || /^[\w-]{10,200}$/.test(v)),
   );
 
   const id = crypto.randomUUID();

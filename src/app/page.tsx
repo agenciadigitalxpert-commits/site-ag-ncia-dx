@@ -191,7 +191,7 @@ export default function HomePage() {
               Ver todos os segmentos <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>
-          <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 xl:grid-cols-8">
             {segments.map((s, i) => {
               const img = heroImages[s.slug];
               return (

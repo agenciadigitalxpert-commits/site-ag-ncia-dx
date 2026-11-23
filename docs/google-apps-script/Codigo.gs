@@ -29,6 +29,8 @@
  *   - mostrarToken()      mostra o token atual
  *   - gerarNovoToken()    troca o token (atualize a URL na Vercel depois!)
  *   - testarRecebimento() grava um lead de teste para conferir a planilha
+ *   - exportarConversoesPendentes() envia à aba "Conversões Google Ads" os leads
+ *                         qualificados/ganhos que ainda não foram enviados
  * ============================================================================
  */
 
@@ -45,6 +47,21 @@ const CONFIG = {
   DEDUPE_LOOKBACK: 300,
   /** Opções da coluna "Status" (lista suspensa). */
   STATUS_OPTIONS: ['Novo', 'Em contato', 'Qualificado', 'Diagnóstico agendado', 'Proposta enviada', 'Ganho', 'Perdido', 'Sem perfil'],
+  /** Aba lida pelo Google Ads (importação programada de conversões offline). */
+  CONVERSIONS_SHEET_NAME: 'Conversões Google Ads',
+  /**
+   * Status → nome da ação de conversão no Google Ads. O nome precisa ser IDÊNTICO
+   * ao criado em Metas → Conversões → Nova ação → Importar. Cada lead gera cada
+   * conversão uma vez só.
+   */
+  OFFLINE_CONVERSIONS: {
+    'Qualificado': ['Lead qualificado'],
+    'Diagnóstico agendado': ['Lead qualificado'],
+    'Proposta enviada': ['Lead qualificado'],
+    'Ganho': ['Lead qualificado', 'Cliente fechado'],
+  },
+  /** O Google Ads só aceita conversões até 90 dias depois do clique. */
+  CLICK_WINDOW_DAYS: 90,
 };
 
 /** Colunas da aba (a ordem define a planilha). */
@@ -71,6 +88,11 @@ const COLUMNS = [
   { key: 'landing_page', title: 'Página de entrada', width: 180 },
   { key: 'referrer_host', title: 'Origem (referrer)', width: 150 },
   { key: 'id', title: 'ID do lead', width: 280 },
+  // Conversões offline (Google Ads): preenchidas pelo site e pelo script.
+  { key: 'gclid', title: 'GCLID (clique no anúncio)', width: 220 },
+  { key: 'gbraid', title: 'GBRAID/WBRAID', width: 160 },
+  { key: 'click_at', title: 'Data do clique', width: 140 },
+  { key: 'conv_sent', title: 'Enviado ao Google Ads', width: 240 },
 ];
 
 /* ------------------------------------------------------------------------- */
@@ -134,9 +156,14 @@ function doPost(e) {
         landing_page: attribution.landing_page || '',
         referrer_host: attribution.referrer_host || '',
         id: id,
+        gclid: attribution.gclid || '',
+        gbraid: attribution.gbraid || attribution.wbraid || '',
+        click_at: attribution.click_at && !isNaN(new Date(attribution.click_at).getTime()) ? new Date(attribution.click_at) : '',
+        conv_sent: '',
       };
 
-      const row = COLUMNS.map((c) => (c.key === 'receivedAt' ? values[c.key] : safeText_(values[c.key])));
+      const isDate = (k) => k === 'receivedAt' || k === 'click_at';
+      const row = COLUMNS.map((c) => (isDate(c.key) ? values[c.key] : safeText_(values[c.key])));
       sheet.appendRow(row);
       const rowIndex = sheet.getLastRow();
       formatNewRow_(sheet, rowIndex, values);
@@ -183,6 +210,7 @@ function setup() {
 
   // Data/hora
   sheet.getRange(2, colIndex_('receivedAt'), sheet.getMaxRows() - 1, 1).setNumberFormat('dd/MM/yyyy HH:mm');
+  sheet.getRange(2, colIndex_('click_at'), sheet.getMaxRows() - 1, 1).setNumberFormat('dd/MM/yyyy HH:mm');
 
   // Status: lista suspensa + cores
   const statusRange = sheet.getRange(2, colIndex_('status'), sheet.getMaxRows() - 1, 1);
@@ -227,6 +255,9 @@ function setup() {
     }
   });
 
+  // Aba lida pelo Google Ads (conversões offline)
+  getConversionsSheet_();
+
   const token = getOrCreateToken_();
   console.log('Configuração concluída.');
   console.log('TOKEN: ' + token);
@@ -247,7 +278,105 @@ function onOpen() {
     .addItem('Gerar novo token', 'gerarNovoToken')
     .addSeparator()
     .addItem('Gravar lead de teste', 'testarRecebimento')
+    .addSeparator()
+    .addItem('Enviar conversões pendentes ao Google Ads', 'exportarConversoesPendentes')
     .addToUi();
+}
+
+/* ------------------------------------------------------------------------- */
+/*  Conversões offline (Google Ads)                                          */
+/* ------------------------------------------------------------------------- */
+/*
+ *  Como funciona:
+ *   1. O site grava o GCLID (identificador do clique no anúncio) junto com o lead.
+ *   2. Quando a equipe muda o Status para "Qualificado", "Diagnóstico agendado",
+ *      "Proposta enviada" ou "Ganho", este script escreve uma linha na aba
+ *      "Conversões Google Ads", no formato que o Google Ads importa.
+ *   3. No Google Ads, uma importação programada lê essa aba todo dia e atribui a
+ *      conversão à campanha, ao grupo e à palavra-chave do clique original.
+ *  Lead sem GCLID (não veio de anúncio do Google, ou o visitante recusou cookies
+ *  e voltou outro dia) não gera conversão: a coluna "Enviado ao Google Ads" diz o motivo.
+ */
+
+/** Gatilho simples: roda sozinho quando alguém edita a planilha. */
+function onEdit(e) {
+  try {
+    if (!e || !e.range) return;
+    const sheet = e.range.getSheet();
+    if (sheet.getName() !== CONFIG.SHEET_NAME) return;
+    const statusCol = colIndex_('status');
+    const first = e.range.getColumn();
+    const last = first + e.range.getNumColumns() - 1;
+    if (statusCol < first || statusCol > last) return;
+    const top = e.range.getRow();
+    for (let r = top; r < top + e.range.getNumRows(); r++) {
+      if (r > 1) registrarConversoes_(sheet, r);
+    }
+  } catch (err) {
+    logError_(err, null);
+  }
+}
+
+/** Menu: revisa todos os leads e envia o que estiver pendente (útil depois de editar em massa). */
+function exportarConversoesPendentes() {
+  const sheet = getLeadsSheet_();
+  let total = 0;
+  for (let r = 2; r <= sheet.getLastRow(); r++) total += registrarConversoes_(sheet, r);
+  const msg = total + ' conversão(ões) adicionada(s) na aba "' + CONFIG.CONVERSIONS_SHEET_NAME + '".';
+  console.log(msg);
+  try { SpreadsheetApp.getUi().alert(msg); } catch (err) {}
+}
+
+/** Escreve as conversões devidas para a linha do lead. Retorna quantas foram adicionadas. */
+function registrarConversoes_(sheet, row) {
+  const get = (key) => sheet.getRange(row, colIndex_(key)).getValue();
+  const status = String(get('status') || '');
+  const names = CONFIG.OFFLINE_CONVERSIONS[status];
+  if (!names) return 0;
+
+  const sentCell = sheet.getRange(row, colIndex_('conv_sent'));
+  const sent = String(sentCell.getValue() || '').split(';').map((x) => x.trim()).filter(Boolean)
+    .filter((x) => !/^Sem GCLID|^Fora da janela/.test(x));
+  const pending = names.filter((n) => sent.indexOf(n) === -1);
+  if (!pending.length) return 0;
+
+  const gclid = String(get('gclid') || '').trim();
+  if (!gclid) {
+    if (!sent.length) sentCell.setValue('Sem GCLID: lead não veio de clique em anúncio do Google');
+    return 0;
+  }
+  const clickAt = get('click_at') || get('receivedAt');
+  const clickDate = clickAt instanceof Date ? clickAt : new Date(clickAt);
+  if (!isNaN(clickDate.getTime()) && Date.now() - clickDate.getTime() > CONFIG.CLICK_WINDOW_DAYS * 864e5) {
+    sentCell.setValue('Fora da janela de ' + CONFIG.CLICK_WINDOW_DAYS + ' dias do clique');
+    return 0;
+  }
+
+  const conv = getConversionsSheet_();
+  const when = Utilities.formatDate(new Date(), CONFIG.TIMEZONE, 'yyyy-MM-dd HH:mm:ss');
+  pending.forEach((name) => conv.appendRow([gclid, name, when, '', 'BRL']));
+  sentCell.setValue(sent.concat(pending).join('; '));
+  return pending.length;
+}
+
+/** Aba no formato de importação do Google Ads (fuso na 1ª linha, cabeçalho na 2ª). */
+function getConversionsSheet_() {
+  const ss = SpreadsheetApp.getActive();
+  let sh = ss.getSheetByName(CONFIG.CONVERSIONS_SHEET_NAME);
+  if (!sh) {
+    sh = ss.insertSheet(CONFIG.CONVERSIONS_SHEET_NAME);
+    // Texto puro: o Google Ads precisa ler a data exatamente neste formato.
+    sh.getRange('A:E').setNumberFormat('@');
+    sh.getRange(1, 1).setValue('Parameters:TimeZone=' + CONFIG.TIMEZONE);
+    sh.getRange(2, 1, 1, 5)
+      .setValues([['Google Click ID', 'Conversion Name', 'Conversion Time', 'Conversion Value', 'Conversion Currency']])
+      .setFontWeight('bold');
+    sh.setFrozenRows(2);
+    sh.setColumnWidth(1, 280);
+    sh.setColumnWidth(2, 170);
+    sh.setColumnWidth(3, 170);
+  }
+  return sh;
 }
 
 function mostrarToken() {

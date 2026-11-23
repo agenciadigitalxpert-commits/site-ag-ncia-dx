@@ -33,4 +33,17 @@ export const heroImages: Partial<Record<string, string>> = {
   "servicos": "/ilustracoes/servicos.svg",
   "sobre": "/ilustracoes/sobre.svg",
   "trafego-pago": "/ilustracoes/trafego-pago.svg",
+  // Novos segmentos e páginas: reaproveitam as ilustrações mais próximas (trocar por arte própria depois).
+  "estetica-automotiva": "/ilustracoes/oficinas-e-funilarias.svg",
+  "climatizacao-e-refrigeracao": "/ilustracoes/servicos.svg",
+  "transportes-e-fretes": "/ilustracoes/delivery.svg",
+  "advocacia": "/ilustracoes/legal.svg",
+  "imobiliarias-e-corretores": "/ilustracoes/segmentos.svg",
+  "construtoras": "/ilustracoes/cases.svg",
+  "medicos-e-consultorios": "/ilustracoes/dermatologistas.svg",
+  "nutricionistas": "/ilustracoes/clinicas-de-estetica.svg",
+  "psicologos": "/ilustracoes/contato.svg",
+  "fisioterapeutas": "/ilustracoes/metodologia.svg",
+  "respostas": "/ilustracoes/contato.svg",
+  "materiais": "/ilustracoes/conteudos.svg",
 };

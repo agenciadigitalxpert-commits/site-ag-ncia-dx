@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { absoluteUrl } from "@/config/env";
 import { publishedCases } from "@/content/cases";
-import { MIN_ARTICLES_TO_INDEX_CATEGORY, articlesInCategory, categories, isPublished, segments, services, visibleArticles } from "@/lib/content";
+import { MIN_ARTICLES_TO_INDEX_CATEGORY, answers, articlesInCategory, categories, isPublished, segments, services, visibleArticles } from "@/lib/content";
 
 /** Apenas URLs públicas, canônicas e indexáveis. */
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -22,6 +22,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...categories
       .filter((c) => articlesInCategory(c.slug).filter(isPublished).length >= MIN_ARTICLES_TO_INDEX_CATEGORY)
       .map((c) => ({ path: `/conteudos/categoria/${c.slug}` })),
+    { path: "/respostas" },
+    ...answers.map((a) => ({ path: `/respostas/${a.slug}`, lastModified: a.updatedAt })),
+    { path: "/materiais" },
     { path: "/politica-de-privacidade" },
     { path: "/politica-de-cookies" },
   ];

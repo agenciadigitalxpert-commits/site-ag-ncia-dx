@@ -1,4 +1,6 @@
 import type { Article, Category } from "./types";
+import { artigosBlog } from "./novos/artigos-blog";
+import { artigosComparativos } from "./novos/artigos-comparativos";
 
 export const categories: Category[] = [
   {
@@ -14,6 +16,12 @@ export const categories: Category[] = [
       "Atendimento, qualificação de leads, CRM e rotina comercial para que os contatos gerados pelo marketing tenham o tratamento certo até a venda.",
   },
   {
+    slug: "comparativos",
+    name: "Comparativos",
+    description:
+      "Comparações diretas para decidir com clareza: agência ou freelancer, tráfego pago ou orgânico, landing page ou site, CRM ou planilha.",
+  },
+  {
     slug: "estrategia",
     name: "Estratégia",
     description:
@@ -21,7 +29,7 @@ export const categories: Category[] = [
   },
 ];
 
-export const articles: Article[] = [
+const artigosBase: Article[] = [
   /* ------------------------------------------------------------------ */
   /* 1. Tráfego pago e processo comercial                               */
   /* ------------------------------------------------------------------ */
@@ -36,7 +44,8 @@ export const articles: Article[] = [
     category: "estrategia",
     keyTakeaway:
       "Tráfego pago gera oportunidades; quem transforma oportunidade em venda é o processo comercial. Quando os dois trabalham separados, a campanha é avaliada pelo custo por lead e o comercial reclama da qualidade dos contatos, sem que ninguém enxergue onde a venda se perde. O ajuste começa por uma definição comum de lead qualificado, tempo de resposta compatível com a demanda e registro da origem de cada contato até o fechamento.",
-    status: "review",
+    status: "published",
+    publishedAt: "2026-11-23",
     blocks: [
       {
         type: "p",
@@ -219,7 +228,8 @@ export const articles: Article[] = [
     category: "comercial-e-pre-vendas",
     keyTakeaway:
       "Qualificar antes de agendar significa confirmar, com poucas perguntas, se existe necessidade, momento, condição de investimento, poder de decisão e aderência ao que a sua empresa atende. Parte disso pode ser feita no formulário e parte na primeira conversa, sempre com cuidado para não afastar quem tem interesse. Registrar as respostas no CRM e devolvê-las ao marketing é o que permite ajustar as campanhas para trazer contatos melhores.",
-    status: "review",
+    status: "published",
+    publishedAt: "2026-11-23",
     blocks: [
       {
         type: "p",
@@ -420,7 +430,8 @@ export const articles: Article[] = [
     category: "trafego-pago",
     keyTakeaway:
       "Google Ads costuma ser mais indicado para capturar quem já está procurando o que você vende, enquanto Meta Ads tende a funcionar melhor para despertar interesse em quem ainda não estava buscando. Na maioria dos negócios, os dois se complementam em etapas diferentes da jornada. A escolha depende de como seu cliente decide, do seu segmento, do orçamento disponível e da sua capacidade de medir cada canal até a venda.",
-    status: "review",
+    status: "published",
+    publishedAt: "2026-11-23",
     blocks: [
       {
         type: "p",
@@ -607,3 +618,5 @@ export const articles: Article[] = [
     },
   },
 ];
+
+export const articles: Article[] = [...artigosBase, ...artigosBlog, ...artigosComparativos];
