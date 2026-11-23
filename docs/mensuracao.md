@@ -25,9 +25,10 @@ Todos os eventos passam por `src/lib/analytics.ts` (`track()`), que:
 | `form_start` | Primeiro foco em qualquer campo do formulário (1x por carregamento) | `form_location` | Funil do formulário. |
 | `form_step_complete` | Etapa 1 validada no navegador | `form_location`, `step` | Funil do formulário. |
 | `form_error` | Envio recusado ou com falha (validação, integração, rede) | `form_location`, `error_code` (`validation`, `not_configured`, `delivery_failed`, `rate_limited`, `network`...) | Diagnóstico de problemas no formulário. |
+| `lead_fora_do_perfil` | Diagnóstico pedido por empresa com faturamento abaixo de R$ 50 mil/mês (vai para "Leads frios") | `form_location`, `revenue` | **Não** é conversão. |
 | `material_lead` | Formulário de material enviado e confirmado (aba "Leads frios") | `material` | Lead frio. **Não** usar como conversão principal do Google Ads. |
 | `material_download` | Download do material liberado | `material`, `file_format` | Interesse em conteúdo. |
-| `generate_lead` | **Somente** após o servidor confirmar que o webhook recebeu o lead (HTTP 2xx) | `form_location`, `invests_in_ads`, `lead_id` | **Conversão principal** (GA4 key event / Google Ads / Meta `Lead`). |
+| `generate_lead` | **Somente** após o servidor confirmar o lead E o faturamento ser de R$ 50 mil/mês ou mais | `form_location`, `invests_in_ads`, `revenue`, `lead_id` | **Conversão principal** (GA4 key event / Google Ads / Meta `Lead`). |
 
 O segmento é digitado livremente e por isso **não** é enviado ao analytics (vai só para o CRM). A página de origem do envio fica em `form_location` (ex.: `segment_delivery_final`, `contact_page`).
 

@@ -24,11 +24,25 @@ export const BUDGET_OPTIONS = [
   "Ainda não sei / prefiro não informar",
 ] as const;
 
+/** Faturamento mensal (filtro de perfil). O diagnóstico é para empresas a partir de R$ 50 mil/mês. */
+export const REVENUE_OPTIONS = [
+  "Até R$ 20 mil por mês",
+  "De R$ 20 mil a R$ 50 mil por mês",
+  "De R$ 50 mil a R$ 100 mil por mês",
+  "De R$ 100 mil a R$ 300 mil por mês",
+  "De R$ 300 mil a R$ 1 milhão por mês",
+  "Acima de R$ 1 milhão por mês",
+] as const;
+export const MIN_REVENUE_LABEL = "R$ 50 mil por mês";
+/** Faixas que atendem ao perfil (a partir de R$ 50 mil/mês). */
+export const isQualifiedRevenue = (v?: string) => REVENUE_OPTIONS.indexOf(v as (typeof REVENUE_OPTIONS)[number]) >= 2;
+
 export type LeadInput = {
   nome: string;
   empresa: string;
   whatsapp: string;
-  // Etapa 2. Todos os campos de contexto são opcionais.
+  faturamento: string;
+  // Etapa 2: segmento, desafio e anúncios são obrigatórios; o resto é opcional.
   segmento?: string;
   desafio?: string;
   investeAnuncios?: string;
@@ -39,7 +53,7 @@ export type LeadInput = {
 
 export type LeadErrors = Partial<Record<keyof LeadInput, string>>;
 
-export const STEP1_FIELDS = ["nome", "empresa", "whatsapp"] as const;
+export const STEP1_FIELDS = ["nome", "empresa", "whatsapp", "faturamento"] as const;
 
 export function onlyDigits(v: string) {
   return v.replace(/\D/g, "");
@@ -71,7 +85,11 @@ export function formatBrPhone(v: string) {
 
 const inList = (list: readonly string[], v?: string) => !v || list.includes(v);
 
-export function validateLead(input: Partial<LeadInput>, scope: "step1" | "all" = "all"): LeadErrors {
+/**
+ * "contact": só nome, empresa e WhatsApp (formulário dos materiais).
+ * "step1": contato + faturamento. "all": tudo o que é obrigatório no diagnóstico.
+ */
+export function validateLead(input: Partial<LeadInput>, scope: "contact" | "step1" | "all" = "all"): LeadErrors {
   const e: LeadErrors = {};
   const nome = (input.nome ?? "").trim();
   const empresa = (input.empresa ?? "").trim();
@@ -85,12 +103,16 @@ export function validateLead(input: Partial<LeadInput>, scope: "step1" | "all" =
   if (!(input.whatsapp ?? "").trim()) e.whatsapp = "Informe um WhatsApp para contato.";
   else if (!normalizeBrPhone(input.whatsapp!)) e.whatsapp = "Confira o número: use DDD + número, como (47) 99999-9999.";
 
+  if (scope !== "contact" && !(REVENUE_OPTIONS as readonly string[]).includes(input.faturamento ?? "")) {
+    e.faturamento = "Selecione a faixa de faturamento.";
+  }
+
   if (scope === "all") {
     const segmento = (input.segmento ?? "").trim();
-    if (segmento && segmento.length < 2) e.segmento = "Informe o segmento ou deixe o campo em branco.";
+    if (segmento.length < 2) e.segmento = "Informe o segmento da empresa.";
     else if (segmento.length > 80) e.segmento = "Use no máximo 80 caracteres.";
-    if (!inList(CHALLENGE_OPTIONS, input.desafio)) e.desafio = "Selecione uma opção da lista.";
-    if (!inList(ADS_OPTIONS, input.investeAnuncios)) e.investeAnuncios = "Selecione uma opção da lista.";
+    if (!input.desafio || !inList(CHALLENGE_OPTIONS, input.desafio)) e.desafio = "Selecione o principal desafio.";
+    if (!input.investeAnuncios || !inList(ADS_OPTIONS, input.investeAnuncios)) e.investeAnuncios = "Selecione uma opção.";
     if (!inList(BUDGET_OPTIONS, input.investimentoMidia)) e.investimentoMidia = "Selecione uma opção da lista.";
     if ((input.siteOuInstagram ?? "").length > 200) e.siteOuInstagram = "Use no máximo 200 caracteres.";
     if ((input.detalhes ?? "").length > 1000) e.detalhes = "Use no máximo 1.000 caracteres.";

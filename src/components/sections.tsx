@@ -149,6 +149,7 @@ export function CtaSection({
             <h2 id={`${id}-title`} className="text-h2">{title}</h2>
             <p className="text-lead mt-4 text-text-secondary">{text}</p>
             <ul className="mt-8 space-y-3 text-text-secondary">
+              <IconItem>Para empresas com faturamento a partir de R$ 50 mil por mês.</IconItem>
               <IconItem>Leva cerca de um minuto.</IconItem>
               <IconItem>O contato é feito por pessoas da equipe, pelo WhatsApp informado.</IconItem>
               <IconItem>Investimento em mídia e honorários da agência são valores diferentes. Falamos dos dois com clareza.</IconItem>

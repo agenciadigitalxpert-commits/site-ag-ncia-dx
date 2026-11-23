@@ -63,7 +63,7 @@ export function MaterialForm({ slug, title, format }: { slug: string; title: str
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
-    const errs = validateLead(values, "step1");
+    const errs = validateLead(values, "contact");
     setErrors(errs);
     if (Object.keys(errs).length) {
       setMessage("Revise os campos destacados.");

@@ -21,7 +21,7 @@ const crumbs = [
 export const metadata = pageMetadata({ title: TITLE, description: DESC, path: "/contato" });
 
 const next = [
-  { t: "Você envia o formulário", d: "Primeiro, informe seu nome, empresa e WhatsApp. Depois, se quiser, conte qual é o principal desafio." },
+  { t: "Você envia o formulário", d: "Informe seu nome, empresa, WhatsApp e faturamento. Depois, três perguntas rápidas sobre a empresa." },
   { t: "Nossa equipe analisa", d: "Lemos o contexto antes do contato, para a conversa ser objetiva." },
   { t: "Conversamos", d: "Pelo WhatsApp informado, para entender a operação e apresentar o diagnóstico." },
 ];

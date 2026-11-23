@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { MIN_FILL_MS, normalizeBrPhone, validateLead, type LeadInput } from "@/lib/lead";
+import { MIN_FILL_MS, isQualifiedRevenue, normalizeBrPhone, validateLead, type LeadInput } from "@/lib/lead";
 import { cleanAttribution, clientIp, deliver, rateLimited } from "@/lib/webhook";
 
 /**
@@ -54,6 +54,7 @@ export async function POST(request: Request) {
     nome: str(body.nome, 100),
     empresa: str(body.empresa, 120),
     whatsapp: str(body.whatsapp, 30),
+    faturamento: str(body.faturamento, 60),
     segmento: str(body.segmento, 80),
     desafio: str(body.desafio, 80),
     investeAnuncios: str(body.investeAnuncios, 60) || undefined,
@@ -62,7 +63,9 @@ export async function POST(request: Request) {
     detalhes: str(body.detalhes, 1000) || undefined,
   };
 
-  const errors = validateLead(input, "all");
+  // Filtro de perfil: abaixo de R$ 50 mil/mês não vira lead quente (vai para "Leads frios").
+  const qualified = isQualifiedRevenue(input.faturamento);
+  const errors = validateLead(input, qualified ? "all" : "step1");
   if (Object.keys(errors).length) {
     return NextResponse.json(
       { ok: false, code: "validation", message: "Revise os campos destacados.", errors },
@@ -86,14 +89,24 @@ export async function POST(request: Request) {
   const attribution = cleanAttribution(body.attribution, str);
 
   const id = crypto.randomUUID();
-  const payload = {
-    type: "diagnostico",
-    id,
-    receivedAt: new Date().toISOString(),
-    lead: { ...input, whatsapp: normalizeBrPhone(input.whatsapp) },
-    page: str(body.page, 200),
-    attribution,
-  };
+  const payload = qualified
+    ? {
+        type: "diagnostico",
+        id,
+        receivedAt: new Date().toISOString(),
+        lead: { ...input, whatsapp: normalizeBrPhone(input.whatsapp) },
+        page: str(body.page, 200),
+        attribution,
+      }
+    : {
+        type: "material",
+        id,
+        receivedAt: new Date().toISOString(),
+        lead: { nome: input.nome, empresa: input.empresa, whatsapp: normalizeBrPhone(input.whatsapp) },
+        material: { slug: "diagnostico-fora-do-perfil", title: `Pediu diagnóstico · faturamento: ${input.faturamento}` },
+        page: str(body.page, 200),
+        attribution,
+      };
 
   try {
     await deliver(payload);
@@ -105,5 +118,5 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.json({ ok: true, id });
+  return NextResponse.json({ ok: true, id, qualified });
 }

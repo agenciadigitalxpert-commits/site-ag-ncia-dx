@@ -45,7 +45,9 @@ export const tracking = {
 export const hasOptionalTracking = Boolean(tracking.gtmId || tracking.ga4Id || tracking.metaPixelId);
 
 /** WhatsApp só aparece com número real (apenas dígitos, com DDI). Ex.: 5547999999999 */
-const rawWhatsapp = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.replace(/\D/g, "") || null;
+/** WhatsApp oficial da DX (público). A variável de ambiente sobrescreve. */
+const DEFAULT_WHATSAPP = "554792126498";
+const rawWhatsapp = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.replace(/\D/g, "") || DEFAULT_WHATSAPP;
 export const whatsappNumber = rawWhatsapp && rawWhatsapp.length >= 12 ? rawWhatsapp : null;
 
 /** O formulário só funciona com o webhook de leads configurado (variável de servidor). */

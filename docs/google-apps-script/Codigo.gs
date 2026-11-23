@@ -101,6 +101,8 @@ const COLUMNS = [
   { key: 'gbraid', title: 'GBRAID/WBRAID', width: 160 },
   { key: 'click_at', title: 'Data do clique', width: 140 },
   { key: 'conv_sent', title: 'Enviado ao Google Ads', width: 240 },
+  // Filtro de perfil (no fim para não deslocar as colunas antigas).
+  { key: 'faturamento', title: 'Faturamento mensal', width: 220 },
 ];
 
 /** Colunas da aba "Leads frios" (o ID fica sempre na última coluna). */
@@ -190,6 +192,7 @@ function doPost(e) {
         gbraid: attribution.gbraid || attribution.wbraid || '',
         click_at: attribution.click_at && !isNaN(new Date(attribution.click_at).getTime()) ? new Date(attribution.click_at) : '',
         conv_sent: '',
+        faturamento: lead.faturamento || '',
       };
 
       const isDate = (k) => k === 'receivedAt' || k === 'click_at';
@@ -670,6 +673,7 @@ function notify_(lead, attribution, id) {
     const linhas = [
       ['Nome', lead.nome],
       ['Empresa', lead.empresa],
+      ['Faturamento mensal', lead.faturamento],
       ['WhatsApp', digits],
       ['Segmento', lead.segmento],
       ['Principal desafio', lead.desafio],

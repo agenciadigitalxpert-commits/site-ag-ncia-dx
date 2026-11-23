@@ -6,7 +6,10 @@ import {
   ADS_OPTIONS,
   BUDGET_OPTIONS,
   CHALLENGE_OPTIONS,
+  MIN_REVENUE_LABEL,
+  REVENUE_OPTIONS,
   STEP1_FIELDS,
+  isQualifiedRevenue,
   formatBrPhone,
   validateLead,
   type LeadErrors,
@@ -18,10 +21,10 @@ import { readAttribution } from "@/lib/utm";
 import { ArrowIcon, CheckIcon, btn, cx } from "./ui";
 import { Select } from "./Select";
 
-type Status = "idle" | "submitting" | "success" | "error";
+type Status = "idle" | "submitting" | "success" | "outOfProfile" | "error";
 
 const empty: LeadInput = {
-  nome: "", empresa: "", whatsapp: "", segmento: "", desafio: "",
+  nome: "", empresa: "", whatsapp: "", faturamento: "", segmento: "", desafio: "",
   investeAnuncios: "", investimentoMidia: "", siteOuInstagram: "", detalhes: "",
 };
 
@@ -90,6 +93,11 @@ export function LeadForm({
       return;
     }
     track("form_step_complete", { form_location: location, step: 1 });
+    if (!isQualifiedRevenue(values.faturamento)) {
+      // Fora do perfil: registra como lead frio e mostra materiais (não dispara generate_lead).
+      void send("step1");
+      return;
+    }
     setStep(2);
     requestAnimationFrame(() => step2Heading.current?.focus());
   };
@@ -105,6 +113,11 @@ export function LeadForm({
       requestAnimationFrame(() => focusFirstError(e));
       return;
     }
+    await send("all");
+  };
+
+  const send = async (scope: "step1" | "all") => {
+    if (status === "submitting") return;
     setStatus("submitting");
     setMessage("");
     try {
@@ -112,7 +125,7 @@ export function LeadForm({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...values,
+          ...(scope === "all" ? values : { nome: values.nome, empresa: values.empresa, whatsapp: values.whatsapp, faturamento: values.faturamento }),
           website: honeypot.current?.value ?? "",
           elapsedMs: Date.now() - (startedAt.current ?? mountedAt.current),
           page: window.location.pathname,
@@ -120,6 +133,12 @@ export function LeadForm({
         }),
       });
       const data = await res.json().catch(() => ({}));
+      if (res.ok && data.ok === true && data.qualified === false) {
+        setStatus("outOfProfile");
+        track("lead_fora_do_perfil", { form_location: location, revenue: values.faturamento });
+        requestAnimationFrame(() => statusRef.current?.focus());
+        return;
+      }
       if (res.ok && data.ok === true) {
         setStatus("success");
         if (!leadSent.current) {
@@ -127,6 +146,7 @@ export function LeadForm({
           track("generate_lead", {
             form_location: location,
             invests_in_ads: values.investeAnuncios || "nao_informado",
+            revenue: values.faturamento,
             lead_id: data.id,
           });
         }
@@ -168,6 +188,23 @@ export function LeadForm({
         <p className="mt-8 text-sm leading-5 text-text-secondary">
           Enquanto isso, veja <Link className="underline underline-offset-2 hover:text-text-primary" href="/metodologia">como funciona nossa metodologia</Link>.
         </p>
+      </div>
+    );
+  }
+
+  if (status === "outOfProfile") {
+    return (
+      <div ref={statusRef} tabIndex={-1} role="status" className="step-in focus:outline-none">
+        <h3 className="text-h3">Obrigado, {values.nome.trim().split(" ")[0]}.</h3>
+        <p className="mt-3 text-text-secondary">
+          Hoje o nosso diagnóstico é feito para empresas que faturam a partir de {MIN_REVENUE_LABEL}. Guardamos seu contato e, quando fizer sentido, podemos conversar.
+        </p>
+        <p className="mt-3 text-text-secondary">
+          Para a fase em que sua empresa está, separamos materiais práticos para organizar o atendimento, definir metas e investir com segurança.
+        </p>
+        <Link href="/materiais" className={btn("primary", "mt-8")}>
+          Ver materiais práticos <ArrowIcon />
+        </Link>
       </div>
     );
   }
@@ -232,7 +269,7 @@ export function LeadForm({
           <span className={cx("h-1 flex-1 rounded-full transition-colors duration-300", step === 2 ? "bg-bg-fill-brand" : "bg-bg-fill-secondary-hover")} />
         </div>
         <p className="mt-3 text-sm leading-5 text-text-secondary" aria-live="polite">
-          Etapa {step} de 2 · {step === 1 ? "Seus dados" : "Contexto (opcional)"}
+          Etapa {step} de 2 · {step === 1 ? "Seus dados" : "Sobre a empresa"}
         </p>
       </div>
 
@@ -260,8 +297,12 @@ export function LeadForm({
               <input {...fieldProps("whatsapp")} type="tel" inputMode="tel" autoComplete="tel-national" enterKeyHint="next" placeholder="(47) 99999-9999" required onChange={(e) => set("whatsapp", e.target.value)} className={cx(field, errors.whatsapp && errCls)} />
               {errorFor("whatsapp")}
             </div>
+            <div>
+              {dropdown("faturamento", "Qual é o faturamento mensal da empresa?", REVENUE_OPTIONS, { describedBy: `${id("faturamento")}-hint` })}
+              <p id={`${id("faturamento")}-hint`} className={hint}>O diagnóstico é para empresas que faturam a partir de {MIN_REVENUE_LABEL}.</p>
+            </div>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-sm leading-5 text-text-secondary sm:max-w-xs">Na próxima etapa, você pode contar um pouco sobre a empresa.</p>
+              <p className="text-sm leading-5 text-text-secondary sm:max-w-xs">Na próxima etapa, 3 perguntas rápidas sobre a empresa.</p>
               <button type="submit" className={btn("primary", "w-full sm:w-auto")}>Continuar <ArrowIcon /></button>
             </div>
           </div>
@@ -270,19 +311,16 @@ export function LeadForm({
             <h3 ref={step2Heading} tabIndex={-1} className="text-lg font-medium leading-7 focus:outline-none">
               O que você gostaria de melhorar?
             </h3>
-            <p className="text-sm leading-5 text-text-secondary">
-              Se preferir contar na conversa, já pode enviar sua solicitação.
-            </p>
             <div>
-              <label htmlFor={id("segmento")} className={label}>Em qual segmento a empresa atua? <span className="font-normal text-text-secondary">(opcional)</span></label>
-              <input {...fieldProps("segmento")} type="text" maxLength={80} placeholder="Por exemplo, revenda de veículos" onChange={(e) => set("segmento", e.target.value)} className={cx(field, errors.segmento && errCls)} />
+              <label htmlFor={id("segmento")} className={label}>Em qual segmento a empresa atua?</label>
+              <input {...fieldProps("segmento")} type="text" maxLength={80} required placeholder="Por exemplo, revenda de veículos" onChange={(e) => set("segmento", e.target.value)} className={cx(field, errors.segmento && errCls)} />
               {errorFor("segmento")}
             </div>
-            {dropdown("desafio", "Qual é o principal desafio hoje?", CHALLENGE_OPTIONS, { optional: true })}
+            {dropdown("desafio", "Qual é o principal desafio hoje?", CHALLENGE_OPTIONS)}
+            {dropdown("investeAnuncios", "Vocês já investem em anúncios?", ADS_OPTIONS)}
             <details ref={moreFields} className="rounded-[var(--radius-field)] border border-border-secondary px-4">
-              <summary className="cursor-pointer py-3 font-medium">Adicionar detalhes sobre a empresa</summary>
+              <summary className="cursor-pointer py-3 font-medium">Adicionar detalhes (opcional)</summary>
               <div className="space-y-6 pb-5 pt-2">
-                {dropdown("investeAnuncios", "Vocês já investem em anúncios?", ADS_OPTIONS, { optional: true })}
                 <div>
                   {dropdown("investimentoMidia", "Quanto investem por mês em anúncios?", BUDGET_OPTIONS, { optional: true, describedBy: `${id("investimentoMidia")}-hint` })}
                   <p id={`${id("investimentoMidia")}-hint`} className={hint}>Considere o valor pago ao Google, à Meta e a outras plataformas.</p>

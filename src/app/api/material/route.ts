@@ -33,7 +33,7 @@ export async function POST(request: Request) {
   }
 
   const input = { nome: str(body.nome, 100), empresa: str(body.empresa, 120), whatsapp: str(body.whatsapp, 30) };
-  const errors = validateLead(input, "step1");
+  const errors = validateLead(input, "contact");
   if (Object.keys(errors).length) {
     return NextResponse.json({ ok: false, code: "validation", message: "Revise os campos destacados.", errors }, { status: 422 });
   }
