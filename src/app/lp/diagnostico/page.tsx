@@ -7,8 +7,8 @@ import { methodSteps } from "@/content/method";
 import { testimonials } from "@/content/testimonials";
 import type { FAQ } from "@/content/types";
 import { FaqList } from "@/components/Faq";
-import { HeroGrid } from "@/components/sections";
 import { LeadForm } from "@/components/LeadForm";
+import { Logo } from "@/components/Logo";
 import { TestimonialCards } from "@/components/TestimonialCards";
 import { TrackedLink } from "@/components/TrackedLink";
 import { ArrowIcon, CheckIcon, Container, btn, cx } from "@/components/ui";
@@ -26,6 +26,9 @@ export const metadata = pageMetadata({
 });
 
 const LOC = "lp_diagnostico";
+
+/** Foto dos sócios no hero (ex.: "/lp/hero-fundadores.png", PNG sem fundo). null = espaço vazio. */
+const HERO_PHOTO: string | null = null;
 
 function Cta({ children = "Quero meu diagnóstico", label, className }: { children?: ReactNode; label: string; className?: string }) {
   return (
@@ -97,62 +100,68 @@ const faqs: FAQ[] = [
 
 export default function LpDiagnostico() {
   const founders = site.founders;
-  const heroPhotos = ["elizandro-uebel", "diego-viana"].map((id) => founders.find((f) => f.id === id)!).filter(Boolean);
 
   return (
     <>
-      {/* 1. Hero ---------------------------------------------------------------- */}
-      <section className="surface-dark relative isolate overflow-hidden rounded-b-[32px] bg-bg sm:rounded-b-[48px]">
-        <HeroGrid />
-        <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(70%_80%_at_85%_10%,rgb(255_255_255/0.14),transparent_60%)]" />
-        <Container className="relative grid items-end gap-10 pb-0 pt-10 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:pt-16">
-          <div className="relative z-10 pb-14 lg:pb-24">
-            <p className="hero-rise mb-6 inline-flex items-center gap-2 rounded-full border border-border-tertiary px-4 py-1.5 text-sm font-medium leading-5">
-              <span aria-hidden className="size-1.5 rounded-full bg-white" />
-              Diagnóstico de marketing e vendas
+      {/* 1. Hero (mesmo desenho da referência: fundo em degradê, cantos inferiores arredondados, foto à direita) */}
+      <section className="surface-dark relative isolate overflow-hidden rounded-b-[28px] bg-[radial-gradient(120%_130%_at_0%_0%,#5a5a5f_0%,#232326_42%,#0a0a0b_78%)] sm:rounded-b-[40px]">
+        <div className="mx-auto grid max-w-[62.5rem] items-end px-5 lg:grid-cols-[minmax(0,38rem)_1fr] lg:gap-6 lg:px-0">
+          {/* Foto dos sócios: coloque o arquivo em public/lp/ e preencha HERO_PHOTO. Vazio = espaço reservado. */}
+          <div className="relative order-first h-0 lg:order-last lg:h-[38rem]">
+            {HERO_PHOTO ? (
+              <Image src={HERO_PHOTO} alt="" fill priority sizes="(min-width: 1024px) 28rem, 100vw" className="object-contain object-bottom" />
+            ) : null}
+          </div>
+
+          <div className="relative z-10 pb-12 pt-10 text-center lg:py-20 lg:text-left">
+            <p className="hero-rise flex items-center justify-center gap-2.5 text-[0.875rem] leading-5 sm:gap-3 sm:text-base lg:justify-start lg:text-[1.25rem] lg:leading-7">
+              <span className="text-[1.3rem] sm:text-[1.6rem] lg:text-[1.9rem]">
+                <Logo />
+                <span className="sr-only">{site.name}</span>
+              </span>
+              <span aria-hidden className="h-6 w-px bg-white/30" />
+              Diagnóstico de Marketing e Vendas
             </p>
-            <h1 className="hero-rise text-h1 max-w-[18ch] !font-medium" style={{ ["--d" as string]: "60ms" }}>
+            <h1
+              className="hero-rise mt-5 text-[1.75rem] font-semibold leading-[1.12] tracking-[-0.02em] sm:text-[2.25rem] lg:text-[2.75rem]"
+              style={{ ["--d" as string]: "60ms" }}
+            >
               Quanto do que sua empresa investiu em marketing{" "}
-              <span className="box-decoration-clone rounded-[6px] bg-white px-2 text-black">virou venda este ano?</span>
+              <span className="box-decoration-clone bg-white px-1.5 text-black">virou venda este ano?</span>
             </h1>
-            <p className="hero-rise text-lead mt-7 max-w-[34rem] text-text-secondary" style={{ ["--d" as string]: "140ms" }}>
-              Muitos empresários <B>não sabem responder</B>. Campanhas soltas, relatórios que <B>não batem com o caixa</B> e contatos que{" "}
-              <B>se perdem no WhatsApp</B>. No diagnóstico da DX, você sai sabendo:
+            <p className="hero-rise mt-7 text-[0.95rem] leading-[1.6] text-white/85 lg:max-w-[30rem]" style={{ ["--d" as string]: "140ms" }}>
+              A maioria dos empresários <b className="font-semibold text-white">não sabe responder</b>, porque trabalha com{" "}
+              <b className="font-semibold text-white">campanhas soltas</b>, relatórios que <b className="font-semibold text-white">não batem com o caixa</b> e
+              contatos que <b className="font-semibold text-white">se perdem no WhatsApp</b>. No diagnóstico da DX, você sai sabendo:
             </p>
-            <ul className="hero-rise mt-7 space-y-3.5" style={{ ["--d" as string]: "200ms" }}>
+            <ul className="hero-rise mt-7 space-y-5 text-left text-[0.95rem] leading-6 text-white/85" style={{ ["--d" as string]: "200ms" }}>
               {heroPoints.map((p, i) => (
-                <li key={i} className="flex gap-3 text-text-secondary">
-                  <span aria-hidden className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-white text-black">
-                    <CheckIcon className="size-4" />
-                  </span>
-                  <span>{p}</span>
+                <li key={i} className="flex gap-3.5">
+                  <svg aria-hidden viewBox="0 0 16 16" width="16" height="16" className="mt-1 shrink-0 text-[var(--silver-300)]" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="m2.5 8.5 3.5 3.5 7.5-8" />
+                  </svg>
+                  <span className="[&_strong]:text-white">{p}</span>
                 </li>
               ))}
             </ul>
-            <div className="hero-rise mt-10 flex flex-col gap-4 sm:flex-row sm:items-center" style={{ ["--d" as string]: "260ms" }}>
-              <Cta label="hero" />
-              <p className="text-sm leading-5 text-text-secondary">
-                Leva menos de 2 minutos.
+            <div className="hero-rise mt-9 flex flex-col items-center gap-4 sm:flex-row lg:items-center" style={{ ["--d" as string]: "260ms" }}>
+              <TrackedLink
+                href="#diagnostico"
+                trackLabel="hero"
+                trackLocation={LOC}
+                className="pressable group inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-[14px] bg-gradient-to-r from-[#0c7a1c] to-[#14a12a] px-8 text-[1.0625rem] font-semibold text-white shadow-[0_10px_30px_-10px_rgb(20_161_42/0.6)] transition-[filter] hover:brightness-110 focus-visible:outline-offset-4 sm:w-auto"
+              >
+                Quero meu diagnóstico
+                <ArrowIcon className="transition-transform duration-200 group-hover:translate-x-0.5" />
+              </TrackedLink>
+              <p className="text-xs leading-4 text-white/85">
+                Cadastro leva menos de 2 minutos
                 <br />
-                Para empresas a partir de R$ 50 mil/mês.
+                para empresas a partir de R$ 50 mil/mês
               </p>
             </div>
           </div>
-
-          <div aria-hidden className="relative mx-auto -mt-6 h-[20rem] w-full max-w-[26rem] sm:h-[28rem] lg:mt-0 lg:h-[38rem] lg:max-w-none">
-            {heroPhotos.map((f, i) => (
-              <div
-                key={f.id}
-                className={cx(
-                  "absolute bottom-0 aspect-[3/4] [mask-image:radial-gradient(ellipse_50%_52%_at_50%_42%,black_45%,transparent_100%)]",
-                  i === 0 ? "-right-[4%] z-10 w-[66%]" : "-left-[4%] w-[58%] opacity-80",
-                )}
-              >
-                <Image src={f.photo} alt="" fill priority sizes="(min-width: 1024px) 24rem, 60vw" className="object-cover object-top grayscale" />
-              </div>
-            ))}
-          </div>
-        </Container>
+        </div>
       </section>
 
       {/* 2. Números dos clientes ------------------------------------------------- */}

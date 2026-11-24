@@ -163,19 +163,8 @@ export function Header() {
     );
   };
 
-  // Landing pages de anúncio: só a logo, sem menu (menos saídas antes do formulário).
-  if (pathname.startsWith("/lp/")) {
-    return (
-      <header style={{ viewTransitionName: "site-header" }} className="surface-dark material-bar sticky top-0 z-40 border-b border-transparent">
-        <div className="mx-auto flex h-16 max-w-7xl items-center px-5 sm:px-8 lg:px-10">
-          <p className="text-[1.3rem] text-text-primary">
-            <Logo />
-            <span className="sr-only">{site.name}</span>
-          </p>
-        </div>
-      </header>
-    );
-  }
+  // Landing pages de anúncio: sem cabeçalho (a logo fica no topo do hero, como na referência).
+  if (pathname.startsWith("/lp/")) return null;
 
   return (
     <header
