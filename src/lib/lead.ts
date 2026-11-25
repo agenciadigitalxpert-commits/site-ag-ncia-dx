@@ -87,7 +87,7 @@ const inList = (list: readonly string[], v?: string) => !v || list.includes(v);
 
 /**
  * "contact": só nome, empresa e WhatsApp (formulário dos materiais).
- * "step1": contato + faturamento. "all": tudo o que é obrigatório no diagnóstico.
+ * "step1": contato + faturamento. "all": o mesmo + campos opcionais sobre a empresa (validados só se vierem).
  */
 export function validateLead(input: Partial<LeadInput>, scope: "contact" | "step1" | "all" = "all"): LeadErrors {
   const e: LeadErrors = {};
@@ -108,11 +108,10 @@ export function validateLead(input: Partial<LeadInput>, scope: "contact" | "step
   }
 
   if (scope === "all") {
-    const segmento = (input.segmento ?? "").trim();
-    if (segmento.length < 2) e.segmento = "Informe o segmento da empresa.";
-    else if (segmento.length > 80) e.segmento = "Use no máximo 80 caracteres.";
-    if (!input.desafio || !inList(CHALLENGE_OPTIONS, input.desafio)) e.desafio = "Selecione o principal desafio.";
-    if (!input.investeAnuncios || !inList(ADS_OPTIONS, input.investeAnuncios)) e.investeAnuncios = "Selecione uma opção.";
+    // Perguntas sobre a empresa são opcionais: a pré-vendas completa pelo WhatsApp (menos atrito = mais leads).
+    if ((input.segmento ?? "").trim().length > 80) e.segmento = "Use no máximo 80 caracteres.";
+    if (!inList(CHALLENGE_OPTIONS, input.desafio)) e.desafio = "Selecione o principal desafio.";
+    if (!inList(ADS_OPTIONS, input.investeAnuncios)) e.investeAnuncios = "Selecione uma opção.";
     if (!inList(BUDGET_OPTIONS, input.investimentoMidia)) e.investimentoMidia = "Selecione uma opção da lista.";
     if ((input.siteOuInstagram ?? "").length > 200) e.siteOuInstagram = "Use no máximo 200 caracteres.";
     if ((input.detalhes ?? "").length > 1000) e.detalhes = "Use no máximo 1.000 caracteres.";

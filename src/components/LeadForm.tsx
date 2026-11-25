@@ -93,13 +93,9 @@ export function LeadForm({
       return;
     }
     track("form_step_complete", { form_location: location, step: 1 });
-    if (!isQualifiedRevenue(values.faturamento)) {
-      // Fora do perfil: registra como lead frio e mostra materiais (não dispara generate_lead).
-      void send("step1");
-      return;
-    }
-    setStep(2);
-    requestAnimationFrame(() => step2Heading.current?.focus());
+    // Formulário de uma etapa: a API decide pelo faturamento.
+    // A partir de R$ 50 mil = lead qualificado (generate_lead); abaixo = lead frio + materiais.
+    void send(isQualifiedRevenue(values.faturamento) ? "all" : "step1");
   };
 
   const submit = async (ev: FormEvent) => {
@@ -262,17 +258,6 @@ export function LeadForm({
         </div>
       ) : null}
 
-      {/* Progresso segmentado */}
-      <div className="mb-8">
-        <div className="flex gap-2" aria-hidden>
-          <span className="h-1 flex-1 rounded-full bg-bg-fill-brand" />
-          <span className={cx("h-1 flex-1 rounded-full transition-colors duration-300", step === 2 ? "bg-bg-fill-brand" : "bg-bg-fill-secondary-hover")} />
-        </div>
-        <p className="mt-3 text-sm leading-5 text-text-secondary" aria-live="polite">
-          Etapa {step} de 2 · {step === 1 ? "Seus dados" : "Sobre a empresa"}
-        </p>
-      </div>
-
       <form noValidate onSubmit={step === 1 ? goStep2 : submit} aria-busy={status === "submitting"}>
         {/* honeypot: invisível para pessoas, preenchido por robôs */}
         <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
@@ -302,8 +287,10 @@ export function LeadForm({
               <p id={`${id("faturamento")}-hint`} className={hint}>O diagnóstico é para empresas que faturam a partir de {MIN_REVENUE_LABEL}.</p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-sm leading-5 text-text-secondary sm:max-w-xs">Na próxima etapa, 3 perguntas rápidas sobre a empresa.</p>
-              <button type="submit" className={btn("primary", "w-full sm:w-auto")}>Continuar <ArrowIcon /></button>
+              <p className="text-sm leading-5 text-text-secondary sm:max-w-xs">Leva menos de 1 minuto. A equipe chama você no WhatsApp.</p>
+              <button type="submit" disabled={status === "submitting"} className={btn("primary", "w-full sm:w-auto")}>
+                {status === "submitting" ? "Enviando…" : "Quero meu diagnóstico"} <ArrowIcon />
+              </button>
             </div>
           </div>
         ) : (
