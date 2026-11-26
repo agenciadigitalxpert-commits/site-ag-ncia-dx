@@ -8,7 +8,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { FaqList } from "@/components/Faq";
 import { Rich } from "@/components/RichText";
 import { inSentence } from "@/lib/rich";
-import { CtaInline, CtaSection, DataTable, PageHero, SectionHeader } from "@/components/sections";
+import { CtaInline, CtaSection, DataTable, PageHero, SectionHeader, TestimonialsSection } from "@/components/sections";
 import { ArrowIcon, Container, Eyebrow, IconItem, Section } from "@/components/ui";
 
 export function generateStaticParams() {
@@ -198,6 +198,8 @@ export default async function ServicePage({ params }: PageProps<"/servicos/[slug
           </div>
         </Container>
       </Section>
+
+      <TestimonialsSection tone="dark" />
 
       {/* Relacionados */}
       <Section tone="light" labelledBy="relacionados" className="py-16 sm:py-20 lg:py-24">

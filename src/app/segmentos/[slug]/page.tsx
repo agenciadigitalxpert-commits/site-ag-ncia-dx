@@ -8,7 +8,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { FaqList } from "@/components/Faq";
 import { Rich } from "@/components/RichText";
 import { inSentence } from "@/lib/rich";
-import { CtaSection, ExampleBadge, PageHero, SectionHeader } from "@/components/sections";
+import { CtaSection, ExampleBadge, PageHero, SectionHeader, TestimonialsSection } from "@/components/sections";
 import { ArrowIcon, Container, Eyebrow, Section, cx } from "@/components/ui";
 
 export function generateStaticParams() {
@@ -51,6 +51,15 @@ export default async function SegmentPage({ params }: PageProps<"/segmentos/[slu
         )}
       />
       <PageHero art={s.slug} crumbs={crumbs} eyebrow={s.eyebrow} title={s.h1} lead={s.lead} ctaLocation={`segment_${s.slug}_hero`} />
+
+      {/* Os relatos são de revendas: nessa página, a prova vem logo depois do hero. */}
+      {s.slug === "intermediacao-e-revendas" ? (
+        <TestimonialsSection
+          tone="paper2"
+          title="Revendas que vendem mais com a DX."
+          intro="Relatos em vídeo de unidades que trabalham com a gente. Os números são contados pelos próprios clientes."
+        />
+      ) : null}
 
       {/* Contexto */}
       <Section tone="light" labelledBy="contexto">
@@ -165,6 +174,8 @@ export default async function SegmentPage({ params }: PageProps<"/segmentos/[slu
           </dl>
         </Container>
       </Section>
+
+      {s.slug !== "intermediacao-e-revendas" ? <TestimonialsSection /> : null}
 
       {/* FAQ + serviços */}
       <Section tone="light" labelledBy="faq">

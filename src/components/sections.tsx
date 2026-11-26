@@ -6,6 +6,7 @@ import { HeroArt, type HeroArtKey } from "./HeroArt";
 import { leadIntegrationReady } from "@/config/env";
 import { LeadForm } from "./LeadForm";
 import { TrackedLink } from "./TrackedLink";
+import { TestimonialCards } from "./TestimonialCards";
 import { ArrowIcon, Container, Eyebrow, IconItem, Section, btn, cx } from "./ui";
 
 export function PageHero({
@@ -219,5 +220,28 @@ export function DataTable({ caption, columns, rows }: { caption: string; columns
       </div>
       <figcaption className="mt-3 text-sm text-text-secondary">{caption}</figcaption>
     </figure>
+  );
+}
+
+/** Depoimentos em vídeo (prova social) para páginas que recebem anúncio. */
+export function TestimonialsSection({
+  title = "Resultados reais de quem confia na DX.",
+  intro,
+  tone = "paper2",
+}: {
+  title?: string;
+  intro?: string;
+  tone?: "light" | "paper2" | "dark";
+}) {
+  return (
+    <Section tone={tone} labelledBy="depoimentos-title">
+      <Container>
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-5">
+          <SectionHeader id="depoimentos-title" eyebrow="Depoimentos" title={title} intro={intro} />
+          <Link href="/cases" className={btn("secondary")}>Ver cases <ArrowIcon /></Link>
+        </div>
+        <TestimonialCards />
+      </Container>
+    </Section>
   );
 }
