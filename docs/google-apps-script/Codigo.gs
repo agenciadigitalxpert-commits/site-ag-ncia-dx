@@ -103,6 +103,8 @@ const COLUMNS = [
   { key: 'conv_sent', title: 'Enviado ao Google Ads', width: 240 },
   // Filtro de perfil (no fim para não deslocar as colunas antigas).
   { key: 'faturamento', title: 'Faturamento mensal', width: 220 },
+  // Pergunta de qualificação das LPs de campanha (/lp/...): "pergunta → resposta". Criar o cabeçalho na aba se ela já existir.
+  { key: 'qualificacao', title: 'Qualificação (pergunta → resposta)', width: 280 },
 ];
 
 /** Colunas da aba "Leads frios" (o ID fica sempre na última coluna). */
@@ -193,6 +195,7 @@ function doPost(e) {
         click_at: attribution.click_at && !isNaN(new Date(attribution.click_at).getTime()) ? new Date(attribution.click_at) : '',
         conv_sent: '',
         faturamento: lead.faturamento || '',
+        qualificacao: lead.perguntaQualificacao || '',
       };
 
       const isDate = (k) => k === 'receivedAt' || k === 'click_at';
@@ -674,6 +677,7 @@ function notify_(lead, attribution, id) {
       ['Nome', lead.nome],
       ['Empresa', lead.empresa],
       ['Faturamento mensal', lead.faturamento],
+      ['Qualificação', lead.perguntaQualificacao],
       ['WhatsApp', digits],
       ['Segmento', lead.segmento],
       ['Principal desafio', lead.desafio],

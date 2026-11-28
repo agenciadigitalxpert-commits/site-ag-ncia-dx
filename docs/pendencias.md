@@ -59,3 +59,14 @@ Nada abaixo foi inventado no site: enquanto um item não for preenchido, ele sim
 - [ ] Apps Script (versão com Leads frios e planilha de conversões separada): colar, rodar `setup`, autorizar e publicar nova versão da implantação (mesma URL).
 - [ ] Google Ads: criar as ações "Lead qualificado" e "Cliente fechado" (importação) e a programação diária lendo a planilha "DX — Conversões Google Ads".
 - [x] Materiais liberados por formulário (aba "Leads frios"), focados no empresário.
+
+## Landing pages de campanha (`/lp/marketing-para-revendas` e `/lp/captacao-para-intermediadoras`)
+- [ ] **Apps Script**: publicar a versão atual de `docs/google-apps-script/Codigo.gs` (nova implantação, mesma URL) e criar na aba de leads a coluna "Qualificação (pergunta → resposta)". Sem ela, a resposta chega ao webhook mas não aparece na planilha.
+- [ ] **Webhook**: definir `LEAD_WEBHOOK_URL` no preview e na produção. Sem essa variável o envio é recusado (503) e o formulário mostra o aviso de configuração. Nada é exibido como enviado.
+- [ ] Testar um envio real: linha na planilha, e-mail de aviso e `generate_lead` no GA4 (com `segmento`).
+- [ ] **Prova da revenda**: confirmar o texto sobre a equipe na Repassei Veículos. Se houver um case autorizado de revenda com estoque, substituir a prova operacional.
+- [ ] **Imagem do hero da revenda**: foto real de pátio, veículo ou equipe, liberada para uso. Hoje o hero é uma composição tipográfica.
+- [ ] **Texto sobre CRM e IA**: confirmar o escopo que pode ser citado publicamente, antes de incluir nomes de parceiros.
+- [ ] **Perguntas finais**: validar com o time comercial as respostas sobre atendimento e honorários.
+- [ ] **Conversão**: `generate_lead` das LPs conta todo lead confirmado, pois o formulário não pergunta faturamento. Decidir se o Google Ads usa essa conversão ou um critério de qualificação (ver `docs/mensuracao.md`).
+- [ ] **Prévias**: publicar as duas rotas em preview (indexação bloqueada por padrão) e registrar as URLs.

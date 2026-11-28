@@ -28,18 +28,32 @@ Todos os eventos passam por `src/lib/analytics.ts` (`track()`), que:
 | `lead_fora_do_perfil` | Diagnóstico pedido por empresa com faturamento abaixo de R$ 50 mil/mês (vai para "Leads frios") | `form_location`, `revenue` | **Não** é conversão. |
 | `material_lead` | Formulário de material enviado e confirmado (aba "Leads frios") | `material` | Lead frio. **Não** usar como conversão principal do Google Ads. |
 | `material_download` | Download do material liberado | `material`, `file_format` | Interesse em conteúdo. |
-| `generate_lead` | **Somente** após o servidor confirmar o lead E o faturamento ser de R$ 50 mil/mês ou mais | `form_location`, `invests_in_ads`, `revenue`, `lead_id` | **Conversão principal** (GA4 key event / Google Ads / Meta `Lead`). |
+| `generate_lead` | **Somente** após o servidor confirmar o lead. No diagnóstico, também exige faturamento de R$ 50 mil/mês ou mais. Nas LPs de campanha, não há filtro de faturamento (ver abaixo) | `form_location`, `segmento` (só LPs), `invests_in_ads` e `revenue` (só diagnóstico), `lead_id` | **Conversão principal** (GA4 key event / Google Ads / Meta `Lead`). |
 
-O segmento é digitado livremente e por isso **não** é enviado ao analytics (vai só para o CRM). A página de origem do envio fica em `form_location` (ex.: `segment_delivery_final`, `contact_page`).
+No diagnóstico, o segmento é digitado livremente e por isso **não** é enviado ao analytics (vai só para o CRM). A página de origem do envio fica em `form_location` (ex.: `segment_delivery_final`, `contact_page`).
+
+### LPs de campanha (`/lp/...`)
+As duas landing pages de Meta/Google não perguntam faturamento. Elas usam o mesmo fluxo de eventos, com estes valores:
+
+| Página | `form_location` | `segmento` |
+|---|---|---|
+| `/lp/marketing-para-revendas` | `lp_marketing_revendas` | `revenda` |
+| `/lp/captacao-para-intermediadoras` | `lp_captacao_intermediadoras` | `intermediadora` |
+
+- `cta_click` com `cta_location` igual ao `form_location` da página.
+- `form_start` no primeiro foco do formulário (1x por carregamento), com `segmento`.
+- `form_error` com `error_code` (`validation`, `not_configured`, `delivery_failed`, `rate_limited`, `network`).
+- `generate_lead` **só** depois que o endpoint `/api/campanha` recebe confirmação 2xx do webhook. Parâmetros: `form_location`, `segmento`, `lead_id`. Como o formulário não pergunta faturamento, **todo lead confirmado conta como conversão** nessas páginas. Para contar só leads qualificados no Google Ads, é preciso uma regra no GTM ou na importação de conversões.
+- O valor de `segmento` é fixo da página, não é digitado pela pessoa. Nome, WhatsApp, loja e resposta **não** vão para o analytics. A pergunta de qualificação e a resposta vão só para a planilha, pelo webhook.
 
 `generate_lead` é protegido contra disparo duplicado (uma vez por envio confirmado).
 `lead_id` é um UUID gerado no servidor e pode ser usado para deduplicação.
 
-`content_group`: `home`, `servico`, `servicos_hub`, `segmento`, `segmentos_hub`, `artigo`, `conteudos_hub`, `cases`, `contato`, `institucional`, `legal`.
+`content_group`: `home`, `servico`, `servicos_hub`, `segmento`, `segmentos_hub`, `artigo`, `conteudos_hub`, `cases`, `contato`, `institucional`, `legal`, `campanha` (LPs `/lp/...`).
 
 ## Configuração no GTM (passo a passo)
 
-**Variáveis** (Variável da camada de dados): `page_location`, `page_path`, `page_title`, `page_referrer`, `content_group`, `cta_label`, `cta_location`, `destination`, `form_location`, `step`, `error_code`, `invests_in_ads`, `lead_id`, `link_location`.
+**Variáveis** (Variável da camada de dados): `page_location`, `page_path`, `page_title`, `page_referrer`, `content_group`, `cta_label`, `cta_location`, `destination`, `form_location`, `step`, `error_code`, `invests_in_ads`, `segmento`, `lead_id`, `link_location`.
 
 **Acionadores** (Evento personalizado, nome exato): `page_view`, `cta_click`, `whatsapp_click`, `form_start`, `form_step_complete`, `form_error`, `generate_lead`.
 

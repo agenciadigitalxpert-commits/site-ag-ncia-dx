@@ -18,6 +18,7 @@ function contentGroup(path: string) {
     metodologia: "institucional",
     respostas: path === "/respostas" ? "respostas_hub" : "resposta",
     materiais: "materiais",
+    lp: "campanha",
     "politica-de-privacidade": "legal",
     "politica-de-cookies": "legal",
   };
